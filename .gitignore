@@ -1,0 +1,12 @@
+*.class
+*.jar
+*.iml
+*.ipr
+*.iws
+.classpath
+.project
+!gradle-wrapper.jar
+bin/
+.gradle/
+out/
+build/
