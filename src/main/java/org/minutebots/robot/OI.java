@@ -19,9 +19,11 @@ public class OI {
 
     // Output
 
-    public static final int FROMT_LEFT_MOTOR = -1;
-    public static final int FROMT_BACK_MOTOR = -1;
-    public static final int BACK_LEFT_MOTOR = -1;
-    public static final int BACK_RIGHT_MOTOR = -1;
+    public static final int LEFT_FRONT_MOTOR = 2;
+    public static final int LEFT_BACK_MOTOR = 1;
+    public static final int RIGHT_FRONT_MOTOR = 0;
+    public static final int RIGHT_BACK_MOTOR = 3;
+    public static final int GEAR_SLIDE_MOTOR = 5;
+    public static final int CLIMBER_MOTOR = 4;
     
     }
