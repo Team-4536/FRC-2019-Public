@@ -1,8 +1,11 @@
 package org.minutebots.robot.subsystems;
 
+import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.minutebots.robot.OI;
 
 public class Drivetrain extends Subsystem {
@@ -13,6 +16,9 @@ public class Drivetrain extends Subsystem {
         addChild(rightFrontMotor);
         addChild(leftFrontMotor);
         this.driveBase.setSafetyEnabled(false);
+        this.driveBase.setDeadband(0.13);
+        SmartDashboard.putData(driveBase);
+        SmartDashboard.putData(this);
     }
 
     private static final Drivetrain drivetrain = new Drivetrain();
@@ -26,10 +32,24 @@ public class Drivetrain extends Subsystem {
             leftBackMotor = new Spark(OI.LEFT_BACK_MOTOR),
             rightBackMotor = new Spark(OI.RIGHT_BACK_MOTOR);
 
+    private final AHRS navX = new AHRS(SerialPort.Port.kMXP);
+
     private final MecanumDrive driveBase = new MecanumDrive(leftFrontMotor, leftBackMotor, rightFrontMotor, rightBackMotor);
 
     public void mecanumDrive(double ySpeed, double xSpeed, double zRotation){
         driveBase.driveCartesian(ySpeed, xSpeed, zRotation);
+    }
+
+    public double getAngle(){
+        return navX.getAngle();
+    }
+
+    public void resetGyro(){
+        navX.reset();
+    }
+
+    public double getYaw(){
+        return navX.getYaw();
     }
 
     @Override
