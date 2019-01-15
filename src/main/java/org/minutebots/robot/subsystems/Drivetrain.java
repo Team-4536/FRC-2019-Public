@@ -60,7 +60,11 @@ public class Drivetrain extends Subsystem {
     @Override
     public void periodic(){
         if(this.getCurrentCommand() != null){
-            
+            double turnThrottle = 0;
+
+
+
+            this.mecanumDrive(OI.primaryStick.getX(), -OI.primaryStick.getY(), turnThrottle);
         }
     }
 }
