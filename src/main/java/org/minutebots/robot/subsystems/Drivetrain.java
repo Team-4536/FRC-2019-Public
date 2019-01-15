@@ -3,14 +3,17 @@ package org.minutebots.robot.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Spark;
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.minutebots.robot.OI;
 
-public class Drivetrain extends Subsystem {
+public class Drivetrain extends PIDSubsystem {
+
+    double turnThrottle = 0;
+
     private Drivetrain(){
-        super("Drivetrain");
+        super("Drivetrain", 0.032, 0.0, 0.1);
         addChild(leftBackMotor);
         addChild(rightBackMotor);
         addChild(rightFrontMotor);
@@ -60,11 +63,25 @@ public class Drivetrain extends Subsystem {
     @Override
     public void periodic(){
         if(this.getCurrentCommand() != null){
-            double turnThrottle = 0;
 
+            if(OI.primaryStick.getPOV() != -1) {
 
+                setSetpoint(OI.primaryStick.getPOV());
+
+            }
 
             this.mecanumDrive(OI.primaryStick.getX(), -OI.primaryStick.getY(), turnThrottle);
+
         }
+    }
+
+    @Override
+    protected double returnPIDInput() {
+        return Drivetrain.getInstance().getAngle();
+    }
+
+    @Override
+    protected void usePIDOutput(double output) {
+        this.turnThrottle = output;
     }
 }
