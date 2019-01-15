@@ -56,4 +56,11 @@ public class Drivetrain extends Subsystem {
     protected void initDefaultCommand() {
 
     }
+
+    @Override
+    public void periodic(){
+        if(this.getCurrentCommand() != null){
+            
+        }
+    }
 }
