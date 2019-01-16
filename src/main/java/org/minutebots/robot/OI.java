@@ -23,7 +23,5 @@ public class OI {
     public static final int LEFT_BACK_MOTOR = 1;
     public static final int RIGHT_FRONT_MOTOR = 0;
     public static final int RIGHT_BACK_MOTOR = 3;
-    public static final int GEAR_SLIDE_MOTOR = 5;
-    public static final int CLIMBER_MOTOR = 4;
     
     }
