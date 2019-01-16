@@ -12,7 +12,7 @@ public class Drivetrain extends PIDSubsystem {
     private double turnThrottle = 0;
 
     private Drivetrain() {
-        super("Drivetrain", 0.032, 0.0, 0.1);
+        super("Drivetrain", 0.025, 0.0, 0.10);
         addChild(leftBackMotor);
         addChild(rightBackMotor);
         addChild(rightFrontMotor);
@@ -59,9 +59,7 @@ public class Drivetrain extends PIDSubsystem {
     @Override
     public void periodic() {
         if (this.getCurrentCommand() == null) {
-            if (OI.primaryStick.getPOV() != -1) {
-                setSetpoint(OI.primaryStick.getPOV());
-            }
+            if (OI.primaryStick.getPOV() != -1) setSetpoint(OI.primaryStick.getPOV());
             this.mecanumDrive(OI.primaryStick.getX(), -OI.primaryStick.getY(), turnThrottle);
         }
     }
