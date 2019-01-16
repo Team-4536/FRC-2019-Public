@@ -26,7 +26,6 @@ public class Robot extends TimedRobot {
   public void teleopInit(){
     Drivetrain.getInstance().resetGyro();
     Drivetrain.getInstance().enable();
-
   }
 
   @Override

@@ -10,6 +10,7 @@ import org.minutebots.robot.OI;
 
 public class Drivetrain extends PIDSubsystem {
     private double turnThrottle = 0;
+    private boolean backupDrive = false;
 
     private Drivetrain() {
         super("Drivetrain", 0.025, 0.0, 0.10);
@@ -17,10 +18,24 @@ public class Drivetrain extends PIDSubsystem {
         addChild(rightBackMotor);
         addChild(rightFrontMotor);
         addChild(leftFrontMotor);
-        this.driveBase.setSafetyEnabled(false);
-        this.driveBase.setDeadband(0.13);
+        driveBase.setSafetyEnabled(false);
+        driveBase.setDeadband(0.13);
         SmartDashboard.putData(driveBase);
         SmartDashboard.putData(this);
+        getPIDController().setContinuous();
+        getPIDController().setInputRange(-180.0, 180.0);
+    }
+
+    @Override
+    public void periodic() {
+        if (backupDrive) {
+            mecanumDrive(OI.primaryStick.getX(), -OI.primaryStick.getY(), (OI.trigger.get()) ? OI.primaryStick.getTwist() : 0);
+            return; //Makes sure that the gyroscope code doesn't run.
+        }
+        if (this.getCurrentCommand() == null) {
+            if (OI.primaryStick.getPOV() != -1) setSetpoint(OI.primaryStick.getPOV());
+            mecanumDrive(OI.primaryStick.getX(), -OI.primaryStick.getY(), turnThrottle);
+        }
     }
 
     private static final Drivetrain drivetrain = new Drivetrain();
@@ -52,16 +67,14 @@ public class Drivetrain extends PIDSubsystem {
         return navX.getYaw();
     }
 
-    @Override
-    protected void initDefaultCommand() {
+    public void emergencyDrive(){
+        backupDrive = true;
+        disable();
+        getPIDController().close(); //Sets all variables to null to free up memory
     }
 
     @Override
-    public void periodic() {
-        if (this.getCurrentCommand() == null) {
-            if (OI.primaryStick.getPOV() != -1) setSetpoint(OI.primaryStick.getPOV());
-            this.mecanumDrive(OI.primaryStick.getX(), -OI.primaryStick.getY(), turnThrottle);
-        }
+    protected void initDefaultCommand() {
     }
 
     @Override
