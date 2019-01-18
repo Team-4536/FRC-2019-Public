@@ -11,19 +11,20 @@ import org.minutebots.robot.OI;
 public class Drivetrain extends PIDSubsystem {
     private double turnThrottle = 0;
     private boolean backupDrive = false;
+    private double angleAdjustment = 0.0;
 
     private Drivetrain() {
-        super("Drivetrain", 0.025, 0.0, 0.10);
+        super("Drivetrain", 0.01, 0, 0.01);
         addChild(leftBackMotor);
         addChild(rightBackMotor);
         addChild(rightFrontMotor);
         addChild(leftFrontMotor);
-        driveBase.setSafetyEnabled(false);
-        driveBase.setDeadband(0.13);
         SmartDashboard.putData(driveBase);
         SmartDashboard.putData(this);
-        getPIDController().setContinuous();
-        getPIDController().setInputRange(-180.0, 180.0);
+        SmartDashboard.putData(getPIDController());
+        getPIDController().setInputRange(0, 360);
+        getPIDController().setContinuous(true);
+        setOutputRange(-0.8, 0.8);
     }
 
     @Override
@@ -34,7 +35,7 @@ public class Drivetrain extends PIDSubsystem {
         }
         if (this.getCurrentCommand() == null) {
             if (OI.primaryStick.getPOV() != -1) setSetpoint(OI.primaryStick.getPOV());
-            mecanumDrive(OI.primaryStick.getX(), -OI.primaryStick.getY(), turnThrottle);
+            mecanumDrive(OI.primaryStick.getX(), -OI.primaryStick.getY(), turnThrottle, getAngle());
         }
     }
 
@@ -55,16 +56,25 @@ public class Drivetrain extends PIDSubsystem {
         driveBase.driveCartesian(ySpeed, xSpeed, zRotation);
     }
 
+    public void mecanumDrive(double ySpeed, double xSpeed, double zRotation, double gyroAngle) {
+        driveBase.driveCartesian(ySpeed, xSpeed, zRotation, gyroAngle);
+    }
+
     public double getAngle() {
-        return navX.getAngle();
+        return navX.getAngle() + angleAdjustment;
     }
 
     public void resetGyro() {
         navX.reset();
+angleAdjustment = 0;
+    }
+
+    public void adjustAngle(double angle){
+        angleAdjustment += angle;
     }
 
     public double getYaw() {
-        return navX.getYaw();
+        return navX.getYaw() + angleAdjustment;
     }
 
     public void emergencyDrive(){
@@ -79,7 +89,7 @@ public class Drivetrain extends PIDSubsystem {
 
     @Override
     protected double returnPIDInput() {
-        return Drivetrain.getInstance().getAngle();
+        return Drivetrain.getInstance().getYaw();
     }
 
     @Override
