@@ -1,12 +1,12 @@
 package org.minutebots.robot.subsystems;
 
-import edu.wpi.first.wpilibj.PWMVictorSPX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.minutebots.robot.OI;
 
 public class CargoOuttake extends Subsystem {
 
-    private PWMVictorSPX wheel = new PWMVictorSPX(OI.WHEEL);
+    private WPI_VictorSPX wheel = new WPI_VictorSPX(OI.WHEEL);
 
     private CargoOuttake(){
     }
