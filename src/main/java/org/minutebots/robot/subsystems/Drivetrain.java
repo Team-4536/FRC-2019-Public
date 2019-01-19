@@ -10,17 +10,33 @@ import org.minutebots.robot.OI;
 
 public class Drivetrain extends PIDSubsystem {
     private double turnThrottle = 0;
+    private boolean backupDrive = false;
+    private double angleAdjustment = 0.0;
 
     private Drivetrain() {
-        super("Drivetrain", 0.025, 0.0, 0.10);
+        super("Drivetrain", 0.01, 0, 0.01);
         addChild(leftBackMotor);
         addChild(rightBackMotor);
         addChild(rightFrontMotor);
         addChild(leftFrontMotor);
-        this.driveBase.setSafetyEnabled(false);
-        this.driveBase.setDeadband(0.13);
         SmartDashboard.putData(driveBase);
         SmartDashboard.putData(this);
+        SmartDashboard.putData(getPIDController());
+        getPIDController().setInputRange(0, 360);
+        getPIDController().setContinuous(true);
+        setOutputRange(-0.8, 0.8);
+    }
+
+    @Override
+    public void periodic() {
+        if (backupDrive) {
+            mecanumDrive(OI.primaryStick.getX(), -OI.primaryStick.getY(), (OI.trigger.get()) ? OI.primaryStick.getTwist() : 0);
+            return; //Makes sure that the gyroscope code doesn't run.
+        }
+        if (this.getCurrentCommand() == null) {
+            if (OI.primaryStick.getPOV() != -1) setSetpoint(OI.primaryStick.getPOV());
+            mecanumDrive(OI.primaryStick.getX(), -OI.primaryStick.getY(), turnThrottle, getAngle());
+        }
     }
 
     private static final Drivetrain drivetrain = new Drivetrain();
@@ -40,16 +56,31 @@ public class Drivetrain extends PIDSubsystem {
         driveBase.driveCartesian(ySpeed, xSpeed, zRotation);
     }
 
+    public void mecanumDrive(double ySpeed, double xSpeed, double zRotation, double gyroAngle) {
+        driveBase.driveCartesian(ySpeed, xSpeed, zRotation, gyroAngle);
+    }
+
     public double getAngle() {
-        return navX.getAngle();
+        return navX.getAngle() + angleAdjustment;
     }
 
     public void resetGyro() {
         navX.reset();
+angleAdjustment = 0;
+    }
+
+    public void adjustAngle(double angle){
+        angleAdjustment += angle;
     }
 
     public double getYaw() {
-        return navX.getYaw();
+        return navX.getYaw() + angleAdjustment;
+    }
+
+    public void emergencyDrive(){
+        backupDrive = true;
+        disable();
+        getPIDController().close(); //Sets all variables to null to free up memory
     }
 
     @Override
@@ -57,16 +88,8 @@ public class Drivetrain extends PIDSubsystem {
     }
 
     @Override
-    public void periodic() {
-        if (this.getCurrentCommand() == null) {
-            if (OI.primaryStick.getPOV() != -1) setSetpoint(OI.primaryStick.getPOV());
-            this.mecanumDrive(OI.primaryStick.getX(), -OI.primaryStick.getY(), turnThrottle);
-        }
-    }
-
-    @Override
     protected double returnPIDInput() {
-        return Drivetrain.getInstance().getAngle();
+        return Drivetrain.getInstance().getYaw();
     }
 
     @Override
