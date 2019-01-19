@@ -1,6 +1,7 @@
 package org.minutebots.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.minutebots.robot.OI;
 
@@ -11,7 +12,7 @@ public class Intake extends Subsystem {
     private Intake() {
     }
 
-    public void setIntakeStatus(boolean out) {
+    private void setIntakeStatus(boolean out) {
         if (out) {
             velcro.set(DoubleSolenoid.Value.kForward);
         } else {
@@ -19,12 +20,26 @@ public class Intake extends Subsystem {
         }
     }
 
-    public void setConeStatus(boolean out) {
+    private void setConeStatus(boolean out) {
         if (out) {
             cone.set(DoubleSolenoid.Value.kForward);
         } else {
             cone.set(DoubleSolenoid.Value.kReverse);
         }
+    }
+
+    public static InstantCommand extend() {
+        return new InstantCommand(getInstance(), () -> {
+            getInstance().setIntakeStatus(true);
+            getInstance().setConeStatus(true);
+        });
+    }
+
+    public static InstantCommand retract() {
+        return new InstantCommand(getInstance(), () -> {
+            getInstance().setIntakeStatus(false);
+            getInstance().setConeStatus(false);
+        });
     }
 
     public void initDefaultCommand() {
