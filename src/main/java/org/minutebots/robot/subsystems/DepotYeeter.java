@@ -8,10 +8,10 @@ public class DepotYeeter extends Subsystem {
 
     public static DepotYeeter depotYeeter = new DepotYeeter();
 
-    private PWMVictorSPX SideWheel;
+    private VictorSPX SideWheel;
 
     private DepotYeeter(){
-        SideWheel = new PWMVictorSPX(OI.SIDE_WHEEL);
+        SideWheel = new VictorSPX(OI.SIDE_WHEEL);
     }
 
     public void setSideWheel(double speed){
