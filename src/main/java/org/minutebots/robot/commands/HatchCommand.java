@@ -12,6 +12,14 @@ public class HatchCommand extends Command {
 
     }
 
+
+    protected void initialize () {
+
+
+
+    }
+
+
     protected void execute() {
 
         if(hasPanel) {
@@ -27,9 +35,11 @@ public class HatchCommand extends Command {
 
     }
 
-        protected boolean isFinished() {
 
-            return true;
+    protected boolean isFinished() {
+
+        return true;
+
 
     }
 
