@@ -2,11 +2,11 @@ package org.minutebots.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.command.InstantCommand;
+import org.minutebots.robot.subsystems.Drivetrain;
 
 public class OI {
-
     // Input
-
     // Ports
 
     public static final int PRIMARY_STICK_PORT = 0;
@@ -16,6 +16,7 @@ public class OI {
 
     public static final Joystick primaryStick = new Joystick(PRIMARY_STICK_PORT);
     public static final JoystickButton trigger = new JoystickButton(primaryStick, TRIGGER_BUTTON);
+    private static final JoystickButton resetGyro = new JoystickButton(primaryStick, 12);
 
     // Output
         //Talons
@@ -36,5 +37,9 @@ public class OI {
         //Victor Ports
         public final static int SIDE_WHEEL = 0;
         public final static int WHEEL = 1;
+    
+    static{
+        resetGyro.whenPressed(new InstantCommand(() -> Drivetrain.getInstance().resetGyro()));
+    }
     
     }
