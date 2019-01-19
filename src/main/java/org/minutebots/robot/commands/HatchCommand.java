@@ -12,11 +12,13 @@ public class HatchCommand extends Command {
 
     }
 
+
     protected void initialize () {
 
 
 
     }
+
 
     protected void execute() {
 
@@ -33,9 +35,11 @@ public class HatchCommand extends Command {
 
     }
 
+
     protected boolean isFinished() {
 
         return true;
+
 
     }
 
