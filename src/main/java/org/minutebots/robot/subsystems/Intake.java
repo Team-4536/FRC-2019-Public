@@ -2,10 +2,10 @@ package org.minutebots.robot.subsystems;
 
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import org.minutebots.robot.RobotMap;
-import static org.minutebots.robot.RobotMap.*;
+import org.minutebots.robot.OI;
+
+import static org.minutebots.robot.OI.*;
 
 public class Intake extends Subsystem {
 
@@ -14,8 +14,8 @@ public class Intake extends Subsystem {
     public static Intake intake = new Intake();
 
     private Intake(){
-        Velcro1 = new DoubleSolenoid(RobotMap.INTAKE_1, RobotMap.INTAKE_2);
-        Cone = new DoubleSolenoid(RobotMap.CONE_1, RobotMap.CONE_2);
+        Velcro1 = new DoubleSolenoid(OI.INTAKE_1, OI.INTAKE_2);
+        Cone = new DoubleSolenoid(OI.CONE_1, OI.CONE_2);
     }
 
     public void setIntakeStatus(boolean out){

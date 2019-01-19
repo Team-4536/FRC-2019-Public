@@ -2,7 +2,7 @@ package org.minutebots.robot.subsystems;
 
 import edu.wpi.first.wpilibj.PWMVictorSPX;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import org.minutebots.robot.RobotMap;
+import org.minutebots.robot.OI;
 
 public class CargoOuttake extends Subsystem {
 
@@ -10,7 +10,7 @@ public class CargoOuttake extends Subsystem {
     private PWMVictorSPX Wheel;
 
     private CargoOuttake(){
-        Wheel = new PWMVictorSPX(RobotMap.WHEEL);
+        Wheel = new PWMVictorSPX(OI.WHEEL);
     }
 
     public void setWheel(double speed){
