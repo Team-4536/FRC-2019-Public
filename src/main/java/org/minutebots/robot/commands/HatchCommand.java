@@ -8,6 +8,7 @@ public class HatchCommand extends InstantCommand {
     private boolean hasPanel;
 
     public HatchCommand(boolean hasHatchState) {
+        requires(Intake.getInstance());
         hasPanel = hasHatchState;
     }
 
