@@ -4,9 +4,9 @@ import java.lang.Math;
 
 import edu.wpi.first.wpilibj.Timer;
 
-public final class utilities {
+public final class Utilities {
 
-    private utilities() {
+    private Utilities() {
     }
 
     private static Timer timer = new Timer();
