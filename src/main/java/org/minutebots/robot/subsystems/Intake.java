@@ -22,7 +22,7 @@ public class Intake extends Subsystem {
         if (out){
             Velcro1.set(DoubleSolenoid.Value.kForward);
         }
-        else if (! out){
+        else if (!out){
             Velcro1.set(DoubleSolenoid.Value.kReverse);
         }
     }

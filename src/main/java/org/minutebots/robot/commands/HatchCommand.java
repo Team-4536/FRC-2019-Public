@@ -1,6 +1,7 @@
 package org.minutebots.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import org.minutebots.robot.subsystems.Intake;
 
 public class HatchCommand extends Command {
 
@@ -24,12 +25,14 @@ public class HatchCommand extends Command {
 
         if(hasPanel) {
 
-            // this is the method for realising the panel
+            Intake.intake.setIntakeStatus(true);
+            Intake.intake.setConeStatus(true);
 
         }
         else {
 
-            // this is the method for getting the panel
+            Intake.intake.setIntakeStatus(false);
+            Intake.intake.setConeStatus(false);
 
         }
 
