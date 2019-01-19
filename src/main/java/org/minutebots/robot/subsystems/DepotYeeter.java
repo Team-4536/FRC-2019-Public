@@ -5,20 +5,20 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import org.minutebots.robot.OI;
 
 public class DepotYeeter extends Subsystem {
-
-    public static DepotYeeter depotYeeter = new DepotYeeter();
-
-    private VictorSPX SideWheel;
+    private PWMVictorSPX sideWheel = new PWMVictorSPX(OI.SIDE_WHEEL);
 
     private DepotYeeter(){
-        SideWheel = new VictorSPX(OI.SIDE_WHEEL);
     }
 
     public void setSideWheel(double speed){
-        SideWheel.set(speed);
+        sideWheel.set(speed);
     }
 
     public void initDefaultCommand(){
+    }
 
+    private static DepotYeeter depotYeeter = new DepotYeeter();
+    public static DepotYeeter getInstance(){
+        return depotYeeter;
     }
 }

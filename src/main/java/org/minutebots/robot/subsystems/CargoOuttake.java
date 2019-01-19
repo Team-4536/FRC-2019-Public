@@ -6,18 +6,21 @@ import org.minutebots.robot.OI;
 
 public class CargoOuttake extends Subsystem {
 
-    public static CargoOuttake cargoOuttake = new CargoOuttake();
-    private VictorSPX Wheel;
+    private PWMVictorSPX wheel = new PWMVictorSPX(OI.WHEEL);
 
     private CargoOuttake(){
-        Wheel = new VictorSPX(OI.WHEEL);
     }
 
     public void setWheel(double speed){
-        Wheel.set(speed);
+        wheel.set(speed);
     }
 
     public void initDefaultCommand(){
 
+    }
+
+    private static CargoOuttake cargoOuttake = new CargoOuttake();
+    public static CargoOuttake getInstance(){
+        return cargoOuttake;
     }
 }

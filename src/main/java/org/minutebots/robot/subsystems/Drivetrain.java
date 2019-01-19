@@ -66,10 +66,10 @@ public class Drivetrain extends PIDSubsystem {
 
     public void resetGyro() {
         navX.reset();
-angleAdjustment = 0;
+        angleAdjustment = 0;
     }
 
-    public void adjustAngle(double angle){
+    public void adjustAngle(double angle) {
         angleAdjustment += angle;
     }
 
@@ -77,7 +77,7 @@ angleAdjustment = 0;
         return navX.getYaw() + angleAdjustment;
     }
 
-    public void emergencyDrive(){
+    public void emergencyDrive() {
         backupDrive = true;
         disable();
         getPIDController().close(); //Sets all variables to null to free up memory
