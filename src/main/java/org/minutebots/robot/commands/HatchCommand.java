@@ -7,9 +7,9 @@ public class HatchCommand extends Command {
 
     boolean hasPanel;
 
-    public HatchCommand(boolean hatchPanel) {
+    public HatchCommand(boolean hasHatchState) {
 
-        hasPanel = hatchPanel;
+        hasPanel = hasHatchState;
 
     }
 
@@ -29,6 +29,7 @@ public class HatchCommand extends Command {
             Intake.intake.setConeStatus(true);
 
         }
+        //TODO: Consideration should be made for when the cone actually needs to be extended and retracted, possible a separate command
         else {
 
             Intake.intake.setIntakeStatus(false);
