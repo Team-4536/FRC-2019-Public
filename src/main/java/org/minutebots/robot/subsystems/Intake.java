@@ -9,21 +9,21 @@ import static org.minutebots.robot.OI.*;
 
 public class Intake extends Subsystem {
 
-    private DoubleSolenoid Velcro1;
+    private DoubleSolenoid Velcro;
     private DoubleSolenoid Cone;
     public static Intake intake = new Intake();
 
     private Intake(){
-        Velcro1 = new DoubleSolenoid(OI.INTAKE_1, OI.INTAKE_2);
+        Velcro = new DoubleSolenoid(OI.INTAKE_1, OI.INTAKE_2);
         Cone = new DoubleSolenoid(OI.CONE_1, OI.CONE_2);
     }
 
     public void setIntakeStatus(boolean out){
         if (out){
-            Velcro1.set(DoubleSolenoid.Value.kForward);
+            Velcro.set(DoubleSolenoid.Value.kForward);
         }
         else if (!out){
-            Velcro1.set(DoubleSolenoid.Value.kReverse);
+            Velcro.set(DoubleSolenoid.Value.kReverse);
         }
     }
 
