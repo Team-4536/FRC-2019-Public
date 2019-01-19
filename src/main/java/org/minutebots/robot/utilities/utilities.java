@@ -8,6 +8,7 @@ public final class utilities {
 
     private utilities() {
     }
+
     private static Timer timer = new Timer();
 
 
