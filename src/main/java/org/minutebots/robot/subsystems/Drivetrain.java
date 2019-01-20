@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.minutebots.robot.OI;
+import org.minutebots.robot.vision.VisionRunner;
 
 public class Drivetrain extends PIDSubsystem {
     private double turnThrottle = 0;
@@ -34,7 +35,8 @@ public class Drivetrain extends PIDSubsystem {
             return; //Makes sure that the gyroscope code doesn't run.
         }
         if (this.getCurrentCommand() == null) {
-            if (OI.primaryStick.getPOV() != -1) setSetpoint(OI.primaryStick.getPOV());
+            if(OI.primaryStick.getRawButton(2)) setSetpoint(VisionRunner.getInstance().getAngle() + getPosition());
+            else if (OI.primaryStick.getPOV() != -1) setSetpoint(OI.primaryStick.getPOV());
             mecanumDrive(OI.primaryStick.getX(), -OI.primaryStick.getY(), turnThrottle, getAngle());
         }
     }
