@@ -1,11 +1,11 @@
 package org.minutebots.robot.subsystems;
 
-import edu.wpi.first.wpilibj.PWMVictorSPX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.minutebots.robot.OI;
 
 public class DepotYeeter extends Subsystem {
-    private PWMVictorSPX sideWheel = new PWMVictorSPX(OI.SIDE_WHEEL);
+    private WPI_VictorSPX sideWheel = new WPI_VictorSPX(OI.SIDE_WHEEL);
 
     private DepotYeeter(){
     }
