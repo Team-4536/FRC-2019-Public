@@ -2,23 +2,31 @@ package org.minutebots.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.minutebots.robot.OI;
 
 public class Drivetrain extends PIDSubsystem {
-    private double turnThrottle = 0;
-    private boolean backupDrive = false;
-    private double angleAdjustment = 0.0;
+    private final AHRS navX = new AHRS(SPI.Port.kMXP);
+    private SpeedController leftFrontMotor, rightFrontMotor, leftBackMotor, rightBackMotor;
+    private final MecanumDrive driveBase;
 
-    private Drivetrain() {
+    private double turnThrottle = 0, angleAdjustment = 0;
+    private boolean backupDrive = false;
+
+    Drivetrain(SpeedController lf,
+                       SpeedController rf,
+                       SpeedController lb,
+                       SpeedController rb) {
         super("Drivetrain", 0.01, 0, 0.01);
-        addChild(leftBackMotor);
-        addChild(rightBackMotor);
-        addChild(rightFrontMotor);
-        addChild(leftFrontMotor);
+        leftFrontMotor = lf;
+        rightBackMotor = rb;
+        leftBackMotor = lb;
+        rightFrontMotor = rf;
+        driveBase = new MecanumDrive(leftFrontMotor, leftBackMotor, rightFrontMotor, rightBackMotor);
+
         SmartDashboard.putData(driveBase);
         SmartDashboard.putData(this);
         SmartDashboard.putData(getPIDController());
@@ -26,6 +34,8 @@ public class Drivetrain extends PIDSubsystem {
         getPIDController().setContinuous(true);
         setOutputRange(-0.8, 0.8);
     }
+
+
 
     @Override
     public void periodic() {
@@ -39,18 +49,9 @@ public class Drivetrain extends PIDSubsystem {
         }
     }
 
-    private static final Drivetrain drivetrain = new Drivetrain();
-
     public static Drivetrain getInstance() {
-        return drivetrain;
+        return Superstructure.getInstance().driveTrain;
     }
-
-    private final Spark leftFrontMotor = new Spark(OI.LEFT_FRONT_MOTOR),
-            rightFrontMotor = new Spark(OI.RIGHT_FRONT_MOTOR),
-            leftBackMotor = new Spark(OI.LEFT_BACK_MOTOR),
-            rightBackMotor = new Spark(OI.RIGHT_BACK_MOTOR);
-    private final AHRS navX = new AHRS(SPI.Port.kMXP);
-    private final MecanumDrive driveBase = new MecanumDrive(leftFrontMotor, leftBackMotor, rightFrontMotor, rightBackMotor);
 
     public void mecanumDrive(double ySpeed, double xSpeed, double zRotation) {
         driveBase.driveCartesian(ySpeed, xSpeed, zRotation);

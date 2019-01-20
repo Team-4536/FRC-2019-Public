@@ -1,6 +1,4 @@
-package org.minutebots.robot.utilities;
-
-import java.lang.Math;
+package org.minutebots.lib;
 
 import edu.wpi.first.wpilibj.Timer;
 
