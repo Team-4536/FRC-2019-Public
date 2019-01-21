@@ -45,6 +45,7 @@ public class Drivetrain extends PIDSubsystem {
         }
         if (this.getCurrentCommand() == null) {
             if (OI.primaryStick.getPOV() != -1) setSetpoint(OI.primaryStick.getPOV());
+            if (OI.trigger.get()) setSetpoint(getSetpoint() + OI.primaryStick.getTwist()*4);
             mecanumDrive(OI.primaryStick.getX(), -OI.primaryStick.getY(), turnThrottle, getAngle());
         }
     }
@@ -81,7 +82,6 @@ public class Drivetrain extends PIDSubsystem {
     public void emergencyDrive() {
         backupDrive = true;
         disable();
-        getPIDController().close(); //Sets all variables to null to free up memory
     }
 
     @Override
