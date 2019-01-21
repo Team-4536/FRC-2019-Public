@@ -3,11 +3,13 @@ package org.minutebots.robot.subsystems;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Intake extends Subsystem {
     private DoubleSolenoid velcro, cone;
 
     Intake(DoubleSolenoid velcro, DoubleSolenoid cone) {
+        SmartDashboard.putData(this);
         this.velcro = velcro;
         this.cone = cone;
     }

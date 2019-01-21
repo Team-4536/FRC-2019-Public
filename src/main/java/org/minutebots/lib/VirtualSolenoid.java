@@ -28,10 +28,13 @@ public class VirtualSolenoid extends DoubleSolenoid {
         switch (value){
             case kForward:
                 System.out.println("Solenoid " + fc + ", " + rc + " extended");
+                break;
             case kOff:
                 System.out.println("Solenoid " + fc + ", " + rc + " turned off.");
+                break;
             case kReverse:
                 System.out.println("Solenoid " + fc + ", " + rc + " retracted.");
+                break;
         }
     }
 }
