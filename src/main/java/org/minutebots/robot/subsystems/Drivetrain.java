@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.minutebots.robot.OI;
+import org.minutebots.robot.vision.VisionRunner;
 
 public class Drivetrain extends PIDSubsystem {
     private final AHRS navX = new AHRS(SPI.Port.kMXP);
@@ -53,6 +54,7 @@ public class Drivetrain extends PIDSubsystem {
         if (this.getCurrentCommand() == null) {
             if (OI.primaryStick.getPOV() != -1) setSetpoint(OI.primaryStick.getPOV());
             if (OI.trigger.get()) setSetpoint(getSetpoint() + OI.primaryStick.getTwist()*4);
+            if(OI.primaryStick.getRawButton(2)) setSetpoint(VisionRunner.getInstance().getAngle() + getPosition());
             mecanumDrive(OI.primaryStick.getX(), -OI.primaryStick.getY(), turnThrottle, getAngle());
         }
     }
