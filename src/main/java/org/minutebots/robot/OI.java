@@ -14,26 +14,7 @@ public class OI {
             RETRACT_INTAKE = 3,
             ADJUST_ANGLE_LEFT = 7,
             ADJUST_ANGLE_RIGHT = 8;
-
-
-    // Output Ports
-    //Talons
-    public static final int LEFT_FRONT_MOTOR = 2;
-    public static final int LEFT_BACK_MOTOR = 1;
-    public static final int RIGHT_FRONT_MOTOR = 0;
-    public static final int RIGHT_BACK_MOTOR = 3;
-
-    //Pneumatic Ports
-    public final static int INTAKE_1 = 1;
-    public final static int INTAKE_2 = 2;
-    public final static int CONE_1 = 3;
-    public final static int CONE_2 = 4;
-
-
-    //Victor Ports
-    public final static int SIDE_WHEEL = 0;
-    public final static int WHEEL = 1;
-
+  
     /*---------------------------------------Programmer's territory starts here----------------------------------*/
     public static final Joystick primaryStick = new Joystick(PRIMARY_STICK_PORT);
     public static final JoystickButton trigger = new JoystickButton(primaryStick, TOGGLE_TURN),
