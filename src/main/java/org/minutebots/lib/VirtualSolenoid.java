@@ -13,7 +13,7 @@ public class VirtualSolenoid extends DoubleSolenoid {
      * @param reverseChannel The reverse channel number on the PCM (0..7).
      */
     public VirtualSolenoid(int forwardChannel, int reverseChannel) {
-        super(0, 0);
+        super(forwardChannel, reverseChannel);
         fc = forwardChannel;
         rc = reverseChannel;
     }

@@ -32,7 +32,7 @@ public class Superstructure {
     DepotYeeter depotYeeter;
     Drivetrain driveTrain;
 
-    private static Superstructure instance = new Superstructure(RobotType.YEETER);
+    private static Superstructure instance = new Superstructure(RobotType.FRACTURE);
 
     private Superstructure(RobotType robot) {
         switch (robot) {
@@ -43,12 +43,13 @@ public class Superstructure {
                         new Spark(LEFT_BACK_MOTOR),
                         new Spark(RIGHT_BACK_MOTOR));
                 cargoOutake = new CargoOuttake(
-                        new VirtualMotor(WHEEL));
+                        new VirtualMotor(4));
                 depotYeeter = new DepotYeeter(
-                        new VirtualMotor(SIDE_WHEEL));
+                        new VirtualMotor(5));
                 intake = new Intake(
                         new VirtualSolenoid(INTAKE_1, INTAKE_2),
                         new VirtualSolenoid(CONE_1, CONE_2));
+                break;
             default:
                 driveTrain = new Drivetrain(
                         new WPI_TalonSRX(LEFT_FRONT_MOTOR),

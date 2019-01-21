@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.SpeedController;
 
 public class VirtualMotor implements SpeedController{
 
-    private int port = 0;
+    private int port;
     private double speed = 0;
     private boolean inverted = false;
 
