@@ -32,7 +32,7 @@ public class Superstructure {
     DepotYeeter depotYeeter;
     Drivetrain driveTrain;
 
-    private static Superstructure instance = new Superstructure(RobotType.FRACTURE);
+    private static Superstructure instance = new Superstructure(RobotType.WATERGAME);
 
     private Superstructure(RobotType robot) {
         switch (robot) {
@@ -42,6 +42,20 @@ public class Superstructure {
                         new Spark(RIGHT_FRONT_MOTOR),
                         new Spark(LEFT_BACK_MOTOR),
                         new Spark(RIGHT_BACK_MOTOR));
+                cargoOutake = new CargoOuttake(
+                        new VirtualMotor(4));
+                depotYeeter = new DepotYeeter(
+                        new VirtualMotor(5));
+                intake = new Intake(
+                        new VirtualSolenoid(INTAKE_1, INTAKE_2),
+                        new VirtualSolenoid(CONE_1, CONE_2));
+                break;
+            case WATERGAME:
+                driveTrain = new Drivetrain(
+                        new VirtualMotor(LEFT_FRONT_MOTOR),
+                        new VirtualMotor(RIGHT_FRONT_MOTOR),
+                        new VirtualMotor(LEFT_BACK_MOTOR),
+                        new VirtualMotor(RIGHT_BACK_MOTOR));
                 cargoOutake = new CargoOuttake(
                         new VirtualMotor(4));
                 depotYeeter = new DepotYeeter(
@@ -69,7 +83,8 @@ public class Superstructure {
     private enum RobotType {
         FRACTURE,
         SIDEWINDER,
-        YEETER
+        YEETER,
+        WATERGAME
     }
 
     static Superstructure getInstance() {

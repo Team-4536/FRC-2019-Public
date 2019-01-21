@@ -1,12 +1,14 @@
 package org.minutebots.lib;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
 public class VirtualSolenoid extends DoubleSolenoid {
 
-    private int fc,rc;
+    private int fc, rc;
     private Value kValue = Value.kOff;
+    private NetworkTableEntry disp;
 
     /**
      * Constructor. Uses the default PCM ID (defaults to 0).
@@ -15,9 +17,11 @@ public class VirtualSolenoid extends DoubleSolenoid {
      * @param reverseChannel The reverse channel number on the PCM (0..7).
      */
     public VirtualSolenoid(int forwardChannel, int reverseChannel) {
-        super(forwardChannel, reverseChannel); //TODO Make the virtual solenoid state display in the Shuffleboard
+        super(forwardChannel, reverseChannel);
         fc = forwardChannel;
         rc = reverseChannel;
+        disp = Shuffleboard.getTab("Virtual Motors")
+                .add("Virtual Solenoid " + fc + ", " + rc, false).getEntry();
     }
 
     /**
@@ -27,17 +31,10 @@ public class VirtualSolenoid extends DoubleSolenoid {
      */
     @Override
     public void set(Value value) {
-        switch (value){
-            case kForward:
-                System.out.println("Solenoid " + fc + ", " + rc + " extended");
-                break;
-            case kOff:
-                System.out.println("Solenoid " + fc + ", " + rc + " turned off.");
-                break;
-            case kReverse:
-                System.out.println("Solenoid " + fc + ", " + rc + " retracted.");
-                break;
-        }
+        kValue = value;
+        if (kValue == Value.kForward) {
+            disp.setBoolean(true);
+        } else disp.setBoolean(false);
     }
 
     @Override
@@ -54,7 +51,6 @@ public class VirtualSolenoid extends DoubleSolenoid {
         return kValue;
     }
 
-
     //Virtual solenoids never short!
 
     @Override
@@ -66,9 +62,5 @@ public class VirtualSolenoid extends DoubleSolenoid {
     public boolean isRevSolenoidBlackListed() {
         return false;
     }
-
-    @Override
-    public void initSendable(SendableBuilder builder) {
-        super.initSendable(builder);
-    }
 }
+

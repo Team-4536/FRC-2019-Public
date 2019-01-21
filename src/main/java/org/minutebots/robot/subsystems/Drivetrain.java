@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.minutebots.robot.OI;
 
@@ -28,12 +29,14 @@ public class Drivetrain extends PIDSubsystem {
         rightFrontMotor = rf;
         driveBase = new MecanumDrive(leftFrontMotor, leftBackMotor, rightFrontMotor, rightBackMotor);
 
-        SmartDashboard.putData(driveBase);
         SmartDashboard.putData(this);
         SmartDashboard.putData(getPIDController());
         getPIDController().setInputRange(0, 360);
         getPIDController().setContinuous(true);
         setOutputRange(-0.8, 0.8);
+
+        Shuffleboard.getTab("Virtual Motors")
+                .add("Virtual Drivetrain", driveBase);
 
         SmartDashboard.putData("DISABLE GYRO", new InstantCommand(this::emergencyDrive));
         SmartDashboard.putData("Set Setpoint 0", new InstantCommand(() -> setSetpoint(0)));
