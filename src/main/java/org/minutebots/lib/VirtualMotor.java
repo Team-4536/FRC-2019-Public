@@ -9,6 +9,7 @@ public class VirtualMotor implements SpeedController{
     private boolean inverted = false;
 
     public VirtualMotor(int port){
+        System.out.println("Virtual motor " + port + " created");
         this.port = port;
     }
 
