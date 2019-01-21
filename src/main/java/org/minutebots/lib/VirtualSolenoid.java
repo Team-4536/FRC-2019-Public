@@ -15,7 +15,7 @@ public class VirtualSolenoid extends DoubleSolenoid {
      * @param reverseChannel The reverse channel number on the PCM (0..7).
      */
     public VirtualSolenoid(int forwardChannel, int reverseChannel) {
-        super(forwardChannel, reverseChannel);
+        super(forwardChannel, reverseChannel); //TODO Make the virtual solenoid state display in the Shuffleboard
         fc = forwardChannel;
         rc = reverseChannel;
     }
