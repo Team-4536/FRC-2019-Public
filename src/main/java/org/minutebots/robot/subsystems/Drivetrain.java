@@ -3,6 +3,7 @@ package org.minutebots.robot.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -33,6 +34,12 @@ public class Drivetrain extends PIDSubsystem {
         getPIDController().setInputRange(0, 360);
         getPIDController().setContinuous(true);
         setOutputRange(-0.8, 0.8);
+
+        SmartDashboard.putData("DISABLE GYRO", new InstantCommand(this::emergencyDrive));
+        SmartDashboard.putData("Set Setpoint 0", new InstantCommand(() -> setSetpoint(0)));
+        SmartDashboard.putData("Set Setpoint 90", new InstantCommand(() -> setSetpoint(90)));
+        SmartDashboard.putData("Set Setpoint 180", new InstantCommand(() -> setSetpoint(180)));
+        SmartDashboard.putData("Set Setpoint 270", new InstantCommand(() -> setSetpoint(270)));
     }
 
 
