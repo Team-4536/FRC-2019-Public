@@ -15,7 +15,7 @@ public class VirtualMotor implements SpeedController{
 
     @Override
     public void set(double speed) {
-        this.speed = speed;
+        this.speed = speed; //TODO: Make the speed output into the Shuffleboard
         System.out.println("Virtual motor " + port + " set at " + ((inverted) ? this.speed : -this.speed));
     }
 
