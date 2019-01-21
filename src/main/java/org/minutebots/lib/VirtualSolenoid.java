@@ -1,10 +1,12 @@
 package org.minutebots.lib;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
 public class VirtualSolenoid extends DoubleSolenoid {
 
-    private int fc = 0, rc = 0;
+    private int fc,rc;
+    private Value kValue = Value.kOff;
 
     /**
      * Constructor. Uses the default PCM ID (defaults to 0).
@@ -36,5 +38,37 @@ public class VirtualSolenoid extends DoubleSolenoid {
                 System.out.println("Solenoid " + fc + ", " + rc + " retracted.");
                 break;
         }
+    }
+
+    @Override
+    public synchronized void close() {
+    }
+
+    /**
+     * Read the current value of the solenoid.
+     *
+     * @return The current value of the solenoid.
+     */
+    @Override
+    public Value get() {
+        return kValue;
+    }
+
+
+    //Virtual solenoids never short!
+
+    @Override
+    public boolean isFwdSolenoidBlackListed() {
+        return false;
+    }
+
+    @Override
+    public boolean isRevSolenoidBlackListed() {
+        return false;
+    }
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        super.initSendable(builder);
     }
 }
