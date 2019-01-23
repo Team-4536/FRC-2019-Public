@@ -56,7 +56,7 @@ public class Drivetrain extends PIDSubsystem {
         if (this.getCurrentCommand() == null) {
             if (OI.primaryStick.getPOV() != -1) setSetpoint(OI.primaryStick.getPOV());
             if (OI.trigger.get()) setSetpoint(getSetpoint() + OI.primaryStick.getTwist()*4);
-            mecanumDrive(OI.primaryStick.getX(), -OI.primaryStick.getY(), turnThrottle, getAngle());
+            mecanumDrive(OI.primaryStick.getX(), -OI.primaryStick.getY(), turnThrottle, -getAngle());
         }
     }
 
