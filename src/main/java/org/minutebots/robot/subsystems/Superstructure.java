@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import org.minutebots.lib.VirtualMotor;
 import org.minutebots.lib.VirtualSolenoid;
 
@@ -15,8 +16,8 @@ public class Superstructure {
             RIGHT_BACK_MOTOR = 3;
 
     //Pneumatic Ports
-    private final static int INTAKE_1 = 1,
-            INTAKE_2 = 2,
+    private final static int INTAKE_1 = 6,
+            INTAKE_2 = 7,
             CONE_1 = 3,
             CONE_2 = 4;
 
@@ -32,7 +33,7 @@ public class Superstructure {
     DepotYeeter depotYeeter;
     Drivetrain driveTrain;
 
-    private static Superstructure instance = new Superstructure(RobotType.WATERGAME);
+    private static Superstructure instance = new Superstructure(RobotType.YEETER);
 
     private Superstructure(RobotType robot) {
         switch (robot) {
@@ -64,19 +65,26 @@ public class Superstructure {
                         new VirtualSolenoid(INTAKE_1, INTAKE_2),
                         new VirtualSolenoid(CONE_1, CONE_2));
                 break;
-            default:
-                driveTrain = new Drivetrain(
-                        new WPI_TalonSRX(LEFT_FRONT_MOTOR),
-                        new WPI_TalonSRX(RIGHT_FRONT_MOTOR),
-                        new WPI_TalonSRX(LEFT_BACK_MOTOR),
-                        new WPI_TalonSRX(RIGHT_BACK_MOTOR));
-                cargoOutake = new CargoOuttake(
-                        new WPI_VictorSPX(WHEEL));
-                depotYeeter = new DepotYeeter(
-                        new WPI_VictorSPX(SIDE_WHEEL));
-                intake = new Intake(
-                        new DoubleSolenoid(INTAKE_1, INTAKE_2),
+            default: {
+                WPI_VictorSPX leftFront = new WPI_VictorSPX(LEFT_FRONT_MOTOR),
+                        rightFront = new WPI_VictorSPX(RIGHT_FRONT_MOTOR),
+                        leftBack = new WPI_VictorSPX(LEFT_BACK_MOTOR),
+                        rightBack = new WPI_VictorSPX(RIGHT_BACK_MOTOR);
+                WPI_TalonSRX wheelMotor = new WPI_TalonSRX(WHEEL), yeeter = new WPI_TalonSRX(SIDE_WHEEL);
+
+                Shuffleboard.getTab("Motors").add("Left Front DM", leftFront);
+                Shuffleboard.getTab("Motors").add("Right Front DM", rightFront);
+                Shuffleboard.getTab("Motors").add("Left Back DM", leftBack);
+                Shuffleboard.getTab("Motors").add("Right Back DM", rightBack);
+                Shuffleboard.getTab("Motors").add("Cargo Outtake Motor", wheelMotor);
+                Shuffleboard.getTab("Motors").add("Depot Yeeter", yeeter);
+
+                driveTrain = new Drivetrain(leftFront, rightFront, leftBack, rightBack);
+                cargoOutake = new CargoOuttake(wheelMotor);
+                depotYeeter = new DepotYeeter(yeeter);
+                intake = new Intake(new DoubleSolenoid(INTAKE_1, INTAKE_2),
                         new DoubleSolenoid(CONE_1, CONE_2));
+            }
         }
     }
 
