@@ -54,9 +54,9 @@ public class Drivetrain extends PIDSubsystem {
             return; //Makes sure that the gyroscope code doesn't run.
         }
         if (this.getCurrentCommand() == null) {
-            if (OI.primaryStick.getPOV() != -1) setSetpoint(OI.primaryStick.getPOV());
             if(OI.vision.get()) setSetpoint(getYaw() + VisionCommunication.getInstance().getAngle());
-            if (OI.trigger.get()) setSetpoint(getSetpoint() + OI.primaryStick.getTwist()*4);
+            else if(OI.trigger.get()) setSetpoint(getSetpoint() + OI.primaryStick.getTwist()*4);
+            else if (OI.primaryStick.getPOV() != -1) setSetpoint(OI.primaryStick.getPOV());
             mecanumDrive(OI.primaryStick.getX(), -OI.primaryStick.getY(), turnThrottle, -getAngle());
         }
     }
