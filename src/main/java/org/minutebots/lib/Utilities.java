@@ -2,6 +2,8 @@ package org.minutebots.lib;
 
 import edu.wpi.first.wpilibj.Timer;
 
+import org.minutebots.robot.utilities.Constants;
+
 public final class Utilities {
 
     private Utilities() {
@@ -84,15 +86,29 @@ public final class Utilities {
 
     /**
      * @param input Number that is being checked.
+     * @param deadZone The deadzone limit.
      * @return If input is outside of deadzone, return input. If not return 0.0.
      */
-    static double deadZone(double input) {
+    static double deadZone(double input, double deadZone) {
 
-        if ((input > -0) && (input < 0))  //needs a constant where 0 is, keep the negative on the first one
+        if ((input > -deadZone) && (input < deadZone))
             return 0.0;
         else
             return input;
     }
+
+    /**
+     * @param input Number that is being checked.
+     * @return If input is outside of deadzone, return input. If not return 0.0.
+     */
+    static double deadZone(double input) {
+
+        if ((input > -Constants.DEADZONE) && (input < 0))  //needs a constant where 0 is, keep the negative on the first one
+            return 0.0;
+        else
+            return input;
+    }
+
 
     /**
      * @param throttle How fast we are telling the robot to go.
