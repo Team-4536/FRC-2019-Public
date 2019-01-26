@@ -13,15 +13,16 @@ public class OI {
             EXTEND_INTAKE = 5,
             RETRACT_INTAKE = 3,
             ADJUST_ANGLE_LEFT = 7,
-            ADJUST_ANGLE_RIGHT = 8;
+            ADJUST_ANGLE_RIGHT = 8,
+            ACTIVATE_VISION = 2;
 
-  
     /*---------------------------------------Programmer's territory starts here----------------------------------*/
     public static final Joystick primaryStick = new Joystick(PRIMARY_STICK_PORT);
     public static final JoystickButton trigger = new JoystickButton(primaryStick, TOGGLE_TURN),
             extend = new JoystickButton(primaryStick, EXTEND_INTAKE),
             angleAdjustLeft = new JoystickButton(primaryStick, ADJUST_ANGLE_LEFT),
-            angleAdjustRight = new JoystickButton(primaryStick, ADJUST_ANGLE_RIGHT);
+            angleAdjustRight = new JoystickButton(primaryStick, ADJUST_ANGLE_RIGHT),
+            vision = new JoystickButton(primaryStick, ACTIVATE_VISION);
 
     static {
         angleAdjustLeft.whileHeld(new InstantCommand(() -> Drivetrain.getInstance().adjustAngle(-3.0)));
