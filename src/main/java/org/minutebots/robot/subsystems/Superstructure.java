@@ -33,7 +33,7 @@ public class Superstructure {
     DepotYeeter depotYeeter;
     Drivetrain driveTrain;
 
-    private static Superstructure instance = new Superstructure(RobotType.FRACTURE);
+    private static Superstructure instance = new Superstructure(RobotType.YEETER);
 
     private Superstructure(RobotType robot) {
         switch (robot) {
