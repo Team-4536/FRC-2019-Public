@@ -21,8 +21,6 @@ public class VisionCommunication{
         targetSize = targetSizeEntry.getDouble(0);
     }
 
-
-
     private static VisionCommunication instance = new VisionCommunication();
 
     public static VisionCommunication getInstance() {

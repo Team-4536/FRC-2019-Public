@@ -21,9 +21,9 @@ public class Drivetrain extends PIDSubsystem {
     private boolean backupDrive = false;
 
     Drivetrain(SpeedController lf,
-                       SpeedController rf,
-                       SpeedController lb,
-                       SpeedController rb) {
+               SpeedController rf,
+               SpeedController lb,
+               SpeedController rb) {
         super("Drivetrain", 0.01, 0, 0.01);
         leftFrontMotor = lf;
         rightBackMotor = rb;
@@ -33,6 +33,8 @@ public class Drivetrain extends PIDSubsystem {
 
         SmartDashboard.putData(this);
         SmartDashboard.putData(getPIDController());
+        setInputRange(-180,180);
+        getPIDController().setContinuous(true);
         setOutputRange(-0.8, 0.8);
 
         Shuffleboard.getTab("Virtual Motors")
@@ -46,7 +48,6 @@ public class Drivetrain extends PIDSubsystem {
     }
 
 
-
     @Override
     public void periodic() {
         if (backupDrive) {
@@ -54,8 +55,8 @@ public class Drivetrain extends PIDSubsystem {
             return; //Makes sure that the gyroscope code doesn't run.
         }
         if (this.getCurrentCommand() == null) {
-            if(OI.vision.get()) setSetpoint(getYaw() + VisionCommunication.getInstance().getAngle());
-            else if(OI.trigger.get()) setSetpoint(getSetpoint() + OI.primaryStick.getTwist()*4);
+            if (OI.vision.get()) setSetpoint(getYaw() + VisionCommunication.getInstance().getAngle());
+            else if (OI.trigger.get()) setSetpoint(getSetpoint() + OI.primaryStick.getTwist() * 4);
             else if (OI.primaryStick.getPOV() != -1) setSetpoint(OI.primaryStick.getPOV());
             mecanumDrive(OI.primaryStick.getX(), -OI.primaryStick.getY(), turnThrottle, -getAngle());
         }
@@ -74,7 +75,7 @@ public class Drivetrain extends PIDSubsystem {
     }
 
     @Override
-    public void setSetpoint(double setpoint){
+    public void setSetpoint(double setpoint) {
         super.setSetpoint(Utilities.angleConverter(setpoint));
     }
 
