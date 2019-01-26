@@ -29,9 +29,9 @@ public class OI {
     static {
         angleAdjustLeft.whileHeld(new InstantCommand(() -> Drivetrain.getInstance().adjustAngle(-3.0)));
         angleAdjustRight.whileHeld(new InstantCommand(() -> Drivetrain.getInstance().adjustAngle(3.0)));
-        extend.whenPressed(Intake.extend());
+        extend.whenPressed(Intake.retract());
         //retract.whenPressed(Intake.retract());
-        extend.whenReleased(Intake.retract());
+        extend.whenReleased(Intake.extend());
         //releaseHatch.whenPressed(Intake.releaseHatch());
     }
 
