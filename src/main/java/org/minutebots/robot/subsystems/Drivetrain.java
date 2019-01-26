@@ -89,6 +89,7 @@ public class Drivetrain extends PIDSubsystem {
 
     public void adjustAngle(double angle) {
         angleAdjustment += angle;
+        setSetpoint(0); //This is so you can see the angle you're adjusting to.
     }
 
     public double getYaw() {
