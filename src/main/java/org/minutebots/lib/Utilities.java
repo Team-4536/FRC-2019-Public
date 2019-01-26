@@ -131,7 +131,7 @@ public final class Utilities {
      * @param ang Angle being converted.
      * @return Angle but from -180 to 180 instead of 0 to 360.
      */
-    private static double angleConverter(double ang) {
+    public static double angleConverter(double ang) {
 
         ang = ang % 360.0;
         if (ang > 180.0) {
