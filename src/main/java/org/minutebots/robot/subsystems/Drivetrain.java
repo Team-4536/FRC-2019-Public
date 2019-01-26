@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.minutebots.robot.OI;
+import org.minutebots.lib.Utilities;
 
 public class Drivetrain extends PIDSubsystem {
     private final AHRS navX = new AHRS(SPI.Port.kMXP);
@@ -50,13 +51,13 @@ public class Drivetrain extends PIDSubsystem {
     @Override
     public void periodic() {
         if (backupDrive) {
-            mecanumDrive(OI.primaryStick.getX(), -OI.primaryStick.getY(), (OI.trigger.get()) ? OI.primaryStick.getTwist() : 0);
+            mecanumDrive(Utilities.deadZone(OI.primaryStick.getX()), Utilities.deadZone(-OI.primaryStick.getY()), (OI.trigger.get()) ? Utilities.deadZone(OI.primaryStick.getTwist()) : 0);
             return; //Makes sure that the gyroscope code doesn't run.
         }
         if (this.getCurrentCommand() == null) {
             if (OI.primaryStick.getPOV() != -1) setSetpoint(OI.primaryStick.getPOV());
             if (OI.trigger.get()) setSetpoint(getSetpoint() + OI.primaryStick.getTwist()*4);
-            mecanumDrive(OI.primaryStick.getX(), -OI.primaryStick.getY(), turnThrottle, -getAngle());
+            mecanumDrive(Utilities.deadZone(OI.primaryStick.getX()), Utilities.deadZone(-OI.primaryStick.getY()), turnThrottle, -getAngle());
         }
     }
 

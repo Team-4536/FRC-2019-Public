@@ -101,7 +101,7 @@ public final class Utilities {
      * @param input Number that is being checked.
      * @return If input is outside of deadzone, return input. If not return 0.0.
      */
-    static double deadZone(double input) {
+    public static double deadZone(double input) {
 
         if ((input > -Constants.DEADZONE) && (input < 0))  //needs a constant where 0 is, keep the negative on the first one
             return 0.0;
