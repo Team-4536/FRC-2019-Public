@@ -18,7 +18,7 @@ public class Drivetrain extends PIDSubsystem {
     private final MecanumDrive driveBase;
 
     private double turnThrottle = 0, angleAdjustment = 0;
-    private boolean backupDrive = false;
+    public boolean backupDrive = false;
 
     Drivetrain(SpeedController lf,
                SpeedController rf,
@@ -33,7 +33,7 @@ public class Drivetrain extends PIDSubsystem {
 
         SmartDashboard.putData(this);
         SmartDashboard.putData(getPIDController());
-        setInputRange(-180,180);
+        setInputRange(-180, 180);
         getPIDController().setContinuous(true);
         setOutputRange(-0.8, 0.8);
 
@@ -45,16 +45,17 @@ public class Drivetrain extends PIDSubsystem {
         SmartDashboard.putData("Set Setpoint 90", new InstantCommand(() -> setSetpoint(90)));
         SmartDashboard.putData("Set Setpoint 180", new InstantCommand(() -> setSetpoint(180)));
         SmartDashboard.putData("Set Setpoint 270", new InstantCommand(() -> setSetpoint(270)));
+        SmartDashboard.putBoolean("Gyro Disabled", backupDrive);
     }
 
 
     @Override
     public void periodic() {
-        if (backupDrive) {
-            mecanumDrive(OI.primaryStick.getX(), -OI.primaryStick.getY(), (OI.trigger.get()) ? OI.primaryStick.getTwist() : 0);
-            return; //Makes sure that the gyroscope code doesn't run.
-        }
-        if (this.getCurrentCommand() == null) {
+        if (getCurrentCommand() == null) {
+            if (backupDrive) {
+                mecanumDrive(OI.primaryStick.getX(), -OI.primaryStick.getY(), (OI.trigger.get()) ? OI.primaryStick.getTwist() : 0,0);
+                return; //Makes sure that the gyroscope code doesn't run.
+            }
             if (OI.vision.get()) setSetpoint(getYaw() + VisionCommunication.getInstance().getAngle());
             else if (OI.trigger.get()) setSetpoint(getSetpoint() + OI.primaryStick.getTwist() * 4);
             else if (OI.primaryStick.getPOV() != -1) setSetpoint(OI.primaryStick.getPOV());
@@ -64,10 +65,6 @@ public class Drivetrain extends PIDSubsystem {
 
     public static Drivetrain getInstance() {
         return Superstructure.getInstance().driveTrain;
-    }
-
-    public void mecanumDrive(double ySpeed, double xSpeed, double zRotation) {
-        driveBase.driveCartesian(ySpeed, xSpeed, zRotation);
     }
 
     public void mecanumDrive(double ySpeed, double xSpeed, double zRotation, double gyroAngle) {
@@ -97,9 +94,13 @@ public class Drivetrain extends PIDSubsystem {
         return Utilities.angleConverter(getAngle());
     }
 
-    public void emergencyDrive() {
+    private void emergencyDrive() {
         backupDrive = true;
         disable();
+    }
+
+    public void removeCurrentCommand(){
+        getCurrentCommand().cancel();
     }
 
     @Override
@@ -111,8 +112,12 @@ public class Drivetrain extends PIDSubsystem {
         return getYaw();
     }
 
+    public double getTurnThrottle() {
+        return turnThrottle;
+    }
+
     @Override
     protected void usePIDOutput(double output) {
-        this.turnThrottle = output;
+        turnThrottle = output;
     }
 }

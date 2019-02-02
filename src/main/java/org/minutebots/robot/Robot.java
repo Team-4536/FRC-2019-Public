@@ -27,6 +27,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit(){
     Drivetrain.getInstance().enable();
+    Drivetrain.getInstance().backupDrive = false;
   }
 
   @Override
@@ -36,7 +37,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testPeriodic() {
-    Scheduler.getInstance().run();
   }
 
   @Override
