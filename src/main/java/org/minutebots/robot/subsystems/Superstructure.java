@@ -10,10 +10,10 @@ import org.minutebots.lib.VirtualSolenoid;
 
 public class Superstructure {
     //Talons
-    private final int LEFT_FRONT_MOTOR = 2,
-            LEFT_BACK_MOTOR = 1,
-            RIGHT_FRONT_MOTOR = 0,
-            RIGHT_BACK_MOTOR = 3;
+    private final int LEFT_FRONT_MOTOR = 0,
+            LEFT_BACK_MOTOR =3,
+            RIGHT_FRONT_MOTOR = 1,
+            RIGHT_BACK_MOTOR = 2;
 
     //Pneumatic Ports
     private final static int INTAKE_1 = 6,
@@ -72,10 +72,10 @@ public class Superstructure {
                         rightBack = new WPI_VictorSPX(RIGHT_BACK_MOTOR);
                 WPI_TalonSRX wheelMotor = new WPI_TalonSRX(WHEEL), yeeter = new WPI_TalonSRX(SIDE_WHEEL);
 
-                Shuffleboard.getTab("Motors").add("Left Front DM", leftFront);
-                Shuffleboard.getTab("Motors").add("Right Front DM", rightFront);
-                Shuffleboard.getTab("Motors").add("Left Back DM", leftBack);
-                Shuffleboard.getTab("Motors").add("Right Back DM", rightBack);
+                Shuffleboard.getTab("Motors").add("Left Front DM 2", leftFront);
+                Shuffleboard.getTab("Motors").add("Right Front DM 0", rightFront);
+                Shuffleboard.getTab("Motors").add("Left Back DM 1", leftBack);
+                Shuffleboard.getTab("Motors").add("Right Back DM 3", rightBack);
                 Shuffleboard.getTab("Motors").add("Cargo Outtake Motor", wheelMotor);
                 Shuffleboard.getTab("Motors").add("Depot Yeeter", yeeter);
 

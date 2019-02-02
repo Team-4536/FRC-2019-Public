@@ -18,7 +18,7 @@ public class Drivetrain extends PIDSubsystem {
     private final MecanumDrive driveBase;
 
     private double turnThrottle = 0, angleAdjustment = 0;
-    private boolean backupDrive = false;
+    public boolean backupDrive = false;
 
     Drivetrain(SpeedController lf,
                SpeedController rf,
@@ -45,6 +45,7 @@ public class Drivetrain extends PIDSubsystem {
         SmartDashboard.putData("Set Setpoint 90", new InstantCommand(() -> setSetpoint(90)));
         SmartDashboard.putData("Set Setpoint 180", new InstantCommand(() -> setSetpoint(180)));
         SmartDashboard.putData("Set Setpoint 270", new InstantCommand(() -> setSetpoint(270)));
+        SmartDashboard.putBoolean("Gyro Disabled", backupDrive);
     }
 
 

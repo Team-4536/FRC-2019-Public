@@ -7,18 +7,20 @@ import org.minutebots.robot.utilities.VisionCommunication;
 
 public class StrafeToVisionTarget extends Command {
 
-    StrafeToVisionTarget(){
+    double error =  VisionCommunication.getInstance().getAngle();
+
+    public StrafeToVisionTarget(){
         requires(Drivetrain.getInstance());
     }
 
     @Override
     protected void execute() {
-        double strafeThrottle = 0.05* VisionCommunication.getInstance().getSize();
+        double strafeThrottle = 0.02 * error;
         Drivetrain.getInstance().mecanumDrive(strafeThrottle,-OI.primaryStick.getY(), Drivetrain.getInstance().getTurnThrottle(), -Drivetrain.getInstance().getAngle());
     }
 
     @Override
     protected boolean isFinished() {
-        return false;
+        return Math.abs(error) < 5;
     }
 }
