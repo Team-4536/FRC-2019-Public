@@ -21,7 +21,6 @@ public class OI {
     public static final Joystick primaryStick = new Joystick(PRIMARY_STICK_PORT);
     public static final JoystickButton trigger = new JoystickButton(primaryStick, TOGGLE_TURN),
             extend = new JoystickButton(primaryStick, EXTEND_INTAKE),
-            retract = new JoystickButton(primaryStick, RETRACT_INTAKE),
             angleAdjustLeft = new JoystickButton(primaryStick, ADJUST_ANGLE_LEFT),
             angleAdjustRight = new JoystickButton(primaryStick, ADJUST_ANGLE_RIGHT),
             vision = new JoystickButton(primaryStick, ACTIVATE_VISION),
