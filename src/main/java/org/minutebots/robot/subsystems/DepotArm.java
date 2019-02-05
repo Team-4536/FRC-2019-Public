@@ -9,7 +9,7 @@ public class DepotArm extends Subsystem {
     private SpeedController spinner, arm;
     private DigitalInput up, down;
 
-    DepotArm(SpeedController wheel, SpeedController arm, DigitalInput up, DigitalInput down) {
+    DepotArm(SpeedController arm, SpeedController wheel, DigitalInput up, DigitalInput down) {
         this.spinner = wheel;
         this.arm = arm;
         this.up = up;

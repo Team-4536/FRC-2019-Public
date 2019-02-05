@@ -3,11 +3,11 @@ package org.minutebots.robot.subsystems;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class CargoOuttake extends Subsystem {
+public class Ramp extends Subsystem {
 
     private SpeedController wheel;
 
-    CargoOuttake(SpeedController wheel){
+    Ramp(SpeedController wheel){
         this.wheel = wheel;
     }
 
@@ -19,7 +19,7 @@ public class CargoOuttake extends Subsystem {
 
     }
 
-    public static CargoOuttake getInstance(){
-        return Superstructure.getInstance().cargoOutake;
+    public static Ramp getInstance(){
+        return Superstructure.getInstance().ramp;
     }
 }
