@@ -26,6 +26,8 @@ public class Superstructure {
     private final static int SIDE_WHEEL = 0,
             WHEEL = 1;
 
+    private final static int UP_LIMIT_SWITCH = 0, DOWN_LIMIT_SWITCH =1;
+
     /*---------------------------------------Programmer's territory starts here----------------------------------*/
 
     Intake intake;
