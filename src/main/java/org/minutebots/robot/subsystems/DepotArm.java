@@ -5,11 +5,11 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class DepotYeeter extends Subsystem {
+public class DepotArm extends Subsystem {
     private SpeedController spinner, arm;
     private DigitalInput up, down;
 
-    DepotYeeter(SpeedController wheel, SpeedController arm, DigitalInput up, DigitalInput down) {
+    DepotArm(SpeedController wheel, SpeedController arm, DigitalInput up, DigitalInput down) {
         this.spinner = wheel;
         this.arm = arm;
         this.up = up;
@@ -27,24 +27,10 @@ public class DepotYeeter extends Subsystem {
         spinner.set(speed);
     }
 
-    public static InstantCommand extend(double speed) {
-        return new InstantCommand(getInstance(), () -> {
-            getInstance().setIntakeStatus(true);
-            getInstance().setConeStatus(true);
-        });
-    }
-
-    public static InstantCommand retract() {
-        return new InstantCommand(getInstance(), () -> {
-            getInstance().setIntakeStatus(false);
-            getInstance().setConeStatus(false);
-        });
-    }
-
     public void initDefaultCommand() {
     }
 
-    public static DepotYeeter getInstance() {
-        return Superstructure.getInstance().depotYeeter;
+    public static DepotArm getInstance() {
+        return Superstructure.getInstance().depotArm;
     }
 }
