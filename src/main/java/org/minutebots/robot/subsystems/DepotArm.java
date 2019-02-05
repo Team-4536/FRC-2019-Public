@@ -3,10 +3,10 @@ package org.minutebots.robot.subsystems;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class DepotYeeter extends Subsystem {
+public class DepotArm extends Subsystem {
     private SpeedController sideWheel;
 
-    DepotYeeter(SpeedController sideWheel){
+    DepotArm(SpeedController sideWheel){
         this.sideWheel = sideWheel;
     }
 
@@ -17,7 +17,7 @@ public class DepotYeeter extends Subsystem {
     public void initDefaultCommand(){
     }
 
-    public static DepotYeeter getInstance(){
-        return Superstructure.getInstance().depotYeeter;
+    public static DepotArm getInstance(){
+        return Superstructure.getInstance().depotArm;
     }
 }

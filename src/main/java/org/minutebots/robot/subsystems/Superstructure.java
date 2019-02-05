@@ -11,15 +11,13 @@ import org.minutebots.lib.VirtualSolenoid;
 public class Superstructure {
     //Talons
     private final int LEFT_FRONT_MOTOR = 0,
-            LEFT_BACK_MOTOR =3,
+            LEFT_BACK_MOTOR = 3,
             RIGHT_FRONT_MOTOR = 1,
             RIGHT_BACK_MOTOR = 2;
 
     //Pneumatic Ports
-    private final static int INTAKE_1 = 6,
-            INTAKE_2 = 7,
-            CONE_1 = 3,
-            CONE_2 = 4;
+    private final static int PISTON_1 = 6,
+            PISTON_2 = 7;
 
 
     //Victor Ports
@@ -28,9 +26,9 @@ public class Superstructure {
 
     /*---------------------------------------Programmer's territory starts here----------------------------------*/
 
-    Intake intake;
+    HatchPiston hatchPiston;
     CargoOuttake cargoOutake;
-    DepotYeeter depotYeeter;
+    DepotArm depotArm;
     Drivetrain driveTrain;
 
     private static Superstructure instance = new Superstructure(RobotType.YEETER);
@@ -45,11 +43,9 @@ public class Superstructure {
                         new Spark(RIGHT_BACK_MOTOR));
                 cargoOutake = new CargoOuttake(
                         new VirtualMotor(4));
-                depotYeeter = new DepotYeeter(
+                depotArm = new DepotArm(
                         new VirtualMotor(5));
-                intake = new Intake(
-                        new VirtualSolenoid(INTAKE_1, INTAKE_2),
-                        new VirtualSolenoid(CONE_1, CONE_2));
+                hatchPiston = new HatchPiston(new VirtualSolenoid(PISTON_1, PISTON_2));
                 break;
             case WATERGAME:
                 driveTrain = new Drivetrain(
@@ -59,11 +55,9 @@ public class Superstructure {
                         new VirtualMotor(RIGHT_BACK_MOTOR));
                 cargoOutake = new CargoOuttake(
                         new VirtualMotor(4));
-                depotYeeter = new DepotYeeter(
+                depotArm = new DepotArm(
                         new VirtualMotor(5));
-                intake = new Intake(
-                        new VirtualSolenoid(INTAKE_1, INTAKE_2),
-                        new VirtualSolenoid(CONE_1, CONE_2));
+                hatchPiston = new HatchPiston(new VirtualSolenoid(PISTON_1, PISTON_2));
                 break;
             default: {
                 WPI_VictorSPX leftFront = new WPI_VictorSPX(LEFT_FRONT_MOTOR),
@@ -81,9 +75,8 @@ public class Superstructure {
 
                 driveTrain = new Drivetrain(leftFront, rightFront, leftBack, rightBack);
                 cargoOutake = new CargoOuttake(wheelMotor);
-                depotYeeter = new DepotYeeter(yeeter);
-                intake = new Intake(new DoubleSolenoid(INTAKE_1, INTAKE_2),
-                        new DoubleSolenoid(CONE_1, CONE_2));
+                depotArm = new DepotArm(yeeter);
+                hatchPiston = new HatchPiston(new DoubleSolenoid(PISTON_1, PISTON_2));
             }
         }
     }

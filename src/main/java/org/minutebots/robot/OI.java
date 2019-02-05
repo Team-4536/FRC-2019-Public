@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import org.minutebots.robot.subsystems.Drivetrain;
-import org.minutebots.robot.subsystems.Intake;
+import org.minutebots.robot.subsystems.HatchPiston;
 
 public class OI {
     // Input Numbers
@@ -30,8 +30,8 @@ public class OI {
         angleAdjustLeft.whileHeld(new InstantCommand(() -> Drivetrain.getInstance().adjustAngle(3.0)));
         angleAdjustRight.whileHeld(new InstantCommand(() -> Drivetrain.getInstance().adjustAngle(-3.0)));
         overrideDrivetrain.whenPressed(new InstantCommand(() -> Drivetrain.getInstance().removeCurrentCommand()));
-        extend.whenPressed(Intake.extend());
-        retract.whenPressed(Intake.retract());
+        extend.whenPressed(HatchPiston.extend());
+        retract.whenPressed(HatchPiston.retract());
     }
 
 }
