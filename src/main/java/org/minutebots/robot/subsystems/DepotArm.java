@@ -20,7 +20,7 @@ public class DepotArm extends Subsystem {
         double motorSpeed = speed;
         if (up.get()) motorSpeed = 0;
         if (down.get()) motorSpeed = 0;
-        spinner.set(motorSpeed);
+        arm.set(motorSpeed);
     }
 
     private void spinWheel(double speed) {
