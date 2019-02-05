@@ -10,7 +10,7 @@ import org.minutebots.lib.VirtualMotor;
 import org.minutebots.lib.VirtualSolenoid;
 
 public class Superstructure {
-    //Talons
+    //Victor
     private final int LEFT_FRONT_MOTOR = 0,
             LEFT_BACK_MOTOR = 3,
             RIGHT_FRONT_MOTOR = 1,
@@ -21,7 +21,7 @@ public class Superstructure {
             PISTON_2 = 7;
 
 
-    //Victor Ports
+    //Talons Ports
     private final static int DEPOT_ARM = 4,
             DEPOT_WHEEL = 5,
             RAMP = 6;
@@ -35,18 +35,18 @@ public class Superstructure {
     DepotArm depotArm;
     Drivetrain driveTrain;
 
-    private static Superstructure instance = new Superstructure(RobotType.YEETER);
+    private static Superstructure instance = new Superstructure(RobotType.FRACTURE);
 
     private Superstructure(RobotType robot) {
         switch (robot) {
             case FRACTURE:
                 driveTrain = new Drivetrain(
-                        new Spark(LEFT_FRONT_MOTOR),
-                        new Spark(RIGHT_FRONT_MOTOR),
-                        new Spark(LEFT_BACK_MOTOR),
-                        new Spark(RIGHT_BACK_MOTOR));
+                        new Spark(2),
+                        new Spark(0),
+                        new Spark(1),
+                        new Spark(3));
                 ramp = new Ramp(
-                        new VirtualMotor(4));
+                        new VirtualMotor(RAMP));
                 depotArm = new DepotArm(
                         new VirtualMotor(DEPOT_ARM),
                         new VirtualMotor(DEPOT_WHEEL),
@@ -61,7 +61,7 @@ public class Superstructure {
                         new VirtualMotor(LEFT_BACK_MOTOR),
                         new VirtualMotor(RIGHT_BACK_MOTOR));
                 ramp = new Ramp(
-                        new VirtualMotor(4));
+                        new VirtualMotor(RAMP));
                 depotArm = new DepotArm(
                         new VirtualMotor(DEPOT_ARM),
                         new VirtualMotor(DEPOT_WHEEL),

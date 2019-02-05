@@ -2,7 +2,6 @@ package org.minutebots.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class DepotArm extends Subsystem {
@@ -18,8 +17,8 @@ public class DepotArm extends Subsystem {
 
     private void moveArm(double speed) {
         double motorSpeed = speed;
-        if (up.get()) motorSpeed = 0;
-        if (down.get()) motorSpeed = 0;
+        if (!up.get()) motorSpeed = speed < 0 ? speed : 0;
+        if (!down.get()) motorSpeed = speed > 0 ? speed : 0;
         arm.set(motorSpeed);
     }
 
