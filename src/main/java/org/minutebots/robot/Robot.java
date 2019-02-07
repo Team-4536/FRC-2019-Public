@@ -1,7 +1,10 @@
 package org.minutebots.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.minutebots.robot.commands.StrafeToVisionTarget;
 import org.minutebots.robot.subsystems.Drivetrain;
 import org.minutebots.robot.utilities.VisionCommunication;
 
@@ -28,6 +31,7 @@ public class Robot extends TimedRobot {
   public void teleopInit(){
     Drivetrain.getInstance().enable();
     Drivetrain.getInstance().backupDrive = false;
+    SmartDashboard.putData("Strafe To Target", new StrafeToVisionTarget());
   }
 
   @Override

@@ -45,6 +45,7 @@ public class Drivetrain extends PIDSubsystem {
         SmartDashboard.putData("Set Setpoint 90", new InstantCommand(() -> setSetpoint(90)));
         SmartDashboard.putData("Set Setpoint 180", new InstantCommand(() -> setSetpoint(180)));
         SmartDashboard.putData("Set Setpoint 270", new InstantCommand(() -> setSetpoint(270)));
+        SmartDashboard.putData("Remove Current Command", new InstantCommand(() -> removeCurrentCommand()));
         SmartDashboard.putBoolean("Gyro Disabled", backupDrive);
     }
 
@@ -99,7 +100,7 @@ public class Drivetrain extends PIDSubsystem {
         disable();
     }
 
-    public void removeCurrentCommand(){
+    private void removeCurrentCommand(){
         getCurrentCommand().cancel();
     }
 
