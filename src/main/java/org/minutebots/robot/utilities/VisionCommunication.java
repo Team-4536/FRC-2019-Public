@@ -14,6 +14,10 @@ public class VisionCommunication{
         targetSizeEntry = table.getEntry("Target Size");
         angleOffsetEntry.setDouble(angleOffset);
         targetSizeEntry.setDouble(targetSize);
+        NetworkTableInstance.getDefault()
+            .getEntry("/CameraPublisher/PiCamera/streams")
+            .setStringArray(new String[]{"http://frcvision.local:1181/stream.mjpg"});
+    //.setStringArray(new String[]{"mjpeg:http://" + "10.0.0.9" + ":" + "1181" + "/?action=stream"});
     }
 
     public void update(){
