@@ -39,16 +39,18 @@ public class Drivetrain extends PIDSubsystem {
         Shuffleboard.getTab("Virtual Motors")
                 .add("Virtual Drivetrain", driveBase);
 
-        SmartDashboard.putData("Toggle Gyro", new InstantCommand(()->{
-            if(getPIDController().isEnabled()) disable();
-            else enable();
+        SmartDashboard.putData("Toggle Gyro", new InstantCommand(() -> {
+            if (getPIDController().isEnabled()) disable();
+            else {
+                enable();
+                resetGyro();
+            }
         }));
         SmartDashboard.putData("Set Setpoint 0", new InstantCommand(() -> setSetpoint(0)));
         SmartDashboard.putData("Set Setpoint 90", new InstantCommand(() -> setSetpoint(90)));
         SmartDashboard.putData("Set Setpoint 180", new InstantCommand(() -> setSetpoint(180)));
         SmartDashboard.putData("Set Setpoint 270", new InstantCommand(() -> setSetpoint(270)));
         SmartDashboard.putData("Remove Current Command", new InstantCommand(() -> getCurrentCommand().cancel()));
-        SmartDashboard.putBoolean("Gyro Enabled", getPIDController().isEnabled());
     }
 
     /**
@@ -57,12 +59,10 @@ public class Drivetrain extends PIDSubsystem {
     @Override
     public void periodic() {
         if (getCurrentCommand() == null) {
-            if (!getPIDController().isEnabled()) {
-                System.out.println("Running Gyro-Free Loop");
+            if (!getPIDController().isEnabled()) { //Run this if the PID controller is disabled. This is drive code without the gyroscope.
                 mecanumDrive(OI.primaryStick.getX(), -OI.primaryStick.getY(), (OI.trigger.get()) ? OI.primaryStick.getTwist() : 0);
                 return; //Makes sure that the gyroscope code doesn't run.
             }
-            System.out.println("Running Gyro Loop");
             if (OI.vision.get()) setSetpoint(getYaw() + VisionCommunication.getInstance().getAngle());
             else if (OI.trigger.get()) setSetpoint(getSetpoint() + OI.primaryStick.getTwist() * 4);
             else if (OI.primaryStick.getPOV() != -1) setSetpoint(OI.primaryStick.getPOV());
@@ -80,12 +80,11 @@ public class Drivetrain extends PIDSubsystem {
 
     /**
      * Robot-centric Mecanum drive method.
-     *
+     * <p>
      * This method does not rotate the robot's perspective to the field, so all inputs are relative to robot forwards.
-     *
+     * <p>
      * Angles are measured clockwise from the positive X axis. The robot's speed is independent
      * from its angle or rotation rate.
-     *
      *
      * @param ySpeed    The robot's speed strafing sideways. [-1.0..1.0]. Right is positive.
      * @param xSpeed    The robot's speed driving forwards. [-1.0..1.0]. Forward is positive.
@@ -98,20 +97,19 @@ public class Drivetrain extends PIDSubsystem {
 
     /**
      * Field-Centric Mecanum drive method.
-     *
+     * <p>
      * This method rotates the robot's perspective to the field, so all inputs are relative to 0 degrees of the gyro.
      * Usually, this is the angle you start the robot at.
-     *
+     * <p>
      * Angles are measured clockwise from the positive X axis. The robot's speed is independent
      * from its angle or rotation rate.
-     *
      *
      * @param ySpeed    The robot's speed strafing sideways. [-1.0..1.0]. Right is positive.
      * @param xSpeed    The robot's speed driving forwards. [-1.0..1.0]. Forward is positive.
      * @param zRotation The robot's rotation rate. [-1.0..1.0]. Clockwise is
      *                  positive.
      */
-    public void mecanumDriveFC(double ySpeed, double xSpeed, double zRotation){
+    public void mecanumDriveFC(double ySpeed, double xSpeed, double zRotation) {
         driveBase.driveCartesian(ySpeed, xSpeed, zRotation, -getAngle());
     }
 
@@ -136,11 +134,12 @@ public class Drivetrain extends PIDSubsystem {
     public void resetGyro() {
         navX.reset();
         angleAdjustment = 0;
+        setSetpoint(0);
     }
 
     /**
      * Redefines the field's rotation for field-centric driving.
-     *
+     * <p>
      * This also rotates the robot to the new angle defined as 0 degrees, so the driver can see the new forwards direction.
      *
      * @param angle The amount of degrees to rotate the field left by. Positive rotates left, negative rotates right.
