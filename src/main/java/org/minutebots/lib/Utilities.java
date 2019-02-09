@@ -176,7 +176,7 @@ public final class Utilities {
      * @return closest angle in angleList
      */
     public static double snapAngle(double angle, double[] angleList){
-        double distance = 0;
+        double distance = angleList[1]-angleList[0];
         int idx = 0;
         for(int i=0;i<angleList.length;i++){
             double c = angleList[i] - angle;
