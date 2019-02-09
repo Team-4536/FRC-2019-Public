@@ -16,7 +16,7 @@ public class StrafeToVisionTarget extends Command {
     @Override
     protected void execute() {
         error = VisionCommunication.getInstance().getAngle();
-        Drivetrain.getInstance().mecanumDrive(0.025 * error, -OI.primaryStick.getY(), Drivetrain.getInstance().getTurnThrottle(), -Drivetrain.getInstance().getAngle());
+        Drivetrain.getInstance().mecanumDrive(0.025 * error, -OI.primaryStick.getY(), Drivetrain.getInstance().getTurnThrottle());
     }
 
     @Override

@@ -30,7 +30,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit(){
     Drivetrain.getInstance().enable();
-    Drivetrain.getInstance().backupDrive = false;
     SmartDashboard.putData("Strafe To Target", new StrafeToVisionTarget());
   }
 
