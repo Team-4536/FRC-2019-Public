@@ -1,7 +1,6 @@
 package org.minutebots.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.minutebots.robot.commands.StrafeToVisionTarget;
@@ -9,6 +8,8 @@ import org.minutebots.robot.subsystems.Drivetrain;
 import org.minutebots.robot.utilities.VisionCommunication;
 
 public class Robot extends TimedRobot {
+
+  public static RobotConfiguration robot = new SimulatedBot();
 
   @Override
   public void robotInit() {

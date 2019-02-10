@@ -1,25 +1,24 @@
 package org.minutebots.robot.subsystems;
 
-import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import org.minutebots.robot.Robot;
 
 public class Ramp extends Subsystem {
 
-    private SpeedController wheel;
-
-    Ramp(SpeedController wheel){
-        this.wheel = wheel;
+    private Ramp(){
     }
 
     public void setWheel(double speed){
-        wheel.set(speed);
+        Robot.robot.rampMotor().set(speed);
     }
 
     public void initDefaultCommand(){
 
     }
 
+    private static Ramp ramp = new Ramp();
+
     public static Ramp getInstance(){
-        return Superstructure.getInstance().ramp;
+        return ramp;
     }
 }

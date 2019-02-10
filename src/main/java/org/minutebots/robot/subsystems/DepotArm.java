@@ -1,35 +1,29 @@
 package org.minutebots.robot.subsystems;
 
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import org.minutebots.robot.Robot;
 
 public class DepotArm extends Subsystem {
-    private SpeedController spinner, arm;
-    private DigitalInput up, down;
-
-    DepotArm(SpeedController arm, SpeedController wheel, DigitalInput up, DigitalInput down) {
-        this.spinner = wheel;
-        this.arm = arm;
-        this.up = up;
-        this.down = down;
+    DepotArm() {
     }
 
     private void moveArm(double speed) {
         double motorSpeed = speed;
-        if (!up.get()) motorSpeed = speed < 0 ? speed : 0;
-        if (!down.get()) motorSpeed = speed > 0 ? speed : 0;
-        arm.set(motorSpeed);
+        if (Robot.robot.armUp()) motorSpeed = speed < 0 ? speed : 0;
+        if (Robot.robot.armDown()) motorSpeed = speed > 0 ? speed : 0;
+        Robot.robot.depotArm().set(motorSpeed);
     }
 
     private void spinWheel(double speed) {
-        spinner.set(speed);
+        Robot.robot.depotRoller().set(speed);
     }
 
     public void initDefaultCommand() {
     }
 
+    private static DepotArm depotArm = new DepotArm();
+
     public static DepotArm getInstance() {
-        return Superstructure.getInstance().depotArm;
+        return depotArm;
     }
 }

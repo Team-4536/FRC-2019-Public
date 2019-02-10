@@ -10,26 +10,19 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.minutebots.lib.Utilities;
 import org.minutebots.robot.OI;
+import org.minutebots.robot.Robot;
 import org.minutebots.robot.utilities.VisionCommunication;
 
 public class Drivetrain extends PIDSubsystem {
-    private final AHRS navX = new AHRS(SPI.Port.kMXP);
-    private SpeedController leftFrontMotor, rightFrontMotor, leftBackMotor, rightBackMotor;
     private final MecanumDrive driveBase;
-
     private double turnThrottle = 0, angleAdjustment = 0;
 
-    Drivetrain(SpeedController lf,
-               SpeedController rf,
-               SpeedController lb,
-               SpeedController rb) {
+    private Drivetrain() {
         super("Drivetrain", 0.01, 0, 0.01);
-        leftFrontMotor = lf;
-        rightBackMotor = rb;
-        leftBackMotor = lb;
-        rightFrontMotor = rf;
-        driveBase = new MecanumDrive(leftFrontMotor, leftBackMotor, rightFrontMotor, rightBackMotor);
-
+        driveBase = new MecanumDrive(Robot.robot.drivetrainMotors()[0],
+                Robot.robot.drivetrainMotors()[1],
+                Robot.robot.drivetrainMotors()[2],
+                Robot.robot.drivetrainMotors()[3]);
         SmartDashboard.putData(this);
         SmartDashboard.putData(getPIDController());
         setInputRange(-180, 180);
@@ -71,11 +64,16 @@ public class Drivetrain extends PIDSubsystem {
     }
 
     /**
+     * Singleton drivetrain instance.
+     */
+    private static Drivetrain driveTrain = new Drivetrain();
+
+    /**
      * Returns the singleton Drivetrain instance.
      * In order to interact with the Drivetrain methods, you must call them from this instance.
      */
     public static Drivetrain getInstance() {
-        return Superstructure.getInstance().driveTrain;
+        return driveTrain;
     }
 
     /**
@@ -132,7 +130,7 @@ public class Drivetrain extends PIDSubsystem {
      * Resets gyro angle and angle adjustment to 0.
      */
     public void resetGyro() {
-        navX.reset();
+        Robot.robot.resetGyro();
         angleAdjustment = 0;
         setSetpoint(0);
     }
@@ -154,7 +152,7 @@ public class Drivetrain extends PIDSubsystem {
      * This is the total sum of rotation.
      */
     private double getAngle() {
-        return navX.getAngle() + angleAdjustment;
+        return Robot.robot.getAngle() + angleAdjustment;
     }
 
     /**

@@ -1,28 +1,26 @@
 package org.minutebots.robot.subsystems;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.minutebots.robot.Robot;
 
 public class HatchPiston extends Subsystem {
-    private DoubleSolenoid piston;
 
-    HatchPiston(DoubleSolenoid piston) {
+    HatchPiston() {
         SmartDashboard.putData(this);
-        this.piston = piston;
     }
 
     public static InstantCommand extend() {
         return new InstantCommand(getInstance(), () ->
-                getInstance().piston.set(DoubleSolenoid.Value.kReverse));
+                Robot.robot.retractIntakePiston());
     }
 
     public static InstantCommand retract() {
         return new InstantCommand(getInstance(), () ->
-                getInstance().piston.set(DoubleSolenoid.Value.kForward));
+                Robot.robot.extendIntakePiston());
     }
 
     public static CommandGroup eject(){
@@ -32,8 +30,10 @@ public class HatchPiston extends Subsystem {
     public void initDefaultCommand() {
     }
 
+    private static HatchPiston hatchPiston = new HatchPiston();
+
     public static HatchPiston getInstance() {
-        return Superstructure.getInstance().hatchPiston;
+        return hatchPiston;
     }
 }
 
