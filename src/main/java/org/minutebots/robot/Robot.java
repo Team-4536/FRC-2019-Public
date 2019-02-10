@@ -9,7 +9,7 @@ import org.minutebots.robot.utilities.VisionCommunication;
 
 public class Robot extends TimedRobot {
 
-  public static RobotConfiguration robot = new SimulatedBot();
+  public static RobotConfiguration robot = new Yeeter();
 
   @Override
   public void robotInit() {

@@ -5,8 +5,11 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import org.minutebots.lib.VirtualMotor;
+
+import java.util.Map;
 
 /**
  * This is our way to abstract hardware from the software. Everything that is an output or an imput
@@ -140,7 +143,19 @@ class Yeeter implements RobotConfiguration {
 
 class SimulatedBot implements RobotConfiguration {
     private NetworkTableEntry piston = Shuffleboard.getTab("Virtual Motors")
-            .add("Intake Piston", false).getEntry();
+            .add("Intake Piston", false).getEntry(),
+            gyro = Shuffleboard.getTab("Virtual Motors")
+                    .add("Gyro Angle", 0)
+                    .withWidget(BuiltInWidgets.kTextView)
+                    .getEntry(),
+            topLimit = Shuffleboard.getTab("Virtual Motors")
+                    .add("Top Limit Switch", false)
+                    .withWidget(BuiltInWidgets.kToggleButton)
+                    .getEntry(),
+            bottomLimit = Shuffleboard.getTab("Virtual Motors")
+                    .add("Bottom Limit Switch", false)
+                    .withWidget(BuiltInWidgets.kToggleButton)
+                    .getEntry();
 
     private SpeedController[] motors = new SpeedController[]{
             new VirtualMotor(Yeeter.LEFT_FRONT_MOTOR),
@@ -149,8 +164,8 @@ class SimulatedBot implements RobotConfiguration {
             new VirtualMotor(Yeeter.RIGHT_BACK_MOTOR)};
 
     private VirtualMotor arm = new VirtualMotor(Yeeter.DEPOT_ARM),
-    roller = new VirtualMotor(Yeeter.DEPOT_WHEEL),
-    ramp = new VirtualMotor(Yeeter.RAMP);
+            roller = new VirtualMotor(Yeeter.DEPOT_WHEEL),
+            ramp = new VirtualMotor(Yeeter.RAMP);
 
     @Override
     public SpeedController[] drivetrainMotors() {
@@ -159,6 +174,7 @@ class SimulatedBot implements RobotConfiguration {
 
     @Override
     public void resetGyro() {
+        gyro.setDouble(0);
     }
 
     @Override
@@ -188,7 +204,7 @@ class SimulatedBot implements RobotConfiguration {
 
     @Override
     public double getAngle() {
-        return 0;
+        return -gyro.getDouble(0);
     }
 
     @Override
@@ -198,16 +214,16 @@ class SimulatedBot implements RobotConfiguration {
 
     @Override
     public boolean armUp() {
-        return false;
+        return topLimit.getBoolean(false);
     }
 
     @Override
     public boolean armDown() {
-        return false;
+        return bottomLimit.getBoolean(false);
     }
 }
 
-class Fracture implements RobotConfiguration{
+class Fracture implements RobotConfiguration {
 
     private AHRS navX = new AHRS(SPI.Port.kMXP);
     private Servo servo = new Servo(5);
