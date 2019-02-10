@@ -142,14 +142,19 @@ class SimulatedBot implements RobotConfiguration {
     private NetworkTableEntry piston = Shuffleboard.getTab("Virtual Motors")
             .add("Intake Piston", false).getEntry();
 
+    private SpeedController[] motors = new SpeedController[]{
+            new VirtualMotor(Yeeter.LEFT_FRONT_MOTOR),
+            new VirtualMotor(Yeeter.LEFT_BACK_MOTOR),
+            new VirtualMotor(Yeeter.RIGHT_FRONT_MOTOR),
+            new VirtualMotor(Yeeter.RIGHT_BACK_MOTOR)};
+
+    private VirtualMotor arm = new VirtualMotor(Yeeter.DEPOT_ARM),
+    roller = new VirtualMotor(Yeeter.DEPOT_WHEEL),
+    ramp = new VirtualMotor(Yeeter.RAMP);
+
     @Override
     public SpeedController[] drivetrainMotors() {
-        return new SpeedController[]{
-                new VirtualMotor(Yeeter.LEFT_FRONT_MOTOR),
-                new VirtualMotor(Yeeter.LEFT_BACK_MOTOR),
-                new VirtualMotor(Yeeter.RIGHT_FRONT_MOTOR),
-                new VirtualMotor(Yeeter.RIGHT_BACK_MOTOR)
-        };
+        return motors;
     }
 
     @Override
@@ -158,17 +163,17 @@ class SimulatedBot implements RobotConfiguration {
 
     @Override
     public SpeedController depotArm() {
-        return new VirtualMotor(Yeeter.DEPOT_ARM);
+        return arm;
     }
 
     @Override
     public SpeedController depotRoller() {
-        return new VirtualMotor(Yeeter.DEPOT_WHEEL);
+        return roller;
     }
 
     @Override
     public SpeedController rampMotor() {
-        return new VirtualMotor(Yeeter.RAMP);
+        return ramp;
     }
 
     @Override
@@ -207,14 +212,20 @@ class Fracture implements RobotConfiguration{
     private AHRS navX = new AHRS(SPI.Port.kMXP);
     private Servo servo = new Servo(5);
 
+    private SpeedController[] driveTrainMotors = new SpeedController[]{
+            new Spark(2),
+            new Spark(1),
+            new Spark(0),
+            new Spark(3)
+    };
+
+    private VirtualMotor arm = new VirtualMotor(Yeeter.DEPOT_ARM),
+            roller = new VirtualMotor(Yeeter.DEPOT_WHEEL),
+            ramp = new VirtualMotor(Yeeter.RAMP);
+
     @Override
     public SpeedController[] drivetrainMotors() {
-        return new SpeedController[]{
-                new Spark(2),
-                new Spark(1),
-                new Spark(0),
-                new Spark(3)
-        };
+        return driveTrainMotors;
     }
 
     @Override
@@ -224,17 +235,17 @@ class Fracture implements RobotConfiguration{
 
     @Override
     public SpeedController depotArm() {
-        return new VirtualMotor(Yeeter.DEPOT_ARM);
+        return arm;
     }
 
     @Override
     public SpeedController depotRoller() {
-        return new VirtualMotor(Yeeter.DEPOT_WHEEL);
+        return roller;
     }
 
     @Override
     public SpeedController rampMotor() {
-        return new VirtualMotor(Yeeter.RAMP);
+        return ramp;
     }
 
     @Override

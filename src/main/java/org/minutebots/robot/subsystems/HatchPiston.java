@@ -15,12 +15,12 @@ public class HatchPiston extends Subsystem {
 
     public static InstantCommand extend() {
         return new InstantCommand(getInstance(), () ->
-                Robot.robot.retractIntakePiston());
+                Robot.robot.extendIntakePiston());
     }
 
     public static InstantCommand retract() {
         return new InstantCommand(getInstance(), () ->
-                Robot.robot.extendIntakePiston());
+                Robot.robot.retractIntakePiston());
     }
 
     public static CommandGroup eject(){
