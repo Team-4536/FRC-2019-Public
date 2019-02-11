@@ -14,12 +14,12 @@ public class HatchPiston extends Subsystem {
     }
 
     public static InstantCommand extend() {
-        return new InstantCommand(getInstance(), () ->
+        return new InstantCommand("Piston Extend",getInstance(), () ->
                 Robot.robot.extendIntakePiston());
     }
 
     public static InstantCommand retract() {
-        return new InstantCommand(getInstance(), () ->
+        return new InstantCommand("Piston Retract",getInstance(), () ->
                 Robot.robot.retractIntakePiston());
     }
 
@@ -39,6 +39,8 @@ public class HatchPiston extends Subsystem {
 
 class EjectHatch extends CommandGroup {
     EjectHatch(){
+        setName("Eject Hatch");
+        requires(HatchPiston.getInstance());
         addSequential(HatchPiston.extend());
         addSequential(new WaitCommand(0.5));
         addSequential(HatchPiston.retract());

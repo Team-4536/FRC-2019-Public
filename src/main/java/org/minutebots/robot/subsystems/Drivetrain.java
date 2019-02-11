@@ -1,8 +1,5 @@
 package org.minutebots.robot.subsystems;
 
-import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
@@ -23,8 +20,6 @@ public class Drivetrain extends PIDSubsystem {
                 Robot.robot.drivetrainMotors()[1],
                 Robot.robot.drivetrainMotors()[2],
                 Robot.robot.drivetrainMotors()[3]);
-        SmartDashboard.putData(this);
-        SmartDashboard.putData(getPIDController());
         setInputRange(-180, 180);
         getPIDController().setContinuous(true);
         setOutputRange(-0.8, 0.8);
@@ -39,11 +34,9 @@ public class Drivetrain extends PIDSubsystem {
                 resetGyro();
             }
         }));
-        SmartDashboard.putData("Set Setpoint 0", new InstantCommand(() -> setSetpoint(0)));
-        SmartDashboard.putData("Set Setpoint 90", new InstantCommand(() -> setSetpoint(90)));
-        SmartDashboard.putData("Set Setpoint 180", new InstantCommand(() -> setSetpoint(180)));
-        SmartDashboard.putData("Set Setpoint 270", new InstantCommand(() -> setSetpoint(270)));
-        SmartDashboard.putData("Remove Current Command", new InstantCommand(() -> getCurrentCommand().cancel()));
+
+
+
     }
 
     /**

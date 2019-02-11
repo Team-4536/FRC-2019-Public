@@ -5,11 +5,18 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.command.InstantCommand;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import org.minutebots.lib.VirtualMotor;
+import org.minutebots.robot.commands.StrafeToVisionTarget;
+import org.minutebots.robot.subsystems.Drivetrain;
+import org.minutebots.robot.subsystems.HatchPiston;
 
 import java.util.Map;
+
 
 /**
  * This is our way to abstract hardware from the software. Everything that is an output or an imput
@@ -38,21 +45,47 @@ public interface RobotConfiguration {
     boolean armUp();
 
     boolean armDown();
+
+    void init();
 }
 
 class Yeeter implements RobotConfiguration {
 
-    Yeeter() {
-        Shuffleboard.getTab("Motors").add("Left Front DM 2", leftFront);
-        Shuffleboard.getTab("Motors").add("Right Front DM 0", rightFront);
-        Shuffleboard.getTab("Motors").add("Left Back DM 1", leftBack);
-        Shuffleboard.getTab("Motors").add("Right Back DM 3", rightBack);
-        Shuffleboard.getTab("Motors").add("Depot Arm", armMotor);
-        Shuffleboard.getTab("Motors").add("Depot Wheel", wheelMotor);
-        Shuffleboard.getTab("Motors").add("Arm Up", upLimit);
-        Shuffleboard.getTab("Motors").add("Arm Down", downLimit);
-    }
+    @Override
+    public void init(){
+        ShuffleboardLayout drivetrainInfo = Shuffleboard.getTab("Debugging")
+                .getLayout("Drivetrain", BuiltInLayouts.kList);
+        drivetrainInfo.add("Left Front DM 2", leftFront);
+        drivetrainInfo.add("Right Front DM 0", rightFront);
+        drivetrainInfo.add("Left Back DM 1", leftBack);
+        drivetrainInfo.add("Right Back DM 3", rightBack);
+        drivetrainInfo.add("PID Controller", Drivetrain.getInstance().getPIDController());
 
+
+        ShuffleboardLayout drivetrainCommands = Shuffleboard.getTab("Debugging")
+                .getLayout("Drivetrain Commands", BuiltInLayouts.kList).withProperties(Map.of("Label position", "HIDDEN"));
+        drivetrainCommands.add("Current Commands", Drivetrain.getInstance());
+        drivetrainCommands.add("Remove Current Command", new InstantCommand(() -> Drivetrain.getInstance().getCurrentCommand().cancel()));
+        drivetrainCommands.add(new InstantCommand("Set Setpoint 0",() -> Drivetrain.getInstance().setSetpoint(0)));
+        drivetrainCommands.add(new InstantCommand("Set Setpoint 90",() -> Drivetrain.getInstance().setSetpoint(90)));
+        drivetrainCommands.add(new InstantCommand("Set Setpoint 180",() -> Drivetrain.getInstance().setSetpoint(180)));
+        drivetrainCommands.add(new InstantCommand("Set Setpoint 270",() -> Drivetrain.getInstance().setSetpoint(270)));
+        drivetrainCommands.add(new StrafeToVisionTarget());
+
+        ShuffleboardLayout depotArm = Shuffleboard.getTab("Debugging")
+                .getLayout("Depot Arm", BuiltInLayouts.kList);
+        depotArm.add("Depot Arm", armMotor);
+        depotArm.add("Depot Wheel", wheelMotor);
+        depotArm.add("Arm Up", upLimit);
+        depotArm.add("Arm Down", downLimit);
+
+        ShuffleboardLayout intake = Shuffleboard.getTab("Debugging")
+                .getLayout("Intake", BuiltInLayouts.kList).withProperties(Map.of("Label position", "HIDDEN"));
+        intake.add("Piston", piston);
+        intake.add(HatchPiston.extend());
+        intake.add(HatchPiston.retract());
+        intake.add(HatchPiston.eject());
+    }
     //Victor
     final static int LEFT_FRONT_MOTOR = 0,
             LEFT_BACK_MOTOR = 3,
@@ -221,6 +254,11 @@ class SimulatedBot implements RobotConfiguration {
     public boolean armDown() {
         return bottomLimit.getBoolean(false);
     }
+
+    @Override
+    public void init() {
+
+    }
 }
 
 class Fracture implements RobotConfiguration {
@@ -292,5 +330,10 @@ class Fracture implements RobotConfiguration {
     @Override
     public boolean armDown() {
         return false;
+    }
+
+    @Override
+    public void init() {
+
     }
 }

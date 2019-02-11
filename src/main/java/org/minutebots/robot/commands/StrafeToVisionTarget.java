@@ -10,6 +10,7 @@ public class StrafeToVisionTarget extends Command {
     private double error;
 
     public StrafeToVisionTarget() {
+        setName("Drivetrain","Strafe To Target");
         requires(Drivetrain.getInstance());
     }
 
