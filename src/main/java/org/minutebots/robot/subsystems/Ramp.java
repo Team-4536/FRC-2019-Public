@@ -9,7 +9,7 @@ public class Ramp extends Subsystem {
     }
 
     public void setWheel(double speed){
-        Robot.robot.rampMotor().set(speed);
+        Robot.hardwareManager.rampMotor().set(speed);
     }
 
     public void initDefaultCommand(){

@@ -6,10 +6,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.InstantCommand;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
+import edu.wpi.first.wpilibj.shuffleboard.*;
 import org.minutebots.lib.VirtualMotor;
 import org.minutebots.robot.commands.StrafeToVisionTarget;
 import org.minutebots.robot.subsystems.Drivetrain;
@@ -23,7 +20,7 @@ import java.util.Map;
  * must be in here.
  */
 
-public interface RobotConfiguration {
+public interface HardwareManger {
     SpeedController[] drivetrainMotors();
 
     void resetGyro();
@@ -49,7 +46,7 @@ public interface RobotConfiguration {
     void init();
 }
 
-class Yeeter implements RobotConfiguration {
+class Yeeter implements HardwareManger {
 
     @Override
     public void init(){
@@ -85,6 +82,8 @@ class Yeeter implements RobotConfiguration {
         intake.add(HatchPiston.extend());
         intake.add(HatchPiston.retract());
         intake.add(HatchPiston.eject());
+
+        Shuffleboard.getTab("Debugging").add("Ramp Motor", rampMotor);
     }
     //Victor
     final static int LEFT_FRONT_MOTOR = 0,
@@ -174,7 +173,7 @@ class Yeeter implements RobotConfiguration {
     }
 }
 
-class SimulatedBot implements RobotConfiguration {
+class SimulatedBot implements HardwareManger {
     private NetworkTableEntry piston = Shuffleboard.getTab("Virtual Motors")
             .add("Intake Piston", false).getEntry(),
             gyro = Shuffleboard.getTab("Virtual Motors")
@@ -261,10 +260,21 @@ class SimulatedBot implements RobotConfiguration {
     }
 }
 
-class Fracture implements RobotConfiguration {
+class Fracture implements HardwareManger {
 
     private AHRS navX = new AHRS(SPI.Port.kMXP);
-    private Servo servo = new Servo(5);
+    private AnalogInput ultraS = new AnalogInput(0);
+
+    private NetworkTableEntry piston = Shuffleboard.getTab("Virtual Motors")
+            .add("Intake Piston", false).getEntry(),
+            topLimit = Shuffleboard.getTab("Virtual Motors")
+            .add("Top Limit Switch", false)
+            .withWidget(BuiltInWidgets.kToggleButton)
+            .getEntry(),
+            bottomLimit = Shuffleboard.getTab("Virtual Motors")
+                    .add("Bottom Limit Switch", false)
+                    .withWidget(BuiltInWidgets.kToggleButton)
+                    .getEntry();
 
     private SpeedController[] driveTrainMotors = new SpeedController[]{
             new Spark(2),
@@ -276,6 +286,8 @@ class Fracture implements RobotConfiguration {
     private VirtualMotor arm = new VirtualMotor(Yeeter.DEPOT_ARM),
             roller = new VirtualMotor(Yeeter.DEPOT_WHEEL),
             ramp = new VirtualMotor(Yeeter.RAMP);
+
+    Servo servo = new Servo(9);
 
     @Override
     public SpeedController[] drivetrainMotors() {
@@ -304,12 +316,12 @@ class Fracture implements RobotConfiguration {
 
     @Override
     public void extendIntakePiston() {
-        servo.set(1);
+        piston.setBoolean(true);
     }
 
     @Override
     public void retractIntakePiston() {
-        servo.set(0);
+        piston.setBoolean(false);
     }
 
     @Override
@@ -319,21 +331,32 @@ class Fracture implements RobotConfiguration {
 
     @Override
     public double ultraSonicDist() {
-        return 0;
+        return ultraS.getVoltage()/0.0097;
     }
 
     @Override
     public boolean armUp() {
-        return false;
+        return topLimit.getBoolean(false);
     }
 
     @Override
     public boolean armDown() {
-        return false;
+        return bottomLimit.getBoolean(false);
     }
 
     @Override
     public void init() {
+        ShuffleboardTab debug = Shuffleboard.getTab("Debugging");
+        debug.add("Ultrasonic", ultraS);
 
+        ShuffleboardLayout drivetrainCommands = Shuffleboard.getTab("Debugging")
+                .getLayout("Drivetrain Commands", BuiltInLayouts.kList).withProperties(Map.of("Label position", "HIDDEN"));
+        drivetrainCommands.add("Current Commands", Drivetrain.getInstance());
+        drivetrainCommands.add("Remove Current Command", new InstantCommand(() -> Drivetrain.getInstance().getCurrentCommand().cancel()));
+        drivetrainCommands.add(new InstantCommand("Set Setpoint 0",() -> Drivetrain.getInstance().setSetpoint(0)));
+        drivetrainCommands.add(new InstantCommand("Set Setpoint 90",() -> Drivetrain.getInstance().setSetpoint(90)));
+        drivetrainCommands.add(new InstantCommand("Set Setpoint 180",() -> Drivetrain.getInstance().setSetpoint(180)));
+        drivetrainCommands.add(new InstantCommand("Set Setpoint 270",() -> Drivetrain.getInstance().setSetpoint(270)));
+        drivetrainCommands.add(new StrafeToVisionTarget());
     }
 }

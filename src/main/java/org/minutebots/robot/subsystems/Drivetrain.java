@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.minutebots.lib.Utilities;
 import org.minutebots.robot.OI;
 import org.minutebots.robot.Robot;
+import org.minutebots.robot.utilities.Constants;
 import org.minutebots.robot.utilities.VisionCommunication;
 
 public class Drivetrain extends PIDSubsystem {
@@ -16,10 +17,10 @@ public class Drivetrain extends PIDSubsystem {
 
     private Drivetrain() {
         super("Drivetrain", 0.01, 0, 0.01);
-        driveBase = new MecanumDrive(Robot.robot.drivetrainMotors()[0],
-                Robot.robot.drivetrainMotors()[1],
-                Robot.robot.drivetrainMotors()[2],
-                Robot.robot.drivetrainMotors()[3]);
+        driveBase = new MecanumDrive(Robot.hardwareManager.drivetrainMotors()[0],
+                Robot.hardwareManager.drivetrainMotors()[1],
+                Robot.hardwareManager.drivetrainMotors()[2],
+                Robot.hardwareManager.drivetrainMotors()[3]);
         setInputRange(-180, 180);
         getPIDController().setContinuous(true);
         setOutputRange(-0.8, 0.8);
@@ -52,7 +53,9 @@ public class Drivetrain extends PIDSubsystem {
             if (OI.vision.get()) setSetpoint(getYaw() + VisionCommunication.getInstance().getAngle());
             else if (OI.trigger.get()) setSetpoint(getSetpoint() + OI.primaryStick.getTwist() * 4);
             else if (OI.primaryStick.getPOV() != -1) setSetpoint(OI.primaryStick.getPOV());
-            mecanumDriveFC(OI.primaryStick.getX(), -OI.primaryStick.getY(), turnThrottle);
+            mecanumDrive(OI.strafe.get() ? Constants.VISION_STRAFE_P * VisionCommunication.getInstance().getAngle() : OI.primaryStick.getX(),
+                    -OI.primaryStick.getY(), turnThrottle,
+            OI.strafe.get() ? 0.0 : -getAngle());
         }
     }
 
@@ -67,6 +70,21 @@ public class Drivetrain extends PIDSubsystem {
      */
     public static Drivetrain getInstance() {
         return driveTrain;
+    }
+
+    /**
+     * Mecanum drive method.
+     * <p>
+     * Angles are measured clockwise from the positive X axis. The robot's speed is independent
+     * from its angle or rotation rate.
+     *
+     * @param ySpeed    The robot's speed strafing sideways. [-1.0..1.0]. Right is positive.
+     * @param xSpeed    The robot's speed driving forwards. [-1.0..1.0]. Forward is positive.
+     * @param zRotation The robot's rotation rate. [-1.0..1.0]. Clockwise is
+     *                  positive.
+     */
+    public void mecanumDrive(double ySpeed, double xSpeed, double zRotation, double gyroAngle) {
+        driveBase.driveCartesian(ySpeed, xSpeed, zRotation, gyroAngle);
     }
 
     /**
@@ -123,7 +141,7 @@ public class Drivetrain extends PIDSubsystem {
      * Resets gyro angle and angle adjustment to 0.
      */
     public void resetGyro() {
-        Robot.robot.resetGyro();
+        Robot.hardwareManager.resetGyro();
         angleAdjustment = 0;
         setSetpoint(0);
     }
@@ -145,7 +163,7 @@ public class Drivetrain extends PIDSubsystem {
      * This is the total sum of rotation.
      */
     private double getAngle() {
-        return Robot.robot.getAngle() + angleAdjustment;
+        return Robot.hardwareManager.getAngle() + angleAdjustment;
     }
 
     /**

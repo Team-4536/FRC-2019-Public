@@ -7,11 +7,11 @@ import org.minutebots.robot.utilities.VisionCommunication;
 
 public class Robot extends TimedRobot {
 
-  public static RobotConfiguration robot = new Yeeter();
+  public static HardwareManger hardwareManager = new SimulatedBot();
 
   @Override
   public void robotInit() {
-    robot.init();
+    hardwareManager.init();
   }
 
   @Override
@@ -29,6 +29,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit(){
+    Drivetrain.getInstance().setSetpoint(Drivetrain.getInstance().getPosition());
     Drivetrain.getInstance().enable();
   }
 
