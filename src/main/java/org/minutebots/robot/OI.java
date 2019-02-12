@@ -31,6 +31,8 @@ public class OI {
         eject.whenPressed(HatchPiston.extend());
         eject.whenReleased(HatchPiston.retract());
         depotArm.whenPressed(DepotArm.toggleArm());
+        ramp.whenPressed(new InstantCommand(() -> Ramp.getInstance().setWheel(Constants.RAMP_MAX_SPEED)));
+        ramp.whenReleased(new InstantCommand(() -> Ramp.getInstance().setWheel(0)));
     }
 
 }

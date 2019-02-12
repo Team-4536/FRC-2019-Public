@@ -2,12 +2,13 @@ package org.minutebots.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import org.minutebots.robot.hardwareconfigurations.*;
 import org.minutebots.robot.subsystems.Drivetrain;
 import org.minutebots.robot.utilities.VisionCommunication;
 
 public class Robot extends TimedRobot {
 
-  public static HardwareManger hardwareManager = new Yeeter();
+  public static HardwareManger hardwareManager = new SimulatedBot();
 
   @Override
   public void robotInit() {
