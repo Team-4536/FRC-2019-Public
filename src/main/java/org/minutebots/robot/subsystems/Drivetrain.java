@@ -23,7 +23,7 @@ public class Drivetrain extends PIDSubsystem {
                 Robot.hardwareManager.drivetrainMotors()[3]);
         setInputRange(-180, 180);
         getPIDController().setContinuous(true);
-        setOutputRange(-0.8, 0.8);
+        setOutputRange(-Constants.OPEN_LOOP_MAX_TURN, Constants.OPEN_LOOP_MAX_TURN);
 
         Shuffleboard.getTab("Virtual Motors")
                 .add("Virtual Drivetrain", driveBase);
@@ -47,15 +47,14 @@ public class Drivetrain extends PIDSubsystem {
     public void periodic() {
         if (getCurrentCommand() == null) {
             if (!getPIDController().isEnabled()) { //Run this if the PID controller is disabled. This is drive code without the gyroscope.
-                mecanumDrive(OI.primaryStick.getX(), -OI.primaryStick.getY(), (OI.trigger.get()) ? OI.primaryStick.getTwist() : 0);
+                mecanumDrive(OI.primaryStick.getX(), -OI.primaryStick.getY(), (OI.trigger.get()) ? OI.primaryStick.getTwist()*Constants.CLOSED_LOOP_MAX_TURN : 0);
                 return; //Makes sure that the gyroscope code doesn't run.
             }
             if (OI.vision.get()) setSetpoint(getYaw() + VisionCommunication.getInstance().getAngle());
-            else if (OI.trigger.get()) setSetpoint(getSetpoint() + OI.primaryStick.getTwist() * 4);
+            else if (OI.trigger.get()) setSetpoint(getSetpoint() + OI.primaryStick.getTwist() * Constants.TURN_DEGREES_TRIGGER_HOLD);
             else if (OI.primaryStick.getPOV() != -1) setSetpoint(OI.primaryStick.getPOV());
             mecanumDrive(OI.strafe.get() ? Constants.VISION_STRAFE_P * VisionCommunication.getInstance().getAngle() : OI.primaryStick.getX(),
-                    -OI.primaryStick.getY(), turnThrottle,
-            OI.strafe.get() ? 0.0 : -getAngle());
+                    -OI.primaryStick.getY(), turnThrottle, !OI.strafe.get());
         }
     }
 
@@ -83,8 +82,8 @@ public class Drivetrain extends PIDSubsystem {
      * @param zRotation The robot's rotation rate. [-1.0..1.0]. Clockwise is
      *                  positive.
      */
-    public void mecanumDrive(double ySpeed, double xSpeed, double zRotation, double gyroAngle) {
-        driveBase.driveCartesian(ySpeed, xSpeed, zRotation, gyroAngle);
+    public void mecanumDrive(double ySpeed, double xSpeed, double zRotation, boolean fieldCentric) {
+        driveBase.driveCartesian(ySpeed, xSpeed, zRotation, fieldCentric ? -getAngle() : 0.0);
     }
 
     /**

@@ -6,20 +6,23 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
 import org.minutebots.robot.subsystems.DepotArm;
 import org.minutebots.robot.subsystems.Drivetrain;
 import org.minutebots.robot.subsystems.HatchPiston;
+import org.minutebots.robot.subsystems.Ramp;
+import org.minutebots.robot.utilities.Constants;
 
 public class OI {
 
     /*---------------------------------------Programmer's territory starts here----------------------------------*/
     public static final Joystick primaryStick = new Joystick(0);
     public static final JoystickButton trigger = new JoystickButton(primaryStick, 1),
-            eject = new JoystickButton(primaryStick, 5),
             strafe = new JoystickButton(primaryStick, 3),
             angleAdjustLeft = new JoystickButton(primaryStick, 7),
             angleAdjustRight = new JoystickButton(primaryStick, 8),
             vision = new JoystickButton(primaryStick, 2),
             depotArm = new JoystickButton(primaryStick, 9),
             spinArmForwards = new JoystickButton(primaryStick, 6),
-            spinArmBackwards = new JoystickButton(primaryStick, 4);
+            spinArmBackwards = new JoystickButton(primaryStick, 4),
+            eject = new JoystickButton(primaryStick, 5),
+            ramp = new JoystickButton(primaryStick,10);
 
 
     static {
