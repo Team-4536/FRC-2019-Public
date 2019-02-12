@@ -2,6 +2,7 @@ package org.minutebots.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import org.minutebots.robot.OI;
 import org.minutebots.robot.Robot;
 
 public class DepotArm extends Subsystem {
@@ -18,6 +19,10 @@ public class DepotArm extends Subsystem {
     public void periodic(){
         if (isDown) moveArm(-0.2);
         else moveArm(0.3);
+
+        if(OI.spinArmForwards.get()) spinWheel(1.0);
+        if(OI.spinArmBackwards.get()) spinWheel(-1.0);
+        else spinWheel(0);
     }
 
 
@@ -25,7 +30,7 @@ public class DepotArm extends Subsystem {
         return new InstantCommand(() -> getInstance().isDown = !getInstance().isDown);
     }
 
-    public void spinWheel(double speed) {
+    private void spinWheel(double speed) {
         Robot.hardwareManager.depotRoller().set(speed);
     }
 

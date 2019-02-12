@@ -37,6 +37,9 @@ public interface HardwareManger {
 
     double getAngle();
 
+    /**
+     * @return The distance from the ultrasonic sensor in inches.
+     */
     double ultraSonicDist();
 
     boolean armUp();
@@ -50,6 +53,7 @@ class Yeeter implements HardwareManger {
 
     @Override
     public void init(){
+        ultraS.setAutomaticMode(true);
         ShuffleboardLayout drivetrainInfo = Shuffleboard.getTab("Debugging")
                 .getLayout("Drivetrain", BuiltInLayouts.kList);
         drivetrainInfo.add("Left Front DM 2", leftFront);
@@ -79,6 +83,7 @@ class Yeeter implements HardwareManger {
         ShuffleboardLayout intake = Shuffleboard.getTab("Debugging")
                 .getLayout("Intake", BuiltInLayouts.kList).withProperties(Map.of("Label position", "HIDDEN"));
         intake.add("Piston", piston);
+        intake.add("Ultrasonic", ultraS);
         intake.add(HatchPiston.extend());
         intake.add(HatchPiston.retract());
         intake.add(HatchPiston.eject());
@@ -116,6 +121,8 @@ class Yeeter implements HardwareManger {
     private DoubleSolenoid piston = new DoubleSolenoid(PISTON_1, PISTON_2);
 
     private AHRS navX = new AHRS(SPI.Port.kMXP);
+
+    private Ultrasonic ultraS =  new Ultrasonic(2, 3);
 
     @Override
     public SpeedController[] drivetrainMotors() {
@@ -157,9 +164,12 @@ class Yeeter implements HardwareManger {
         return navX.getAngle();
     }
 
+    /**
+     * @return The distance from the ultrasonic sensor in inches.
+     */
     @Override
     public double ultraSonicDist() {
-        return 0;
+        return ultraS.getRangeInches();
     }
 
     @Override
@@ -287,8 +297,6 @@ class Fracture implements HardwareManger {
             roller = new VirtualMotor(Yeeter.DEPOT_WHEEL),
             ramp = new VirtualMotor(Yeeter.RAMP);
 
-    Servo servo = new Servo(9);
-
     @Override
     public SpeedController[] drivetrainMotors() {
         return driveTrainMotors;
@@ -329,9 +337,12 @@ class Fracture implements HardwareManger {
         return navX.getAngle();
     }
 
+    /**
+     * @return The distance from the ultrasonic sensor in inches.
+     */
     @Override
     public double ultraSonicDist() {
-        return ultraS.getVoltage()/0.0097;
+        return ultraS.getVoltage()*103.481+1.64105; //106.007 for one value
     }
 
     @Override

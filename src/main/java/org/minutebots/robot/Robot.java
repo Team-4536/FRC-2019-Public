@@ -7,7 +7,7 @@ import org.minutebots.robot.utilities.VisionCommunication;
 
 public class Robot extends TimedRobot {
 
-  public static HardwareManger hardwareManager = new SimulatedBot();
+  public static HardwareManger hardwareManager = new Yeeter();
 
   @Override
   public void robotInit() {

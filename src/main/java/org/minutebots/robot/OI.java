@@ -27,8 +27,6 @@ public class OI {
         angleAdjustRight.whileHeld(new InstantCommand(() -> Drivetrain.getInstance().adjustAngle(-3.0)));
         eject.whenPressed(HatchPiston.extend());
         eject.whenReleased(HatchPiston.retract());
-        spinArmForwards.whileHeld(new InstantCommand(() -> DepotArm.getInstance().spinWheel(1)));
-        spinArmBackwards.whileHeld(new InstantCommand(() -> DepotArm.getInstance().spinWheel(-1)));
         depotArm.whenPressed(DepotArm.toggleArm());
     }
 
