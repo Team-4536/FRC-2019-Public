@@ -7,13 +7,14 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import java.lang.annotation.Target;
 
 public class VisionCommunication{
-    private NetworkTableEntry angleOffsestEntry;
+    NetworkTable table = NetworkTableInstance.getDefault().getTable("Vision");
+    private NetworkTableEntry angleOffsestEntry = table.getEntry("Target Angles"),
+            lowExposure = table.getEntry("Low");
     private double[] angleOffsets;
     private TargetSelection selection = TargetSelection.MIDDLE;
+    private int visionCooldown = 0;
 
     private VisionCommunication(){
-        NetworkTable table = NetworkTableInstance.getDefault().getTable("Vision");
-        angleOffsestEntry = table.getEntry("Target Angles");
         NetworkTableInstance.getDefault()
             .getEntry("/CameraPublisher/PiCamera/streams")
             .setStringArray(new String[]{"http://frcvision.local:1181/stream.mjpg"});
