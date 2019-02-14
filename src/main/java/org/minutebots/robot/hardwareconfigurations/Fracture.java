@@ -37,9 +37,9 @@ public class Fracture implements HardwareManger {
             new Spark(3)
     };
 
-    private VirtualMotor arm = new VirtualMotor(Yeeter.DEPOT_ARM),
-            roller = new VirtualMotor(Yeeter.DEPOT_WHEEL),
-            ramp = new VirtualMotor(Yeeter.RAMP);
+    private VirtualMotor arm = new VirtualMotor(Asimov.DEPOT_ARM),
+            roller = new VirtualMotor(Asimov.DEPOT_WHEEL),
+            ramp = new VirtualMotor(Asimov.RAMP);
 
     @Override
     public SpeedController[] drivetrainMotors() {

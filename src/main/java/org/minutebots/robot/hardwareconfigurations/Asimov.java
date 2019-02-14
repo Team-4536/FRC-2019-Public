@@ -14,7 +14,7 @@ import org.minutebots.robot.subsystems.HatchPiston;
 
 import java.util.Map;
 
-public class Yeeter implements HardwareManger {
+public class Asimov implements HardwareManger {
 
     @Override
     public void init(){
