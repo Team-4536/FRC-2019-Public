@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.minutebots.robot.Robot;
 import org.minutebots.robot.subsystems.Drivetrain;
 
-public class StopAtWall extends Command{
+public class    StopAtWall extends Command{
 
     @Override
     protected boolean isFinished() {
