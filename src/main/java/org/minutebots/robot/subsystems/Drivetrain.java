@@ -53,6 +53,8 @@ public class Drivetrain extends PIDSubsystem {
             if (OI.vision.get()) setSetpoint(getYaw() + VisionCommunication.getInstance().getAngle());
             else if (OI.trigger.get()) setSetpoint(getSetpoint() + OI.primaryStick.getTwist() * Constants.TURN_DEGREES_TRIGGER_HOLD);
             else if (OI.primaryStick.getPOV() != -1) setSetpoint(OI.primaryStick.getPOV());
+            else if(OI.primaryStick.getMagnitude() > 0.6) setSetpoint(OI.primaryStick.getDirectionRadians());
+            System.out.println( OI.primaryStick.getDirectionRadians());
             mecanumDrive(OI.strafe.get() ? Constants.VISION_STRAFE_P * VisionCommunication.getInstance().getAngle() : OI.primaryStick.getX(),
                     -OI.primaryStick.getY(), turnThrottle, !OI.strafe.get());
         }
@@ -131,6 +133,7 @@ public class Drivetrain extends PIDSubsystem {
     public void setSetpoint(double setpoint) {
         super.setSetpoint(Utilities.angleConverter(setpoint));
     }
+
 
     @Override
     protected void initDefaultCommand() {
