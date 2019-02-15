@@ -36,6 +36,7 @@ public class VisionCommunication{
     }
 
     public double getAngle() {
+        update();
         if(selection == TargetSelection.LEFT && angleOffsets.length > 0) return angleOffsets[0];
         if(selection == TargetSelection.RIGHT && angleOffsets.length > 0) return angleOffsets[angleOffsets.length-1];
         if(selection == TargetSelection.MIDDLE && angleOffsets.length > 0) return angleOffsets[angleOffsets.length/2];
