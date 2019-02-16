@@ -33,6 +33,10 @@ public class OI {
         depotArm.whenPressed(DepotArm.toggleArm());
         ramp.whenPressed(new InstantCommand(() -> Ramp.getInstance().setWheel(Constants.RAMP_MAX_SPEED)));
         ramp.whenReleased(new InstantCommand(() -> Ramp.getInstance().setWheel(0)));
+        spinArmBackwards.whenPressed(DepotArm.armDown(false));
+        spinArmForwards.whenPressed(DepotArm.armDown(true));
+        spinArmBackwards.whenReleased(DepotArm.armUp());
+        spinArmForwards.whenReleased(DepotArm.armUp());
     }
 
 }
