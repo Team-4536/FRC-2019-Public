@@ -23,6 +23,8 @@ public interface HardwareManger {
 
     void retractIntakePiston();
 
+    void closeSolenoids();
+
     double getAngle();
 
     /**
