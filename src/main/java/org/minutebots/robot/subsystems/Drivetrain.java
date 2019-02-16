@@ -22,9 +22,8 @@ public class Drivetrain extends PIDSubsystem {
 
     private double xThrottle;
     private double yThrottle;
-    private double pYThrottle;
-    private double pXThrottle;
-    private double pThrottle = 0;
+    private double pYThrottle = 0;
+    private double pXThrottle = 0;
 
     Drivetrain(SpeedController lf,
                SpeedController rf,
