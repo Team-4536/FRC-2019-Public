@@ -4,21 +4,25 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
+import java.lang.annotation.Target;
+
 public class VisionCommunication{
-    private NetworkTableEntry angleOffsetEntry, targetSizeEntry;
-    private double angleOffset = 0, targetSize = 0;
+    NetworkTable table = NetworkTableInstance.getDefault().getTable("Vision");
+    private NetworkTableEntry angleOffsestEntry = table.getEntry("Target Angles"),
+            lowExposure = table.getEntry("Low");
+    private double[] angleOffsets;
+    private TargetSelection selection = TargetSelection.MIDDLE;
+    private int visionCooldown = 0;
 
     private VisionCommunication(){
-        NetworkTable table = NetworkTableInstance.getDefault().getTable("Vision");
-        angleOffsetEntry = table.getEntry("Angle Offset");
-        targetSizeEntry = table.getEntry("Target Size");
-        angleOffsetEntry.setDouble(angleOffset);
-        targetSizeEntry.setDouble(targetSize);
+        NetworkTableInstance.getDefault()
+            .getEntry("/CameraPublisher/PiCamera/streams")
+            .setStringArray(new String[]{"http://frcvision.local:1181/stream.mjpg"});
+    //.setStringArray(new String[]{"mjpeg:http://" + "10.0.0.9" + ":" + "1181" + "/?action=stream"});
     }
 
     public void update(){
-        angleOffset = angleOffsetEntry.getDouble(0);
-        targetSize = targetSizeEntry.getDouble(0);
+        angleOffsets = angleOffsestEntry.getDoubleArray(new double[]{0});
     }
 
     private static VisionCommunication instance = new VisionCommunication();
@@ -27,11 +31,21 @@ public class VisionCommunication{
         return instance;
     }
 
-    public double getAngle() {
-        return angleOffset;
+    public void setSelection(TargetSelection s){
+        selection = s;
     }
 
-    public double getSize() {
-        return targetSize;
+    public double getAngle() {
+        if(selection == TargetSelection.LEFT && angleOffsets.length > 0) return angleOffsets[0];
+        if(selection == TargetSelection.RIGHT && angleOffsets.length > 0) return angleOffsets[angleOffsets.length-1];
+        if(selection == TargetSelection.MIDDLE && angleOffsets.length > 0) return angleOffsets[angleOffsets.length/2];
+        return 0;
+    }
+
+    public enum TargetSelection{
+        LEFT,
+        MIDDLE,
+        RIGHT
     }
 }
+

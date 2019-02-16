@@ -13,7 +13,7 @@ public class VirtualMotor implements SpeedController, Sendable {
     private String name, subsystem = "";
 
     public VirtualMotor(String name, int port){
-        System.out.println("Virtual motor " + name + " at port " + " created");
+        System.out.println("Virtual motor " + name + " at port " + port + " created");
         this.name = name;
         this.port = port;
 
