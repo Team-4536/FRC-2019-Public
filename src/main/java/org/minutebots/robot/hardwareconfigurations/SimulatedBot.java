@@ -68,6 +68,11 @@ public class SimulatedBot implements HardwareManger {
     }
 
     @Override
+    public void closeSolenoids() {
+        piston.setBoolean(false);
+    }
+
+    @Override
     public double getAngle() {
         return -gyro.getDouble(0);
     }

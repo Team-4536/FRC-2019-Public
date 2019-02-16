@@ -125,6 +125,12 @@ public class Yeeter implements HardwareManger {
     }
 
     @Override
+    public void closeSolenoids() {
+        piston.set(DoubleSolenoid.Value.kOff);
+    }
+
+
+    @Override
     public double getAngle() {
         return navX.getAngle();
     }
