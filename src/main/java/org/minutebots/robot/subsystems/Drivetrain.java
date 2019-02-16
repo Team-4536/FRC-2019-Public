@@ -54,7 +54,7 @@ public class Drivetrain extends PIDSubsystem {
             else if (OI.trigger.get()) setSetpoint(getSetpoint() + OI.primaryStick.getTwist() * Constants.TURN_DEGREES_TRIGGER_HOLD);
             else if (OI.primaryStick.getPOV() != -1) setSetpoint(OI.primaryStick.getPOV());
             else if(OI.primaryStick.getMagnitude() > 0.95) setSetpoint(
-                    (Math.abs(getYaw() - OI.primaryStick.getDirectionDegrees()) > 90 ? -1 : 1) * OI.primaryStick.getDirectionDegrees());
+                    Math.abs(getYaw() - OI.primaryStick.getDirectionDegrees()) > 110 ? OI.primaryStick.getDirectionDegrees()+180 : OI.primaryStick.getDirectionDegrees());
             mecanumDrive(OI.strafe.get() ? Constants.VISION_STRAFE_P * VisionCommunication.getInstance().getAngle() : OI.primaryStick.getX(),
                     -OI.primaryStick.getY(), turnThrottle, !OI.strafe.get());
         }
