@@ -77,6 +77,12 @@ public class Fracture implements HardwareManger {
     }
 
     @Override
+    public void closeSolenoids() {
+        piston.setBoolean(false);
+    }
+
+
+    @Override
     public double getAngle() {
         return navX.getAngle();
     }
