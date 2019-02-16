@@ -1,7 +1,7 @@
 package org.minutebots.robot.utilities;
 
 public class Constants {
-    public static final double ACCELERATION_LIMIT = 0.3;
+    public static final double ACCELERATION_LIMIT = 0.00000001;
     public static final double VISION_STRAFE_P = 0.05;
     public static final double CLOSED_LOOP_MAX_TURN = 0.65;
     public static final double OPEN_LOOP_MAX_TURN = 0.8;

@@ -8,7 +8,7 @@ import org.minutebots.robot.utilities.VisionCommunication;
 
 public class Robot extends TimedRobot {
 
-  public static HardwareManger hardwareManager = new Yeeter();
+  public static HardwareManger hardwareManager = new Fracture();
 
   @Override
   public void robotInit() {

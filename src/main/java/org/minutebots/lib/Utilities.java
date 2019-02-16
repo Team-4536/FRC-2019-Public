@@ -110,6 +110,8 @@ public final class Utilities {
         if (tDiff >= Constants.ACCELERATION_LIMIT) fThrottle = Constants.ACCELERATION_LIMIT;
         else fThrottle = cThrottle;
 
+        System.out.println(throttle + " " + prevThrottle + " " + fThrottle);
+
         return fThrottle;
     }
 
