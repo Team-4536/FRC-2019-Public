@@ -14,7 +14,6 @@ public class HatchPiston extends Subsystem {
 
     HatchPiston() {
         SmartDashboard.putData(this);
-
     }
 
     public void periodic(){
@@ -26,9 +25,8 @@ public class HatchPiston extends Subsystem {
                 Robot.hardwareManager.extendIntakePiston());
     }
 
-    public static InstantCommand retract() {
-        return new InstantCommand("Piston Retract",getInstance(), () ->
-                Robot.hardwareManager.retractIntakePiston());
+    public static CommandGroup retract() {
+        return new RetractPiston();
     }
 
     public static CommandGroup eject(){
@@ -52,5 +50,15 @@ class EjectHatch extends CommandGroup {
         addSequential(HatchPiston.extend());
         addSequential(new WaitCommand(0.5));
         addSequential(HatchPiston.retract());
+    }
+}
+
+class RetractPiston extends CommandGroup {
+    RetractPiston(){
+        addSequential(new InstantCommand(HatchPiston.getInstance(), () ->
+        Robot.hardwareManager.retractIntakePiston()));
+        addSequential(new WaitCommand(1));
+        addSequential(new InstantCommand(HatchPiston.getInstance(), () ->
+        Robot.hardwareManager.closeSolenoids()));
     }
 }
