@@ -20,7 +20,7 @@ public class Drivetrain extends PIDSubsystem {
     private double pXThrottle = 0;
 
     private Drivetrain() {
-        super("Drivetrain", 0.01, 0, 0.01);
+        super("Drivetrain", 0.035, 0.0025, 0.1);
         driveBase = new MecanumDrive(Robot.hardwareManager.drivetrainMotors()[0],
                 Robot.hardwareManager.drivetrainMotors()[1],
                 Robot.hardwareManager.drivetrainMotors()[2],
