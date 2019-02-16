@@ -170,5 +170,21 @@ public final class Utilities {
         }
     }
 
-
+    /**
+     * @param angle    Angle the robot is currently at
+     * @param angleList    List of angles.
+     * @return closest angle in angleList
+     */
+    public static double snapAngle(double angle, double[] angleList){
+        double distance = Math.abs(angleList[0] - angle);
+        int idx = 0;
+        for(int i=0;i<angleList.length;i++){
+            double c = angleList[i] - angle;
+            if(c < distance){
+                idx = i;
+                distance = c;
+            }
+        }
+        return angleList[idx];
+    }
 }
