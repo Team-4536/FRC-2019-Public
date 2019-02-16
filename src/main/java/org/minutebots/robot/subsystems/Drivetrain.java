@@ -20,6 +20,12 @@ public class Drivetrain extends PIDSubsystem {
     private double turnThrottle = 0, angleAdjustment = 0;
     private boolean backupDrive = false;
 
+    private double xThrottle;
+    private double yThrottle;
+    private double pYThrottle;
+    private double pXThrottle;
+    private double pThrottle = 0;
+
     Drivetrain(SpeedController lf,
                SpeedController rf,
                SpeedController lb,
@@ -50,16 +56,20 @@ public class Drivetrain extends PIDSubsystem {
 
     @Override
     public void periodic() {
+        xThrottle = OI.primaryStick.getX();
+        yThrottle = -OI.primaryStick.getY();
         if (backupDrive) {
-            mecanumDrive(OI.primaryStick.getX(), -OI.primaryStick.getY(), (OI.trigger.get()) ? OI.primaryStick.getTwist() : 0);
+            mecanumDrive(Utilities.accelLimit(xThrottle, pXThrottle),Utilities.accelLimit(yThrottle, pYThrottle), (OI.trigger.get()) ? OI.primaryStick.getTwist() : 0);
             return; //Makes sure that the gyroscope code doesn't run.
         }
         if (this.getCurrentCommand() == null) {
             if (OI.vision.get()) setSetpoint(getYaw() + VisionCommunication.getInstance().getAngle());
             else if (OI.trigger.get()) setSetpoint(getSetpoint() + OI.primaryStick.getTwist() * 4);
             else if (OI.primaryStick.getPOV() != -1) setSetpoint(OI.primaryStick.getPOV());
-            mecanumDrive(OI.primaryStick.getX(), -OI.primaryStick.getY(), turnThrottle, -getAngle());
+            mecanumDrive(Utilities.accelLimit(xThrottle, pXThrottle),Utilities.accelLimit(yThrottle, pYThrottle), turnThrottle, -getAngle());
         }
+        pXThrottle = xThrottle;
+        pYThrottle = yThrottle;
     }
 
     public static Drivetrain getInstance() {

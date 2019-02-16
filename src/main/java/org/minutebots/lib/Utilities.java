@@ -1,6 +1,7 @@
 package org.minutebots.lib;
 
 import edu.wpi.first.wpilibj.Timer;
+import org.minutebots.robot.utilities.Constants;
 
 public final class Utilities {
 
@@ -95,26 +96,21 @@ public final class Utilities {
     }
 
     /**
-     * @param throttle How fast we are telling the robot to go.
-     * @param prevThrottle What the last throttle was.
-     * @param fullSpeedTime How long it should take to get to full speed *up for rephrasing
-     * @return Return how much to speed up.
+     * @param xThrottle Current joystick input x component (-1 -> 1)
+     * @param yThrottle Current joystick input y component (-1 -> 1)
+     * @param prevThrottle Joystick throttle at the last cycle (-1 -> 1)
+     * @return joystick output ( -1 -> 1)
      */
-    public static double accelLimit(double throttle, double prevThrottle, double fullSpeedTime) {
+    public static double accelLimit(double throttle, double prevThrottle) {
+        double cThrottle = throttle;
+        double pThrottle = prevThrottle;
+        double fThrottle;
 
-        double finalThrottle = throttle;
+        double tDiff = cThrottle - prevThrottle;
+        if (tDiff >= Constants.ACCELERATION_LIMIT) fThrottle = Constants.ACCELERATION_LIMIT;
+        else fThrottle = cThrottle;
 
-        double throttleDiff = throttle - prevThrottle;
-
-        double accelerationLimit = 0.02 / fullSpeedTime;
-
-
-        if (throttleDiff > accelerationLimit)
-            finalThrottle = prevThrottle + accelerationLimit;
-        else if (throttleDiff < -accelerationLimit)
-            finalThrottle = prevThrottle - accelerationLimit;
-
-        return finalThrottle;
+        return fThrottle;
     }
 
     /**
