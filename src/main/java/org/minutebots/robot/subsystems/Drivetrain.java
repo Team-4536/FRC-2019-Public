@@ -50,7 +50,9 @@ public class Drivetrain extends PIDSubsystem {
                 mecanumDrive(OI.primaryStick.getX(), -OI.primaryStick.getY(), (OI.trigger.get()) ? OI.primaryStick.getTwist()*Constants.CLOSED_LOOP_MAX_TURN : 0);
                 return; //Makes sure that the gyroscope code doesn't run.
             }
-            if (OI.vision.get()) setSetpoint(getYaw() + VisionCommunication.getInstance().getAngle());
+            if (OI.visionRotate.get()) setSetpoint(getYaw() + VisionCommunication.getInstance().getAngle());
+            else if (OI.secondaryStick.getMagnitude() > 0.5 && !OI.fineTurn.get()) setSetpoint(OI.secondaryStick.getDirectionDegrees());
+            else if (OI.secondaryStick.getPOV() != -1) setSetpoint(OI.secondaryStick.getPOV());
             else if (OI.primaryStick.getPOV() != -1) setSetpoint(OI.primaryStick.getPOV());
             else if(OI.primaryStick.getMagnitude() > 0.85 && !OI.trigger.get()) setSetpoint(
                     Math.abs(getYaw() - OI.primaryStick.getDirectionDegrees()) > 110 ? OI.primaryStick.getDirectionDegrees()+180 : OI.primaryStick.getDirectionDegrees());
