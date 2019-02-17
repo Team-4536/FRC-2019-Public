@@ -55,7 +55,8 @@ public class Drivetrain extends PIDSubsystem {
             else if(OI.primaryStick.getMagnitude() > 0.85 && !OI.trigger.get()) setSetpoint(
                     Math.abs(getYaw() - OI.primaryStick.getDirectionDegrees()) > 110 ? OI.primaryStick.getDirectionDegrees()+180 : OI.primaryStick.getDirectionDegrees());
             mecanumDrive(OI.strafe.get() ? Constants.VISION_STRAFE_P * VisionCommunication.getInstance().getAngle() : OI.primaryStick.getX(),
-                    -OI.primaryStick.getY(), turnThrottle, !OI.strafe.get());
+                    -OI.primaryStick.getY(),
+                    OI.fineTurn.get() ? OI.secondaryStick.getX()*0.5 : turnThrottle, !OI.strafe.get());
         }
     }
 
@@ -163,14 +164,14 @@ public class Drivetrain extends PIDSubsystem {
      * Gets the gyro angle. The return value is unbounded, so it can be greater than the domain [-180..180].
      * This is the total sum of rotation.
      */
-    private double getAngle() {
+    public double getAngle() {
         return Robot.hardwareManager.getAngle() + angleAdjustment;
     }
 
     /**
      * Gets the gyro angle. The return value is bounded inside the domain [-180..180] degrees.
      */
-    private double getYaw() {
+    public double getYaw() {
         return Utilities.angleConverter(getAngle());
     }
 
