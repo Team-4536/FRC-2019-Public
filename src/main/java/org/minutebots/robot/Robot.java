@@ -21,6 +21,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
+    VisionCommunication.getInstance().highExposure();
     Drivetrain.getInstance().setSetpoint(Drivetrain.getInstance().getPosition());
     Drivetrain.getInstance().enable();
   }

@@ -8,6 +8,7 @@ import org.minutebots.robot.subsystems.Drivetrain;
 import org.minutebots.robot.subsystems.HatchPiston;
 import org.minutebots.robot.subsystems.Ramp;
 import org.minutebots.robot.utilities.Constants;
+import org.minutebots.robot.utilities.VisionCommunication;
 
 public class OI {
 
@@ -18,7 +19,8 @@ public class OI {
             angleAdjustLeft = new JoystickButton(primaryStick, 7),
             angleAdjustRight = new JoystickButton(primaryStick, 8),
             ejectPrimary = new JoystickButton(primaryStick, 5),
-            ramp = new JoystickButton(primaryStick,3);
+            ramp = new JoystickButton(primaryStick,3),
+            highExposure = new JoystickButton(secondaryStick, 2);
     public static final JoystickButton fineTurn = new JoystickButton(secondaryStick, 1),
             visionRotate = new JoystickButton(secondaryStick, 2),
             ejectSecondary = new JoystickButton(secondaryStick, 5),
@@ -30,6 +32,7 @@ public class OI {
         fineTurn.whenReleased(new InstantCommand(() -> Drivetrain.getInstance().setSetpoint(Drivetrain.getInstance().getYaw())));
         angleAdjustLeft.whileHeld(new InstantCommand(() -> Drivetrain.getInstance().adjustAngle(3.0)));
         angleAdjustRight.whileHeld(new InstantCommand(() -> Drivetrain.getInstance().adjustAngle(-3.0)));
+        highExposure.whenPressed(VisionCommunication.getInstance().highExposure());
         ejectPrimary.whenPressed(HatchPiston.extend());
         ejectPrimary.whenReleased(HatchPiston.retract());
         ejectSecondary.whenPressed(HatchPiston.extend());
