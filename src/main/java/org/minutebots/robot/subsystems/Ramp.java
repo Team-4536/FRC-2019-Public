@@ -7,7 +7,7 @@ import org.minutebots.robot.Robot;
 public class Ramp extends Subsystem {
 
     public void periodic(){
-        setWheel(OI.fineTurn.get() ? 0 : -OI.secondaryStick.getY());
+        setWheel(OI.fineTurn.get() ? -OI.secondaryStick.getY() : 0);
     }
 
     public void setWheel(double speed){

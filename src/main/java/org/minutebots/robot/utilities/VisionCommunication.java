@@ -43,7 +43,10 @@ public class VisionCommunication{
     }
 
     public InstantCommand highExposure(){
-        return new InstantCommand(() -> lowExposure.setBoolean(false));
+        return new InstantCommand(() -> {
+            System.out.println("Low exposure");
+            lowExposure.setBoolean(false);
+        });
     } 
 
     public enum TargetSelection{

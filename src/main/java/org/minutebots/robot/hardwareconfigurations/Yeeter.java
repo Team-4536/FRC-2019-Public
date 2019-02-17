@@ -49,11 +49,11 @@ public class Yeeter implements HardwareManger {
 
     private Ultrasonic ultraS =  new Ultrasonic(2, 3);
 
-    private PowerDistributionPanel pdp = new PowerDistributionPanel();
+    //private PowerDistributionPanel pdp = new PowerDistributionPanel();
 
     @Override
     public void init(){
-        Shuffleboard.getTab("Debugging").add(pdp);
+        //Shuffleboard.getTab("Debugging").add(pdp);
         ultraS.setAutomaticMode(true);
         ShuffleboardLayout drivetrainInfo = Shuffleboard.getTab("Debugging")
                 .getLayout("Drivetrain", BuiltInLayouts.kList);
