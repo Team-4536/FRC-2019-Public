@@ -21,6 +21,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
+    Drivetrain.getInstance().setSetpoint(Drivetrain.getInstance().getPosition());
+    Drivetrain.getInstance().enable();
   }
 
   @Override
@@ -29,8 +31,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit(){
-    Drivetrain.getInstance().setSetpoint(Drivetrain.getInstance().getPosition());
-    Drivetrain.getInstance().enable();
+    
   }
 
   @Override
