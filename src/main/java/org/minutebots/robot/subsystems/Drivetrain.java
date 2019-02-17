@@ -52,13 +52,13 @@ public class Drivetrain extends PIDSubsystem {
             }
             
             //if (OI.visionRotate.get()) setSetpoint(getYaw() + VisionCommunication.getInstance().getAngle());
-            if (OI.secondaryStick.getPOV() != -1) setSetpoint(OI.secondaryStick.getPOV());
-            else if (OI.primaryStick.getPOV() != -1) setSetpoint(OI.primaryStick.getPOV());
+            if (OI.primaryStick.getPOV() != -1) setSetpoint(OI.primaryStick.getPOV());
+            else if (OI.secondaryStick.getPOV() != -1) setSetpoint(OI.secondaryStick.getPOV());
             else if(OI.primaryStick.getMagnitude() > 0.85 && !OI.trigger.get()) setSetpoint(
                     Math.abs(getYaw() - OI.primaryStick.getDirectionDegrees()) > 110 ? OI.primaryStick.getDirectionDegrees()+180 : OI.primaryStick.getDirectionDegrees());
             mecanumDrive(OI.strafe.get() ? Constants.VISION_STRAFE_P * VisionCommunication.getInstance().getAngle() : OI.primaryStick.getX(),
                     OI.strafe.get() ? -OI.secondaryStick.getY() : -OI.primaryStick.getY(),
-                    OI.fineTurn.get() ? OI.secondaryStick.getX()*0.5 : turnThrottle, !OI.strafe.get() || !Robot.isAuto);
+                    OI.fineTurn.get() ? OI.secondaryStick.getX()*0.5 : turnThrottle, !(OI.strafe.get() || Robot.isAuto));
         }
     }
 
