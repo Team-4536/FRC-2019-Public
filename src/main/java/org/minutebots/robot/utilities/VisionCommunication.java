@@ -44,7 +44,7 @@ public class VisionCommunication{
 
     public InstantCommand highExposure(){
         return new InstantCommand(() -> {
-            System.out.println("Low exposure");
+            System.out.println("High exposure");
             lowExposure.setBoolean(false);
         });
     } 

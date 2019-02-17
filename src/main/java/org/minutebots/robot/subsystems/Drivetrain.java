@@ -58,7 +58,7 @@ public class Drivetrain extends PIDSubsystem {
                     Math.abs(getYaw() - OI.primaryStick.getDirectionDegrees()) > 110 ? OI.primaryStick.getDirectionDegrees()+180 : OI.primaryStick.getDirectionDegrees());
             mecanumDrive(OI.strafe.get() ? Constants.VISION_STRAFE_P * VisionCommunication.getInstance().getAngle() : OI.primaryStick.getX(),
                     OI.strafe.get() ? -OI.secondaryStick.getY() : -OI.primaryStick.getY(),
-                    OI.fineTurn.get() ? OI.secondaryStick.getX()*0.5 : turnThrottle, !OI.strafe.get());
+                    OI.fineTurn.get() ? OI.secondaryStick.getX()*0.5 : turnThrottle, !OI.strafe.get() || !Robot.isAuto);
         }
     }
 
@@ -85,6 +85,7 @@ public class Drivetrain extends PIDSubsystem {
      * @param xSpeed    The robot's speed driving forwards. [-1.0..1.0]. Forward is positive.
      * @param zRotation The robot's rotation rate. [-1.0..1.0]. Clockwise is
      *                  positive.
+     * @param fieldCentric If the robot will have controls based on the field.
      */
     public void mecanumDrive(double ySpeed, double xSpeed, double zRotation, boolean fieldCentric) {
         driveBase.driveCartesian(ySpeed, xSpeed, zRotation, fieldCentric ? -getAngle() : 0.0);

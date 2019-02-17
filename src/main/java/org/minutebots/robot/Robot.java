@@ -9,6 +9,7 @@ import org.minutebots.robot.utilities.VisionCommunication;
 public class Robot extends TimedRobot {
 
   public static HardwareManger hardwareManager = new Yeeter();
+  public static boolean isAuto = false;
 
   @Override
   public void robotInit() {
@@ -21,6 +22,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
+    isAuto = true;
     VisionCommunication.getInstance().highExposure();
     Drivetrain.getInstance().setSetpoint(Drivetrain.getInstance().getPosition());
     Drivetrain.getInstance().enable();
@@ -32,6 +34,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit(){
+    isAuto = false;
     Drivetrain.getInstance().enable();
   }
 
