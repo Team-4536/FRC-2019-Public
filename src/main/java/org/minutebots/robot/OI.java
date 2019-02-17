@@ -13,6 +13,8 @@ public class OI {
 
     /*---------------------------------------Programmer's territory starts here----------------------------------*/
     public static final Joystick primaryStick = new Joystick(0);
+    public static final Joystick secondaryStick = new Joystick(1);
+
     public static final JoystickButton trigger = new JoystickButton(primaryStick, 1),
             strafe = new JoystickButton(primaryStick, 3),
             angleAdjustLeft = new JoystickButton(primaryStick, 7),
