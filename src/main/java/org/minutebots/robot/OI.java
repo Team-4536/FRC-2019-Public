@@ -26,6 +26,8 @@ public class OI {
             spinArmBackwards = new JoystickButton(secondaryStick, 4),
             strafe = new JoystickButton(secondaryStick, 3),
             resetGyro = new JoystickButton(secondaryStick, 10);
+
+
     static {
         fineTurn.whenReleased(new InstantCommand(() -> Drivetrain.getInstance().setSetpoint(Drivetrain.getInstance().getYaw())));
         angleAdjustLeft.whileHeld(new InstantCommand(() -> Drivetrain.getInstance().adjustAngle(3.0)));
