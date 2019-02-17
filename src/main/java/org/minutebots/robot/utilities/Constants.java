@@ -5,8 +5,8 @@ public class Constants {
     public static final double CLOSED_LOOP_MAX_TURN = 0.65;
     public static final double OPEN_LOOP_MAX_TURN = 0.8;
     public static final double TURN_DEGREES_TRIGGER_HOLD = 4;
-    public static final double DEPOT_UP_MAX_SPEED = 0.2;
-    public static final double DEPOT_DOWN_MAX_SPEED = 0.25;
+    public static final double DEPOT_UP_MAX_SPEED = 0.1;
+    public static final double DEPOT_DOWN_MAX_SPEED = 0.08;
     public static final double DEPOT_SPIN_MAX_SPEED = -1.0;
     public static final double RAMP_MAX_SPEED = -1.0;
 }

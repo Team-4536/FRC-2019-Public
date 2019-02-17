@@ -50,13 +50,14 @@ public class Drivetrain extends PIDSubsystem {
                 mecanumDrive(OI.primaryStick.getX(), -OI.primaryStick.getY(), (OI.trigger.get()) ? OI.primaryStick.getTwist()*Constants.CLOSED_LOOP_MAX_TURN : 0);
                 return; //Makes sure that the gyroscope code doesn't run.
             }
-            if (OI.visionRotate.get()) setSetpoint(getYaw() + VisionCommunication.getInstance().getAngle());
-            else if (OI.secondaryStick.getPOV() != -1) setSetpoint(OI.secondaryStick.getPOV());
+            
+            //if (OI.visionRotate.get()) setSetpoint(getYaw() + VisionCommunication.getInstance().getAngle());
+            if (OI.secondaryStick.getPOV() != -1) setSetpoint(OI.secondaryStick.getPOV());
             else if (OI.primaryStick.getPOV() != -1) setSetpoint(OI.primaryStick.getPOV());
             else if(OI.primaryStick.getMagnitude() > 0.85 && !OI.trigger.get()) setSetpoint(
                     Math.abs(getYaw() - OI.primaryStick.getDirectionDegrees()) > 110 ? OI.primaryStick.getDirectionDegrees()+180 : OI.primaryStick.getDirectionDegrees());
             mecanumDrive(OI.strafe.get() ? Constants.VISION_STRAFE_P * VisionCommunication.getInstance().getAngle() : OI.primaryStick.getX(),
-                    -OI.primaryStick.getY(),
+                    OI.strafe.get() ? -OI.secondaryStick.getY() : -OI.primaryStick.getY(),
                     OI.fineTurn.get() ? OI.secondaryStick.getX()*0.5 : turnThrottle, !OI.strafe.get());
         }
     }

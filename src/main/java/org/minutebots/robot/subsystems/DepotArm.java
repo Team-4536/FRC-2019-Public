@@ -2,7 +2,6 @@ package org.minutebots.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import org.minutebots.robot.OI;
 import org.minutebots.robot.Robot;
 import org.minutebots.robot.utilities.Constants;
 
