@@ -14,13 +14,11 @@ public class OI {
     /*---------------------------------------Programmer's territory starts here----------------------------------*/
     public static final Joystick primaryStick = new Joystick(0);
     public static final Joystick secondaryStick = new Joystick(1);
-
     public static final JoystickButton trigger = new JoystickButton(primaryStick, 1),
             angleAdjustLeft = new JoystickButton(primaryStick, 7),
             angleAdjustRight = new JoystickButton(primaryStick, 8),
             ejectPrimary = new JoystickButton(primaryStick, 5),
             ramp = new JoystickButton(primaryStick,3);
-
     public static final JoystickButton fineTurn = new JoystickButton(secondaryStick, 1),
             visionRotate = new JoystickButton(secondaryStick, 2),
             ejectSecondary = new JoystickButton(secondaryStick, 5),
@@ -28,12 +26,6 @@ public class OI {
             spinArmBackwards = new JoystickButton(secondaryStick, 4),
             strafe = new JoystickButton(secondaryStick, 3),
             resetGyro = new JoystickButton(secondaryStick, 10);
-            
-
-
-
-
-
     static {
         fineTurn.whenReleased(new InstantCommand(() -> Drivetrain.getInstance().setSetpoint(Drivetrain.getInstance().getYaw())));
         angleAdjustLeft.whileHeld(new InstantCommand(() -> Drivetrain.getInstance().adjustAngle(3.0)));

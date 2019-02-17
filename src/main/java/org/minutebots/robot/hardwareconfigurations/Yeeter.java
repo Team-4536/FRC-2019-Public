@@ -15,9 +15,45 @@ import org.minutebots.robot.subsystems.HatchPiston;
 import java.util.Map;
 
 public class Yeeter implements HardwareManger {
+    //Victor
+    final static int LEFT_FRONT_MOTOR = 0,
+            LEFT_BACK_MOTOR = 3,
+            RIGHT_FRONT_MOTOR = 1,
+            RIGHT_BACK_MOTOR = 2;
+    //Pneumatic Ports
+    final static int PISTON_1 = 6,
+            PISTON_2 = 7;
+
+    //Talons Ports
+    final static int DEPOT_ARM = 4,
+            DEPOT_WHEEL = 5,
+            RAMP = 6;
+
+    final static int UP_LIMIT_SWITCH = 0, DOWN_LIMIT_SWITCH = 1;
+
+    private WPI_VictorSPX leftFront = new WPI_VictorSPX(LEFT_FRONT_MOTOR),
+            rightFront = new WPI_VictorSPX(RIGHT_FRONT_MOTOR),
+            leftBack = new WPI_VictorSPX(LEFT_BACK_MOTOR),
+            rightBack = new WPI_VictorSPX(RIGHT_BACK_MOTOR);
+
+    private WPI_TalonSRX armMotor = new WPI_TalonSRX(DEPOT_ARM),
+            wheelMotor = new WPI_TalonSRX(DEPOT_WHEEL),
+            rampMotor = new WPI_TalonSRX(RAMP);
+
+    private DigitalInput upLimit = new DigitalInput(UP_LIMIT_SWITCH),
+            downLimit = new DigitalInput(DOWN_LIMIT_SWITCH);
+
+    private DoubleSolenoid piston = new DoubleSolenoid(PISTON_1, PISTON_2);
+
+    private AHRS navX = new AHRS(SPI.Port.kMXP);
+
+    private Ultrasonic ultraS =  new Ultrasonic(2, 3);
+
+    private PowerDistributionPanel pdp = new PowerDistributionPanel();
 
     @Override
     public void init(){
+        Shuffleboard.getTab("Debugging").add(pdp);
         ultraS.setAutomaticMode(true);
         ShuffleboardLayout drivetrainInfo = Shuffleboard.getTab("Debugging")
                 .getLayout("Drivetrain", BuiltInLayouts.kList);
@@ -55,39 +91,6 @@ public class Yeeter implements HardwareManger {
 
         Shuffleboard.getTab("Debugging").add("Ramp Motor", rampMotor);
     }
-    //Victor
-    final static int LEFT_FRONT_MOTOR = 0,
-            LEFT_BACK_MOTOR = 3,
-            RIGHT_FRONT_MOTOR = 1,
-            RIGHT_BACK_MOTOR = 2;
-    //Pneumatic Ports
-    final static int PISTON_1 = 6,
-            PISTON_2 = 7;
-
-    //Talons Ports
-    final static int DEPOT_ARM = 4,
-            DEPOT_WHEEL = 5,
-            RAMP = 6;
-
-    final static int UP_LIMIT_SWITCH = 0, DOWN_LIMIT_SWITCH = 1;
-
-    private WPI_VictorSPX leftFront = new WPI_VictorSPX(LEFT_FRONT_MOTOR),
-            rightFront = new WPI_VictorSPX(RIGHT_FRONT_MOTOR),
-            leftBack = new WPI_VictorSPX(LEFT_BACK_MOTOR),
-            rightBack = new WPI_VictorSPX(RIGHT_BACK_MOTOR);
-
-    private WPI_TalonSRX armMotor = new WPI_TalonSRX(DEPOT_ARM),
-            wheelMotor = new WPI_TalonSRX(DEPOT_WHEEL),
-            rampMotor = new WPI_TalonSRX(RAMP);
-
-    private DigitalInput upLimit = new DigitalInput(UP_LIMIT_SWITCH),
-            downLimit = new DigitalInput(DOWN_LIMIT_SWITCH);
-
-    private DoubleSolenoid piston = new DoubleSolenoid(PISTON_1, PISTON_2);
-
-    private AHRS navX = new AHRS(SPI.Port.kMXP);
-
-    private Ultrasonic ultraS =  new Ultrasonic(2, 3);
 
     @Override
     public SpeedController[] drivetrainMotors() {
