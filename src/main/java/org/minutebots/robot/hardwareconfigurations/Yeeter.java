@@ -4,13 +4,9 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
-import org.minutebots.robot.commands.StrafeToVisionTarget;
-import org.minutebots.robot.subsystems.Drivetrain;
-import org.minutebots.robot.subsystems.HatchPiston;
 
 import java.util.Map;
 
@@ -61,18 +57,6 @@ public class Yeeter implements HardwareManger {
         drivetrainInfo.add("Right Front DM 0", rightFront);
         drivetrainInfo.add("Left Back DM 1", leftBack);
         drivetrainInfo.add("Right Back DM 3", rightBack);
-        drivetrainInfo.add("PID Controller", Drivetrain.getInstance().getPIDController());
-
-
-        ShuffleboardLayout drivetrainCommands = Shuffleboard.getTab("Debugging")
-                .getLayout("Drivetrain Commands", BuiltInLayouts.kList).withProperties(Map.of("Label position", "HIDDEN"));
-        drivetrainCommands.add("Current Commands", Drivetrain.getInstance());
-        drivetrainCommands.add("Remove Current Command", new InstantCommand(() -> Drivetrain.getInstance().getCurrentCommand().cancel()));
-        drivetrainCommands.add(new InstantCommand("Set Setpoint 0",() -> Drivetrain.getInstance().setSetpoint(0)));
-        drivetrainCommands.add(new InstantCommand("Set Setpoint 90",() -> Drivetrain.getInstance().setSetpoint(90)));
-        drivetrainCommands.add(new InstantCommand("Set Setpoint 180",() -> Drivetrain.getInstance().setSetpoint(180)));
-        drivetrainCommands.add(new InstantCommand("Set Setpoint 270",() -> Drivetrain.getInstance().setSetpoint(270)));
-        drivetrainCommands.add(new StrafeToVisionTarget());
 
         ShuffleboardLayout depotArm = Shuffleboard.getTab("Debugging")
                 .getLayout("Depot Arm", BuiltInLayouts.kList);
@@ -85,9 +69,7 @@ public class Yeeter implements HardwareManger {
                 .getLayout("Intake", BuiltInLayouts.kList).withProperties(Map.of("Label position", "HIDDEN"));
         intake.add("Piston", piston);
         intake.add("Ultrasonic", ultraS);
-        intake.add(HatchPiston.extend());
-        intake.add(HatchPiston.retract());
-        intake.add(HatchPiston.eject());
+        
 
         Shuffleboard.getTab("Debugging").add("Ramp Motor", rampMotor);
     }

@@ -6,15 +6,10 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.minutebots.robot.Robot;
 
 public class HatchPiston extends Subsystem {
     private NetworkTableEntry dist = Shuffleboard.getTab("Debugging").add("Distance With Ultrasonic", Robot.hardwareManager.ultraSonicDist()).getEntry();
-
-    HatchPiston() {
-        SmartDashboard.putData(this);
-    }
 
     public void periodic(){
         dist.setDouble(Robot.hardwareManager.ultraSonicDist());
