@@ -20,7 +20,7 @@ public class OI {
             angleAdjustRight = new JoystickButton(primaryStick, 8),
             ejectPrimary = new JoystickButton(primaryStick, 5),
             ramp = new JoystickButton(primaryStick,3),
-            highExposure = new JoystickButton(secondaryStick, 2);
+            highExposure = new JoystickButton(primaryStick, 2);
     public static final JoystickButton fineTurn = new JoystickButton(secondaryStick, 1),
             visionRotate = new JoystickButton(secondaryStick, 2),
             ejectSecondary = new JoystickButton(secondaryStick, 5),
