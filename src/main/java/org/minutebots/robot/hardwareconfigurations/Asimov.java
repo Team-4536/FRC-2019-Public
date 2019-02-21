@@ -14,7 +14,7 @@ import org.minutebots.robot.subsystems.HatchPiston;
 
 import java.util.Map;
 
-public class Yeeter implements HardwareManger {
+public class Asimov implements HardwareManger {
     //Victor
     final static int LEFT_FRONT_MOTOR = 0,
             LEFT_BACK_MOTOR = 3,

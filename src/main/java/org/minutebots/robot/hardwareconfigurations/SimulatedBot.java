@@ -23,14 +23,14 @@ public class SimulatedBot implements HardwareManger {
                     .getEntry();
 
     private SpeedController[] motors = new SpeedController[]{
-            new VirtualMotor(Yeeter.LEFT_FRONT_MOTOR),
-            new VirtualMotor(Yeeter.LEFT_BACK_MOTOR),
-            new VirtualMotor(Yeeter.RIGHT_FRONT_MOTOR),
-            new VirtualMotor(Yeeter.RIGHT_BACK_MOTOR)};
+            new VirtualMotor(Asimov.LEFT_FRONT_MOTOR),
+            new VirtualMotor(Asimov.LEFT_BACK_MOTOR),
+            new VirtualMotor(Asimov.RIGHT_FRONT_MOTOR),
+            new VirtualMotor(Asimov.RIGHT_BACK_MOTOR)};
 
-    private VirtualMotor arm = new VirtualMotor(Yeeter.DEPOT_ARM),
-            roller = new VirtualMotor(Yeeter.DEPOT_WHEEL),
-            ramp = new VirtualMotor(Yeeter.RAMP);
+    private VirtualMotor arm = new VirtualMotor(Asimov.DEPOT_ARM),
+            roller = new VirtualMotor(Asimov.DEPOT_WHEEL),
+            ramp = new VirtualMotor(Asimov.RAMP);
 
     @Override
     public SpeedController[] drivetrainMotors() {
