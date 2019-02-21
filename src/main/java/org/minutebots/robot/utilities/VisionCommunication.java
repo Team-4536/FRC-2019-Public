@@ -3,16 +3,14 @@ package org.minutebots.robot.utilities;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-
-import java.lang.annotation.Target;
+import edu.wpi.first.wpilibj.command.InstantCommand;
 
 public class VisionCommunication{
     NetworkTable table = NetworkTableInstance.getDefault().getTable("Vision");
     private NetworkTableEntry angleOffsestEntry = table.getEntry("Target Angles"),
-            lowExposure = table.getEntry("Low");
+            lowExposure = table.getEntry("Low Exposure");
     private double[] angleOffsets;
     private TargetSelection selection = TargetSelection.MIDDLE;
-    private int visionCooldown = 0;
 
     private VisionCommunication(){
         NetworkTableInstance.getDefault()
@@ -36,11 +34,20 @@ public class VisionCommunication{
     }
 
     public double getAngle() {
+        lowExposure.setBoolean(true);
+        update();
         if(selection == TargetSelection.LEFT && angleOffsets.length > 0) return angleOffsets[0];
         if(selection == TargetSelection.RIGHT && angleOffsets.length > 0) return angleOffsets[angleOffsets.length-1];
         if(selection == TargetSelection.MIDDLE && angleOffsets.length > 0) return angleOffsets[angleOffsets.length/2];
         return 0;
     }
+
+    public InstantCommand highExposure(){
+        return new InstantCommand(() -> {
+            System.out.println("High exposure");
+            lowExposure.setBoolean(false);
+        });
+    } 
 
     public enum TargetSelection{
         LEFT,

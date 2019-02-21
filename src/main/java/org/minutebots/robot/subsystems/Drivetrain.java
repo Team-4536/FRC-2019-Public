@@ -50,11 +50,15 @@ public class Drivetrain extends PIDSubsystem {
                 mecanumDrive(OI.primaryStick.getX(), -OI.primaryStick.getY(), (OI.trigger.get()) ? OI.primaryStick.getTwist()*Constants.CLOSED_LOOP_MAX_TURN : 0);
                 return; //Makes sure that the gyroscope code doesn't run.
             }
-            if (OI.vision.get()) setSetpoint(getYaw() + VisionCommunication.getInstance().getAngle());
-            else if (OI.trigger.get()) setSetpoint(getSetpoint() + OI.primaryStick.getTwist() * Constants.TURN_DEGREES_TRIGGER_HOLD);
-            else if (OI.primaryStick.getPOV() != -1) setSetpoint(OI.primaryStick.getPOV());
+            
+            //if (OI.visionRotate.get()) setSetpoint(getYaw() + VisionCommunication.getInstance().getAngle());
+            if (OI.primaryStick.getPOV() != -1) setSetpoint(OI.primaryStick.getPOV());
+            else if (OI.secondaryStick.getPOV() != -1) setSetpoint(OI.secondaryStick.getPOV());
+            else if(OI.primaryStick.getMagnitude() > 0.85 && !OI.trigger.get()) setSetpoint(
+                    Math.abs(getYaw() - OI.primaryStick.getDirectionDegrees()) > 110 ? OI.primaryStick.getDirectionDegrees()+180 : OI.primaryStick.getDirectionDegrees());
             mecanumDrive(OI.strafe.get() ? Constants.VISION_STRAFE_P * VisionCommunication.getInstance().getAngle() : OI.primaryStick.getX(),
-                    -OI.primaryStick.getY(), turnThrottle, !OI.strafe.get());
+                    OI.strafe.get() ? -OI.secondaryStick.getY() : -OI.primaryStick.getY(),
+                    OI.fineTurn.get() ? OI.secondaryStick.getX()*0.5 : turnThrottle, !(OI.strafe.get() || Robot.isAuto));
         }
     }
 
@@ -81,6 +85,7 @@ public class Drivetrain extends PIDSubsystem {
      * @param xSpeed    The robot's speed driving forwards. [-1.0..1.0]. Forward is positive.
      * @param zRotation The robot's rotation rate. [-1.0..1.0]. Clockwise is
      *                  positive.
+     * @param fieldCentric If the robot will have controls based on the field.
      */
     public void mecanumDrive(double ySpeed, double xSpeed, double zRotation, boolean fieldCentric) {
         driveBase.driveCartesian(ySpeed, xSpeed, zRotation, fieldCentric ? -getAngle() : 0.0);
@@ -132,6 +137,7 @@ public class Drivetrain extends PIDSubsystem {
         super.setSetpoint(Utilities.angleConverter(setpoint));
     }
 
+
     @Override
     protected void initDefaultCommand() {
     }
@@ -161,14 +167,14 @@ public class Drivetrain extends PIDSubsystem {
      * Gets the gyro angle. The return value is unbounded, so it can be greater than the domain [-180..180].
      * This is the total sum of rotation.
      */
-    private double getAngle() {
+    public double getAngle() {
         return Robot.hardwareManager.getAngle() + angleAdjustment;
     }
 
     /**
      * Gets the gyro angle. The return value is bounded inside the domain [-180..180] degrees.
      */
-    private double getYaw() {
+    public double getYaw() {
         return Utilities.angleConverter(getAngle());
     }
 
