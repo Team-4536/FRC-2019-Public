@@ -65,7 +65,7 @@ public class Drivetrain extends PIDSubsystem {
             }
 
             if (!getPIDController().isEnabled()) { //Run this if the PID controller is disabled. This is drive code without the gyroscope.
-                if(OI.trigger.get()) turnThrottle = OI.primaryStick.getTwist()*Constants.CLOSED_LOOP_MAX_TURN : 0
+                if(OI.trigger.get()) turnThrottle = OI.primaryStick.getTwist()*Constants.CLOSED_LOOP_MAX_TURN;
                  ////Makes sure that the gyroscope code doesn't run.
             }
             
