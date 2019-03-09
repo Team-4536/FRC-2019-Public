@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 import org.minutebots.lib.VirtualMotor;
-import org.minutebots.robot.commands.StrafeToVisionTarget;
 import org.minutebots.robot.subsystems.Drivetrain;
 
 import java.util.Map;
