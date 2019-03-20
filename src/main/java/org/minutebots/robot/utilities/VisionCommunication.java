@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
 public class VisionCommunication{
     NetworkTable table = NetworkTableInstance.getDefault().getTable("Vision");
     private NetworkTableEntry angleOffsestEntry = table.getEntry("Target Angles"),
-            lowExposure = table.getEntry("Low Exposure");
+            lowExposure = table.getEntry("Exposure");
     private double[] angleOffsets;
     private TargetSelection selection = TargetSelection.MIDDLE;
 
@@ -34,7 +34,7 @@ public class VisionCommunication{
     }
 
     public double getAngle() {
-        lowExposure.setBoolean(true);
+        lowExposure.setDouble(0.0);
         update();
         if(selection == TargetSelection.LEFT && angleOffsets.length > 0) return angleOffsets[0];
         if(selection == TargetSelection.RIGHT && angleOffsets.length > 0) return angleOffsets[angleOffsets.length-1];
@@ -44,8 +44,7 @@ public class VisionCommunication{
 
     public InstantCommand highExposure(){
         return new InstantCommand(() -> {
-            System.out.println("High exposure");
-            lowExposure.setBoolean(false);
+            lowExposure.setDouble(40);
         });
     } 
 
