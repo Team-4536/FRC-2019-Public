@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
-import org.minutebots.robot.commands.StrafeToVisionTarget;
 import org.minutebots.robot.subsystems.Drivetrain;
 import org.minutebots.robot.subsystems.HatchPiston;
 
@@ -72,7 +71,6 @@ public class Asimov implements HardwareManger {
         drivetrainCommands.add(new InstantCommand("Set Setpoint 90",() -> Drivetrain.getInstance().setSetpoint(90)));
         drivetrainCommands.add(new InstantCommand("Set Setpoint 180",() -> Drivetrain.getInstance().setSetpoint(180)));
         drivetrainCommands.add(new InstantCommand("Set Setpoint 270",() -> Drivetrain.getInstance().setSetpoint(270)));
-        drivetrainCommands.add(new StrafeToVisionTarget());
 
         ShuffleboardLayout depotArm = Shuffleboard.getTab("Debugging")
                 .getLayout("Depot Arm", BuiltInLayouts.kList);

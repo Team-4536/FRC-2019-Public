@@ -13,7 +13,7 @@ import org.minutebots.robot.utilities.VisionCommunication;
 
 public class Drivetrain extends PIDSubsystem {
     private final MecanumDrive driveBase;
-    private double turnThrottle = 0, angleAdjustment = 0;
+    private double pidOutput = 0, angleAdjustment = 0;
 
     private Drivetrain() {
         super("Drivetrain", 0.035, 0.0025, 0.1);
@@ -46,19 +46,40 @@ public class Drivetrain extends PIDSubsystem {
     @Override
     public void periodic() {
         if (getCurrentCommand() == null) {
-            if (!getPIDController().isEnabled()) { //Run this if the PID controller is disabled. This is drive code without the gyroscope.
-                mecanumDrive(OI.primaryStick.getX(), -OI.primaryStick.getY(), (OI.trigger.get()) ? OI.primaryStick.getTwist()*Constants.CLOSED_LOOP_MAX_TURN : 0);
-                return; //Makes sure that the gyroscope code doesn't run.
-            }
-            
-            //if (OI.visionRotate.get()) setSetpoint(getYaw() + VisionCommunication.getInstance().getAngle());
             if (OI.primaryStick.getPOV() != -1) setSetpoint(OI.primaryStick.getPOV());
             else if (OI.secondaryStick.getPOV() != -1) setSetpoint(OI.secondaryStick.getPOV());
             else if(OI.primaryStick.getMagnitude() > 0.85 && !OI.trigger.get()) setSetpoint(
                     Math.abs(getYaw() - OI.primaryStick.getDirectionDegrees()) > 110 ? OI.primaryStick.getDirectionDegrees()+180 : OI.primaryStick.getDirectionDegrees());
-            mecanumDrive(OI.strafe.get() ? Constants.VISION_STRAFE_P * VisionCommunication.getInstance().getAngle() : OI.primaryStick.getX(),
-                    OI.strafe.get() ? -OI.secondaryStick.getY() : -OI.primaryStick.getY(),
-                    OI.fineTurn.get() ? OI.secondaryStick.getX()*0.5 : turnThrottle, !(OI.strafe.get() || Robot.isAuto));
+
+            double turnThrottle = pidOutput,
+                    forwardThrottle=-OI.primaryStick.getY(),
+                    strafeThrottle=OI.primaryStick.getX();
+
+            if(OI.strafe.get()) {
+                strafeThrottle = Constants.VISION_STRAFE_P * VisionCommunication.getInstance().getAngle();
+                forwardThrottle = -OI.secondaryStick.getY();
+            }
+
+            if(OI.fineTurn.get()){
+                turnThrottle = OI.secondaryStick.getX()*0.5;
+            }
+
+            if (!getPIDController().isEnabled()) { //Run this if the PID controller is disabled. This is drive code without the gyroscope.
+                if(OI.trigger.get()) turnThrottle = OI.primaryStick.getTwist()*Constants.CLOSED_LOOP_MAX_TURN;
+                 ////Makes sure that the gyroscope code doesn't run.
+            }
+            
+            //if (OI.visionRotate.get()) setSetpoint(getYaw() + VisionCommunication.getInstance().getAngle());
+            if(Robot.isAuto){
+                turnThrottle=strafeThrottle;
+                strafeThrottle=0;
+                return;
+            }
+            mecanumDrive(strafeThrottle,forwardThrottle,turnThrottle);
+            //mecanumDrive(OI.strafe.get() ? Constants.VISION_STRAFE_P * VisionCommunication.getInstance().getAngle() : OI.primaryStick.getX(),
+                  //  OI.strafe.get() ? -OI.secondaryStick.getY() : -OI.primaryStick.getY(),
+                   // OI.fineTurn.get() ? OI.secondaryStick.getX()*0.5 : turnThrottle, !(OI.strafe.get() || Robot.isAuto));
+
         }
     }
 
@@ -189,8 +210,8 @@ public class Drivetrain extends PIDSubsystem {
     /**
      * Returns the output of the internal PID controller.
      */
-    public double getTurnThrottle() {
-        return turnThrottle;
+    public double getPidOutput() {
+        return pidOutput;
     }
 
     /**
@@ -198,6 +219,6 @@ public class Drivetrain extends PIDSubsystem {
      */
     @Override
     protected void usePIDOutput(double output) {
-        turnThrottle = output;
+        pidOutput = output;
     }
 }
