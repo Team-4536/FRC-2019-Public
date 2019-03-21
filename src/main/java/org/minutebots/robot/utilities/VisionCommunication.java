@@ -7,10 +7,14 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
 
 public class VisionCommunication{
     NetworkTable table = NetworkTableInstance.getDefault().getTable("Vision");
-    private NetworkTableEntry angleOffsestEntry = table.getEntry("Target Angles"),
-            lowExposure = table.getEntry("Exposure");
+    private NetworkTableEntry angles = table.getEntry("Target Angles"),
+    exposure = table.getEntry("Exposure"),
+    switchCamera = table.getEntry("BackCamera"),
+    brightness = table.getEntry("Brightness");
+
     private double[] angleOffsets;
     private TargetSelection selection = TargetSelection.MIDDLE;
+    public boolean backCamera = false;
 
     private VisionCommunication(){
         NetworkTableInstance.getDefault()
@@ -20,7 +24,7 @@ public class VisionCommunication{
     }
 
     public void update(){
-        angleOffsets = angleOffsestEntry.getDoubleArray(new double[]{0});
+        angleOffsets = angles.getDoubleArray(new double[]{0});
     }
 
     private static VisionCommunication instance = new VisionCommunication();
@@ -29,12 +33,12 @@ public class VisionCommunication{
         return instance;
     }
 
-    public void setSelection(TargetSelection s){
-        selection = s;
+    public InstantCommand setSelection(TargetSelection s){
+        return new InstantCommand("Target " + s.name(),() -> selection = s);
     }
 
     public double getAngle() {
-        lowExposure.setDouble(0.0);
+        exposure.setDouble(0.0);
         update();
         if(selection == TargetSelection.LEFT && angleOffsets.length > 0) return angleOffsets[0];
         if(selection == TargetSelection.RIGHT && angleOffsets.length > 0) return angleOffsets[angleOffsets.length-1];
@@ -44,7 +48,7 @@ public class VisionCommunication{
 
     public InstantCommand highExposure(){
         return new InstantCommand(() -> {
-            lowExposure.setDouble(40);
+            exposure.setDouble(40);
         });
     } 
 

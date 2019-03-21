@@ -4,12 +4,13 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import org.minutebots.lib.Utilities;
 import org.minutebots.robot.OI;
 import org.minutebots.robot.Robot;
 import org.minutebots.robot.utilities.Constants;
 import org.minutebots.robot.utilities.VisionCommunication;
+import org.minutebots.robot.utilities.VisionCommunication.TargetSelection;
 
 public class Drivetrain extends PIDSubsystem {
     private final MecanumDrive driveBase;
@@ -25,10 +26,10 @@ public class Drivetrain extends PIDSubsystem {
         getPIDController().setContinuous(true);
         setOutputRange(-Constants.OPEN_LOOP_MAX_TURN, Constants.OPEN_LOOP_MAX_TURN);
 
-        Shuffleboard.getTab("Virtual Motors")
-                .add("Virtual Drivetrain", driveBase);
+        ShuffleboardTab drive = Shuffleboard.getTab("Drive");
+        drive.add("Drivetrain", driveBase);
 
-        SmartDashboard.putData("Toggle Gyro", new InstantCommand(() -> {
+        drive.add("Toggle Gyro", new InstantCommand(() -> {
             if (getPIDController().isEnabled()) disable();
             else {
                 enable();
@@ -36,8 +37,9 @@ public class Drivetrain extends PIDSubsystem {
             }
         }));
 
-
-
+        drive.add(VisionCommunication.getInstance().setSelection(TargetSelection.LEFT));
+        drive.add(VisionCommunication.getInstance().setSelection(TargetSelection.MIDDLE));
+        drive.add(VisionCommunication.getInstance().setSelection(TargetSelection.RIGHT));
     }
 
     /**
@@ -74,6 +76,12 @@ public class Drivetrain extends PIDSubsystem {
                 turnThrottle=strafeThrottle;
                 strafeThrottle=0;
             }
+
+            if(VisionCommunication.getInstance().backCamera){
+                forwardThrottle *= -1;
+                turnThrottle *= -1;
+            }
+
             mecanumDrive(strafeThrottle,forwardThrottle,turnThrottle);
             //mecanumDrive(OI.strafe.get() ? Constants.VISION_STRAFE_P * VisionCommunication.getInstance().getAngle() : OI.primaryStick.getX(),
                   //  OI.strafe.get() ? -OI.secondaryStick.getY() : -OI.primaryStick.getY(),
@@ -154,7 +162,7 @@ public class Drivetrain extends PIDSubsystem {
      */
     @Override
     public void setSetpoint(double setpoint) {
-        super.setSetpoint(Utilities.angleConverter(setpoint));
+        super.setSetpoint((VisionCommunication.getInstance().backCamera ? 180 : 0) + Utilities.angleConverter(setpoint));
     }
 
 
