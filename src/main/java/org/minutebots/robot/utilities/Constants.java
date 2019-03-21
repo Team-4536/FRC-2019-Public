@@ -8,7 +8,7 @@ public class Constants {
     public static final double DEPOT_UP_MAX_SPEED = 0.2;
     public static final double DEPOT_DOWN_MAX_SPEED = 0.2;
     public static final double DEPOT_SPIN_MAX_SPEED = -1.0;
-    public static final double RAMP_MAX_SPEED = -1.0;
+    public static final double RAMP_MAX_SPEED = 1.0;
     public static final double MANUAL_TURN_SPEED = 0.6;
     public static final double FINE_TURN_SPEED = 0.6;
 
