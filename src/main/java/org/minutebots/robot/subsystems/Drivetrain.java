@@ -216,6 +216,15 @@ public class Drivetrain extends PIDSubsystem {
         else return 180;
     }
 
+    public double nearestRocket() {
+    	if(getYaw() < 120.625) return -151.25;
+	else if(getYaw() < -59.375) return -90;
+	else if(getYaw() < 0) return -28.75;
+	else if(getYaw() < 59.375) return 28.75;
+	else if(getYaw() < 120.625) return 90;
+	else return 151.25;
+    }
+
     /**
      * Pushes the yaw angle as input into the internal PID controller.
      */
