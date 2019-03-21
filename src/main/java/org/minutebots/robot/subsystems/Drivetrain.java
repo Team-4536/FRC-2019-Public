@@ -178,6 +178,14 @@ public class Drivetrain extends PIDSubsystem {
         return Utilities.angleConverter(getAngle());
     }
 
+    public double getNearestSquare(){
+        if(getYaw() < -135) return -180;
+        else if(getYaw() < -45) return -90;
+        else if(getYaw() < 45) return 0;
+        else if(getYaw() < 135) return 90;
+        else return 180;
+    }
+
     /**
      * Pushes the yaw angle as input into the internal PID controller.
      */
