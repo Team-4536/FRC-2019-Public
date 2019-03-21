@@ -37,6 +37,14 @@ public class VisionCommunication{
         return new InstantCommand("Target " + s.name(),() -> selection = s);
     }
 
+    public InstantCommand toggleCamera(){
+        return new InstantCommand("Toggle Camera", () -> {
+            backCamera = !backCamera;
+            switchCamera.setBoolean(backCamera);
+            System.out.println("Back Camera Activated: " + backCamera);
+        });
+    }
+
     public double getAngle() {
         exposure.setDouble(0.0);
         update();
