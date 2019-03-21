@@ -21,7 +21,7 @@ public class OI {
             ejectPrimary = new JoystickButton(primaryStick, 5),
             ramp = new JoystickButton(primaryStick,3),
             highExposure = new JoystickButton(primaryStick, 2);
-    public static final JoystickButton nearestSquare = new JoystickButton(secondaryStick, 7),
+    public static final JoystickButton nearestSquare = new JoystickButton(secondaryStick, 3),
             fineTurn = new JoystickButton(secondaryStick, 1),
             visionRotate = new JoystickButton(secondaryStick, 2),
             ejectSecondary = new JoystickButton(secondaryStick, 5),
