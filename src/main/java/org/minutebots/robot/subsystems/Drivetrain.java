@@ -51,15 +51,15 @@ public class Drivetrain extends PIDSubsystem {
         if (getCurrentCommand() == null) {
             if (OI.primaryStick.getPOV() != -1) setSetpoint(OI.primaryStick.getPOV());
             else if (OI.secondaryStick.getPOV() != -1) setSetpoint(OI.secondaryStick.getPOV());
-            else if(OI.primaryStick.getMagnitude() > 0.85 && !OI.trigger.get()) setSetpoint(
-                    Math.abs(getYaw() - OI.primaryStick.getDirectionDegrees()) > 110 ? OI.primaryStick.getDirectionDegrees()+180 : OI.primaryStick.getDirectionDegrees());
+            //else if(OI.primaryStick.getMagnitude() > 0.85 && !OI.trigger.get()) setSetpoint(
+                    //Math.abs(getYaw() - OI.primaryStick.getDirectionDegrees()) > 110 ? OI.primaryStick.getDirectionDegrees()+180 : OI.primaryStick.getDirectionDegrees());
 
             double turnThrottle = pidOutput,
                     forwardThrottle=-OI.primaryStick.getY(),
                     strafeThrottle=OI.primaryStick.getX();
 
             if(OI.strafe.get()) {
-                strafeThrottle = Constants.VISION_STRAFE_P * VisionCommunication.getInstance().getAngle();
+                strafeThrottle = Constants.VISION_STRAFE_P * VisionCommunication.getInstance().getAngle() + OI.secondaryStick.getX()*0.5;
                 forwardThrottle = -OI.secondaryStick.getY();
             }
 
@@ -77,17 +77,16 @@ public class Drivetrain extends PIDSubsystem {
             }
             
             //if (OI.visionRotate.get()) setSetpoint(getYaw() + VisionCommunication.getInstance().getAngle());
-            if(Robot.isAuto){
-                turnThrottle = OI.trigger.get() ? OI.primaryStick.getTwist() * Constants.MANUAL_TURN_SPEED : 0;
+            //if(Robot.isAuto){
+                //turnThrottle = OI.trigger.get() ? OI.primaryStick.getTwist() * Constants.MANUAL_TURN_SPEED : 0;
                 
-            if(VisionCommunication.getInstance().getCargoMode()){
+            if(VisionCommunication.getInstance().getCargoMode() && Robot.isAuto){
                 forwardThrottle *= -1;
                 strafeThrottle *= -1;
             }
-            }
 
 
-            mecanumDrive(strafeThrottle,forwardThrottle,turnThrottle, !Robot.isAuto);
+            mecanumDrive(strafeThrottle,forwardThrottle,turnThrottle,true);
             //mecanumDrive(OI.strafe.get() ? Constants.VISION_STRAFE_P * VisionCommunication.getInstance().getAngle() : OI.primaryStick.getX(),
                   //  OI.strafe.get() ? -OI.secondaryStick.getY() : -OI.primaryStick.getY(),
                    // OI.fineTurn.get() ? OI.secondaryStick.getX()*0.5 : turnThrottle, !(OI.strafe.get() || Robot.isAuto));
@@ -167,7 +166,7 @@ public class Drivetrain extends PIDSubsystem {
      */
     @Override
     public void setSetpoint(double setpoint) {
-        super.setSetpoint(Utilities.angleConverter((VisionCommunication.getInstance().getCargoMode() ? 180 : 0) + setpoint));
+        super.setSetpoint(Utilities.angleConverter(setpoint));
     }
 
 
