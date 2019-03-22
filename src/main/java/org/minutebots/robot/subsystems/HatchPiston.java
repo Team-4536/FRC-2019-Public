@@ -31,6 +31,12 @@ public class HatchPiston extends Subsystem {
         });
     }
 
+    public static InstantCommand retractHatchM() {
+        return new InstantCommand("Retract Hatch Mechanism", getInstance(), () ->{
+                Robot.hardwareManager.retractActiveHatch();
+        });
+    }
+
     public static CommandGroup retract() {
         return new CommandGroup() {
             { //Anonymous constructor. The method header is blank as the class has no name. This anonymous class extends CommandGroup and

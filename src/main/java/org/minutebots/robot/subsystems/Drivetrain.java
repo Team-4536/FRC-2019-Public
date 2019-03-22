@@ -86,7 +86,7 @@ public class Drivetrain extends PIDSubsystem {
             }
 
 
-            mecanumDrive(strafeThrottle,forwardThrottle,turnThrottle,true);
+            mecanumDrive(strafeThrottle,forwardThrottle,turnThrottle,!(OI.visionRotate.get() | OI.strafe.get()));
             //mecanumDrive(OI.strafe.get() ? Constants.VISION_STRAFE_P * VisionCommunication.getInstance().getAngle() : OI.primaryStick.getX(),
                   //  OI.strafe.get() ? -OI.secondaryStick.getY() : -OI.primaryStick.getY(),
                    // OI.fineTurn.get() ? OI.secondaryStick.getX()*0.5 : turnThrottle, !(OI.strafe.get() || Robot.isAuto));
