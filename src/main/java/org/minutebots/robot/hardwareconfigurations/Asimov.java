@@ -20,8 +20,8 @@ public class Asimov implements HardwareManger {
             RIGHT_FRONT_MOTOR = 1,
             RIGHT_BACK_MOTOR = 2;
     //Pneumatic Ports
-    final static int PISTON_1 = 6,
-            PISTON_2 = 7;
+    final static int PISTON_1 = 4,
+            PISTON_2 = 5;
 
     //Talons Ports
     final static int DEPOT_ARM = 4,
