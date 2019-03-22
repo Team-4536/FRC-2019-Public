@@ -21,7 +21,7 @@ public class OI {
             ejectPrimary = new JoystickButton(primaryStick, 5),
             ramp = new JoystickButton(primaryStick,3),
             highExposure = new JoystickButton(primaryStick, 2);
-    public static final JoystickButton nearestSquare = new JoystickButton(secondaryStick, 3),
+    public static final JoystickButton snapTo = new JoystickButton(secondaryStick, 3),
             fineTurn = new JoystickButton(secondaryStick, 1),
             visionRotate = new JoystickButton(secondaryStick, 2),
             ejectSecondary = new JoystickButton(secondaryStick, 5),
@@ -32,7 +32,7 @@ public class OI {
 
 
     static {
-        nearestSquare.whileHeld(new InstantCommand(() -> Drivetrain.getInstance().setSetpoint(Drivetrain.getInstance().getNearestSquare())));
+        snapTo.whileHeld(new InstantCommand(() -> Drivetrain.getInstance().setSetpoint(Drivetrain.getInstance().rocketMode.getBoolean(false) ? Drivetrain.getInstance().getNearestRocket() : Drivetrain.getInstance().getNearestSquare())));
         fineTurn.whenReleased(new InstantCommand(() -> Drivetrain.getInstance().setSetpoint(Drivetrain.getInstance().getYaw())));
         angleAdjustLeft.whileHeld(new InstantCommand(() -> Drivetrain.getInstance().adjustAngle(3.0)));
         angleAdjustRight.whileHeld(new InstantCommand(() -> Drivetrain.getInstance().adjustAngle(-3.0)));

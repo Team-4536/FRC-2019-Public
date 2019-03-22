@@ -1,5 +1,6 @@
 package org.minutebots.robot.subsystems;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
@@ -66,6 +67,10 @@ public class Drivetrain extends PIDSubsystem {
 
             if(OI.fineTurn.get()){
                 turnThrottle = OI.secondaryStick.getX()*Constants.FINE_TURN_SPEED;
+            }
+
+            if(OI.visionRotate.get()){
+                turnThrottle = VisionCommunication.getInstance().getAngle() * Constants.VISION_ROTATE_P;
             }
 
             if (!getPIDController().isEnabled()) { //Run this if the PID controller is disabled. This is drive code without the gyroscope.
@@ -216,14 +221,20 @@ public class Drivetrain extends PIDSubsystem {
         else return 180;
     }
 
-    public double nearestRocket() {
-    	if(getYaw() < 120.625) return -151.25;
+    public double getNearestRocket() {
+    	if(getYaw() < -120.625) return -151.25;
 	else if(getYaw() < -59.375) return -90;
 	else if(getYaw() < 0) return -28.75;
 	else if(getYaw() < 59.375) return 28.75;
 	else if(getYaw() < 120.625) return 90;
 	else return 151.25;
     }
+
+    public NetworkTableEntry rocketMode = Shuffleboard.getTab("RocketMode")
+            .add("Rocketmode", false)
+            .withWidget("Toggle Button")
+            .getEntry();
+
 
     /**
      * Pushes the yaw angle as input into the internal PID controller.
