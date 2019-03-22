@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -20,8 +21,10 @@ public class Asimov implements HardwareManger {
             RIGHT_FRONT_MOTOR = 1,
             RIGHT_BACK_MOTOR = 2;
     //Pneumatic Ports
-    final static int PISTON_1 = 4,
-            PISTON_2 = 5;
+    final static int PISTON_1 = 6,
+            PISTON_2 = 7,
+            ACTIVEH_1 = 4,
+            ACTIVEH_2 = 5;
 
     //Talons Ports
     final static int DEPOT_ARM = 4,
@@ -42,7 +45,8 @@ public class Asimov implements HardwareManger {
     private DigitalInput upLimit = new DigitalInput(UP_LIMIT_SWITCH),
             downLimit = new DigitalInput(DOWN_LIMIT_SWITCH);
 
-    private DoubleSolenoid piston = new DoubleSolenoid(PISTON_1, PISTON_2);
+    private DoubleSolenoid piston = new DoubleSolenoid(PISTON_1, PISTON_2),
+    activeHatch = new DoubleSolenoid(ACTIVEH_1, ACTIVEH_2);
 
     private AHRS navX = new AHRS(SPI.Port.kMXP);
 
@@ -86,6 +90,7 @@ public class Asimov implements HardwareManger {
         intake.add(HatchPiston.extend());
         intake.add(HatchPiston.retract());
         intake.add(HatchPiston.eject());
+        intake.add(HatchPiston.grabHatch());
 
         Shuffleboard.getTab("Debugging").add("Ramp Motor", rampMotor);
     }
@@ -117,17 +122,18 @@ public class Asimov implements HardwareManger {
 
     @Override
     public void extendIntakePiston() {
-        piston.set(DoubleSolenoid.Value.kReverse); //Yes, this value are intentional. The solenoid is backwards.
+        piston.set(DoubleSolenoid.Value.kForward); //Yes, this value are intentional. The solenoid is backwards.
     }
 
     @Override
     public void retractIntakePiston() {
-        piston.set(DoubleSolenoid.Value.kForward); //Yes, this value are intentional. The solenoid is backwards.
+        piston.set(DoubleSolenoid.Value.kReverse); //Yes, this value are intentional. The solenoid is backwards.
     }
 
     @Override
     public void closeSolenoids() {
         piston.set(DoubleSolenoid.Value.kOff);
+        activeHatch.set(Value.kOff);
     }
 
 
@@ -135,6 +141,19 @@ public class Asimov implements HardwareManger {
     public double getAngle() {
         return navX.getAngle();
     }
+
+    @Override
+    public void extendActiveHatch() {
+        activeHatch.set(DoubleSolenoid.Value.kForward);
+        
+    }
+
+    @Override
+    public void retractActiveHatch() {
+        activeHatch.set(DoubleSolenoid.Value.kReverse);
+        
+    }
+
 
     /**
      * @return The distance from the ultrasonic sensor in inches.

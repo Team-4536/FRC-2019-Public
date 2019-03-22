@@ -19,8 +19,16 @@ public class HatchPiston extends Subsystem {
     }
 
     public static InstantCommand extend() {
-        return new InstantCommand("Piston Extend", getInstance(), () ->
-                Robot.hardwareManager.extendIntakePiston());
+        return new InstantCommand("Piston Extend", getInstance(), () ->{
+                Robot.hardwareManager.extendIntakePiston();
+                Robot.hardwareManager.retractActiveHatch();
+        });
+    }
+
+    public static InstantCommand grabHatch() {
+        return new InstantCommand("Grab Hatch", getInstance(), () ->{
+                Robot.hardwareManager.extendActiveHatch();
+        });
     }
 
     public static CommandGroup retract() {

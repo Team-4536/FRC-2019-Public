@@ -20,6 +20,8 @@ public class Fracture implements HardwareManger {
 
     private NetworkTableEntry piston = Shuffleboard.getTab("Virtual Motors")
             .add("Intake Piston", false).getEntry(),
+            hatchm = Shuffleboard.getTab("Virtual Motors")
+            .add("Active Hatch", false).getEntry(),
             topLimit = Shuffleboard.getTab("Virtual Motors")
             .add("Top Limit Switch", false)
             .withWidget(BuiltInWidgets.kToggleButton)
@@ -103,6 +105,17 @@ public class Fracture implements HardwareManger {
     public boolean armDown() {
         return bottomLimit.getBoolean(false);
     }
+
+    @Override
+    public void extendActiveHatch() {
+        hatchm.setBoolean(true);
+    }
+
+    @Override
+    public void retractActiveHatch() {
+        hatchm.setBoolean(false);
+    }
+
 
     @Override
     public void init() {

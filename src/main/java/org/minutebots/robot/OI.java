@@ -28,7 +28,8 @@ public class OI {
             spinArmForwards = new JoystickButton(secondaryStick, 6),
             spinArmBackwards = new JoystickButton(secondaryStick, 4),
             strafe = new JoystickButton(secondaryStick, 3),
-            resetGyro = new JoystickButton(secondaryStick, 10);
+            resetGyro = new JoystickButton(secondaryStick, 10),
+            grabHatch = new JoystickButton(secondaryStick, 11);
 
 
     static {
@@ -41,7 +42,11 @@ public class OI {
         ejectPrimary.whenReleased(HatchPiston.retract());
         ejectSecondary.whenPressed(HatchPiston.extend());
         ejectSecondary.whenReleased(HatchPiston.retract());
-        ramp.whenPressed(new InstantCommand(() -> Ramp.getInstance().setWheel(Constants.RAMP_MAX_SPEED)));
+        ramp.whenPressed(new InstantCommand(() -> {
+            Ramp.getInstance().setWheel(Constants.RAMP_MAX_SPEED); 
+            HatchPiston.grabHatch().start();
+        }));
+        grabHatch.whenPressed(HatchPiston.grabHatch());
         ramp.whenReleased(new InstantCommand(() -> Ramp.getInstance().setWheel(0)));
         resetGyro.whenPressed(new InstantCommand(() ->Drivetrain.getInstance().resetGyro()));
         spinArmBackwards.whenPressed(DepotArm.armDown(false));

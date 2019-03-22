@@ -41,8 +41,6 @@ public class Drivetrain extends PIDSubsystem {
         drive.add(VisionCommunication.getInstance().setSelection(TargetSelection.LEFT));
         drive.add(VisionCommunication.getInstance().setSelection(TargetSelection.MIDDLE));
         drive.add(VisionCommunication.getInstance().setSelection(TargetSelection.RIGHT));
-
-        drive.add(VisionCommunication.getInstance().toggleCamera());
     }
 
     /**
@@ -82,9 +80,9 @@ public class Drivetrain extends PIDSubsystem {
             if(Robot.isAuto){
                 turnThrottle = OI.trigger.get() ? OI.primaryStick.getTwist() * Constants.MANUAL_TURN_SPEED : 0;
                 
-            if(VisionCommunication.getInstance().backCamera){
+            if(VisionCommunication.getInstance().getCargoMode()){
                 forwardThrottle *= -1;
-                turnThrottle *= -1;
+                strafeThrottle *= -1;
             }
             }
 
@@ -169,7 +167,7 @@ public class Drivetrain extends PIDSubsystem {
      */
     @Override
     public void setSetpoint(double setpoint) {
-        super.setSetpoint((VisionCommunication.getInstance().backCamera ? 180 : 0) + Utilities.angleConverter(setpoint));
+        super.setSetpoint(Utilities.angleConverter((VisionCommunication.getInstance().getCargoMode() ? 180 : 0) + setpoint));
     }
 
 
@@ -230,7 +228,7 @@ public class Drivetrain extends PIDSubsystem {
 	else return 151.25;
     }
 
-    public NetworkTableEntry rocketMode = Shuffleboard.getTab("RocketMode")
+    public NetworkTableEntry rocketMode = Shuffleboard.getTab("Drive")
             .add("Rocketmode", false)
             .withWidget("Toggle Button")
             .getEntry();
