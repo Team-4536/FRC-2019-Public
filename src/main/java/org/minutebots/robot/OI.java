@@ -45,7 +45,7 @@ public class OI {
         ejectSecondary.whenPressed(HatchPiston.extend());
         ejectSecondary.whenReleased(HatchPiston.retract());
         ramp.whenPressed(Ramp.spinWheel(Constants.RAMP_MAX_SPEED));
-        ramp.whenReleased(Ramp.spinWheel(0));
+        //ramp.whenReleased(Ramp.spinWheel(0));
         lockCargo.whenPressed(Ramp.lockCargo());
         grabHatch.whenPressed(HatchPiston.grabHatch());
         grabHatch.whenReleased(HatchPiston.retractHatchM());

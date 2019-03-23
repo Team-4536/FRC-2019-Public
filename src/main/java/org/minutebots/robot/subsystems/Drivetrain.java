@@ -91,6 +91,8 @@ public class Drivetrain extends PIDSubsystem {
                   //  OI.strafe.get() ? -OI.secondaryStick.getY() : -OI.primaryStick.getY(),
                    // OI.fineTurn.get() ? OI.secondaryStick.getX()*0.5 : turnThrottle, !(OI.strafe.get() || Robot.isAuto));
 
+            rocketMode.setBoolean(OI.secondaryStick.getThrottle() < 0);
+            
         }
     }
 
