@@ -20,17 +20,22 @@ public class OI {
             angleAdjustRight = new JoystickButton(primaryStick, 8),
             ejectPrimary = new JoystickButton(primaryStick, 5),
             ramp = new JoystickButton(primaryStick,3),
-            highExposure = new JoystickButton(primaryStick, 2);
-    public static final JoystickButton fineTurn = new JoystickButton(secondaryStick, 1),
+            highExposure = new JoystickButton(primaryStick, 2),
+            lockCargo = new JoystickButton(primaryStick, 4),
+            grabHatchPrimary = new JoystickButton(primaryStick, 6);
+    public static final JoystickButton snapTo = new JoystickButton(secondaryStick, 3),
+            fineTurn = new JoystickButton(secondaryStick, 1),
             visionRotate = new JoystickButton(secondaryStick, 2),
             ejectSecondary = new JoystickButton(secondaryStick, 5),
             spinArmForwards = new JoystickButton(secondaryStick, 6),
             spinArmBackwards = new JoystickButton(secondaryStick, 4),
             strafe = new JoystickButton(secondaryStick, 3),
-            resetGyro = new JoystickButton(secondaryStick, 10);
+            resetGyro = new JoystickButton(secondaryStick, 10),
+            grabHatch = new JoystickButton(secondaryStick, 11);
 
 
     static {
+        snapTo.whileHeld(new InstantCommand(() -> Drivetrain.getInstance().setSetpoint(Drivetrain.getInstance().rocketMode.getBoolean(false) ? Drivetrain.getInstance().getNearestRocket() : Drivetrain.getInstance().getNearestSquare())));
         fineTurn.whenReleased(new InstantCommand(() -> Drivetrain.getInstance().setSetpoint(Drivetrain.getInstance().getYaw())));
         angleAdjustLeft.whileHeld(new InstantCommand(() -> Drivetrain.getInstance().adjustAngle(3.0)));
         angleAdjustRight.whileHeld(new InstantCommand(() -> Drivetrain.getInstance().adjustAngle(-3.0)));
@@ -39,7 +44,13 @@ public class OI {
         ejectPrimary.whenReleased(HatchPiston.retract());
         ejectSecondary.whenPressed(HatchPiston.extend());
         ejectSecondary.whenReleased(HatchPiston.retract());
-        ramp.whenPressed(new InstantCommand(() -> Ramp.getInstance().setWheel(Constants.RAMP_MAX_SPEED)));
+        ramp.whenPressed(Ramp.spinWheel(Constants.RAMP_MAX_SPEED));
+        //ramp.whenReleased(Ramp.spinWheel(0));
+        lockCargo.whenPressed(Ramp.lockCargo());
+        grabHatch.whenPressed(HatchPiston.grabHatch());
+        grabHatch.whenReleased(HatchPiston.retractHatchM());
+        grabHatchPrimary.whenPressed(HatchPiston.grabHatch());
+        grabHatchPrimary.whenReleased(HatchPiston.retractHatchM());
         ramp.whenReleased(new InstantCommand(() -> Ramp.getInstance().setWheel(0)));
         resetGyro.whenPressed(new InstantCommand(() ->Drivetrain.getInstance().resetGyro()));
         spinArmBackwards.whenPressed(DepotArm.armDown(false));

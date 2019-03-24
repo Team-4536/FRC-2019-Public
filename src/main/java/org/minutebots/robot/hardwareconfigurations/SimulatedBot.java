@@ -9,6 +9,8 @@ import org.minutebots.lib.VirtualMotor;
 public class SimulatedBot implements HardwareManger {
     private NetworkTableEntry piston = Shuffleboard.getTab("Virtual Motors")
             .add("Intake Piston", false).getEntry(),
+            hatchm = Shuffleboard.getTab("Virtual Motors")
+            .add("Active Hatch", false).getEntry(),
             gyro = Shuffleboard.getTab("Virtual Motors")
                     .add("Gyro Angle", 0)
                     .withWidget(BuiltInWidgets.kTextView)
@@ -90,6 +92,16 @@ public class SimulatedBot implements HardwareManger {
     @Override
     public boolean armDown() {
         return bottomLimit.getBoolean(false);
+    }
+    
+    @Override
+    public void extendActiveHatch() {
+        hatchm.setBoolean(true);
+    }
+
+    @Override
+    public void retractActiveHatch() {
+        hatchm.setBoolean(false);
     }
 
     @Override

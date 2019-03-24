@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 import org.minutebots.lib.VirtualMotor;
-import org.minutebots.robot.commands.StrafeToVisionTarget;
 import org.minutebots.robot.subsystems.Drivetrain;
 
 import java.util.Map;
@@ -21,6 +20,8 @@ public class Fracture implements HardwareManger {
 
     private NetworkTableEntry piston = Shuffleboard.getTab("Virtual Motors")
             .add("Intake Piston", false).getEntry(),
+            hatchm = Shuffleboard.getTab("Virtual Motors")
+            .add("Active Hatch", false).getEntry(),
             topLimit = Shuffleboard.getTab("Virtual Motors")
             .add("Top Limit Switch", false)
             .withWidget(BuiltInWidgets.kToggleButton)
@@ -106,6 +107,17 @@ public class Fracture implements HardwareManger {
     }
 
     @Override
+    public void extendActiveHatch() {
+        hatchm.setBoolean(true);
+    }
+
+    @Override
+    public void retractActiveHatch() {
+        hatchm.setBoolean(false);
+    }
+
+
+    @Override
     public void init() {
         ShuffleboardTab debug = Shuffleboard.getTab("Debugging");
         debug.add("Ultrasonic", ultraS);
@@ -118,6 +130,5 @@ public class Fracture implements HardwareManger {
         drivetrainCommands.add(new InstantCommand("Set Setpoint 90",() -> Drivetrain.getInstance().setSetpoint(90)));
         drivetrainCommands.add(new InstantCommand("Set Setpoint 180",() -> Drivetrain.getInstance().setSetpoint(180)));
         drivetrainCommands.add(new InstantCommand("Set Setpoint 270",() -> Drivetrain.getInstance().setSetpoint(270)));
-        drivetrainCommands.add(new StrafeToVisionTarget());
     }
 }
