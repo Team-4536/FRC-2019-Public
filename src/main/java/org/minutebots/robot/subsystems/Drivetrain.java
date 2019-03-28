@@ -11,7 +11,6 @@ import org.minutebots.robot.OI;
 import org.minutebots.robot.Robot;
 import org.minutebots.robot.utilities.Constants;
 import org.minutebots.robot.utilities.VisionCommunication;
-import org.minutebots.robot.utilities.VisionCommunication.TargetSelection;
 
 public class Drivetrain extends PIDSubsystem {
     private final MecanumDrive driveBase;
@@ -37,10 +36,6 @@ public class Drivetrain extends PIDSubsystem {
                 resetGyro();
             }
         }));
-
-        drive.add(VisionCommunication.getInstance().setSelection(TargetSelection.LEFT));
-        drive.add(VisionCommunication.getInstance().setSelection(TargetSelection.MIDDLE));
-        drive.add(VisionCommunication.getInstance().setSelection(TargetSelection.RIGHT));
     }
 
     /**

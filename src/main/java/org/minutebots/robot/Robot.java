@@ -8,17 +8,24 @@ import org.minutebots.robot.utilities.VisionCommunication;
 
 public class Robot extends TimedRobot {
 
-  public static HardwareManger hardwareManager = new Asimov();
+  public static HardwareManger hardwareManager = new SimulatedBot();
   public static boolean isAuto = false;
+  
 
   @Override
   public void robotInit() {
     hardwareManager.init();
-    VisionCommunication.getInstance().highExposure();
+    hardwareManager.closeSolenoids();
   }
 
   @Override
   public void robotPeriodic() {
+    //VisionCommunication.getInstance().update();
+  }
+
+  @Override
+  public void disabledPeriodic(){
+    System.out.println(VisionCommunication.getInstance().getAngle());
   }
 
   @Override
