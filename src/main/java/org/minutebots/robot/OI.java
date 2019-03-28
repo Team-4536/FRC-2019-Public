@@ -30,6 +30,7 @@ public class OI {
             spinArmForwards = new JoystickButton(secondaryStick, 6),
             spinArmBackwards = new JoystickButton(secondaryStick, 4),
             strafe = new JoystickButton(secondaryStick, 3),
+            closeSolenoids = new JoystickButton(secondaryStick, 8),
             visionOveride = new JoystickButton(secondaryStick, 9),
             resetGyro = new JoystickButton(secondaryStick, 10),
             grabHatch = new JoystickButton(secondaryStick, 11),
@@ -59,6 +60,7 @@ public class OI {
         spinArmForwards.whenPressed(DepotArm.armDown(true));
         spinArmBackwards.whenReleased(DepotArm.armUp());
         spinArmForwards.whenReleased(DepotArm.armUp());
+        closeSolenoids.whenPressed(new InstantCommand(() -> Robot.hardwareManager.closeSolenoids()));
     }
 
 }

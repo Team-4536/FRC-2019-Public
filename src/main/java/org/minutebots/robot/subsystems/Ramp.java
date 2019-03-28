@@ -36,8 +36,8 @@ public class Ramp extends Subsystem {
     public static CommandGroup lockCargo(){
         return new CommandGroup(){
             {
-                addSequential(extendLock());
                 addSequential(spinWheel(0.3));
+                addSequential(extendLock());
                 addSequential(new WaitCommand(0.1));
                 addSequential(spinWheel(0));
             }

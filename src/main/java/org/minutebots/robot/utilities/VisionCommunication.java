@@ -14,8 +14,8 @@ public class VisionCommunication{
     NetworkTable table = NetworkTableInstance.getDefault().getTable("Vision");
     private NetworkTableEntry angles = table.getEntry("Target Angles"),
     exposure = table.getEntry("Exposure"),
-    switchCamera = table.getEntry("BackCamera"),
-    brightness = table.getEntry("Brightness");
+    switchCamera = table.getEntry("BackCamera");
+    //brightness = table.getEntry("Brightness");
     private SendableChooser<VisionCommunication.TargetSelection> visionMode = new SendableChooser<>();
 
     public NetworkTableEntry cargoMode = Shuffleboard.getTab("Drive")
@@ -39,9 +39,9 @@ public class VisionCommunication{
         table.getEntry("Connected").setBoolean(true);
 
         visionMode.setName("Vision Mode");
-        visionMode.addObject("Left", TargetSelection.LEFT);
-        visionMode.addObject("Right", TargetSelection.RIGHT);
-        visionMode.addDefault("Middle", TargetSelection.MIDDLE);
+        visionMode.addOption("Left", TargetSelection.LEFT);
+        visionMode.addOption("Right", TargetSelection.RIGHT);
+        visionMode.setDefaultOption("Middle", TargetSelection.MIDDLE);
 
         Shuffleboard.getTab("Drive").add(visionMode);
     //.setStringArray(new String[]{"mjpeg:http://" + "10.0.0.9" + ":" + "1181" + "/?action=stream"});
