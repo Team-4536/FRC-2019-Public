@@ -77,10 +77,6 @@ public class VisionCommunication{
         return 0;
     }
 
-    public boolean getCargoMode(){
-        return cargoMode.getBoolean(false);
-    }
-
     public InstantCommand highExposure(){
         return new InstantCommand(() -> {
             exposure.setDouble(40);
