@@ -11,6 +11,8 @@ public class SimulatedBot implements HardwareManger {
             .add("Intake Piston", false).getEntry(),
             hatchm = Shuffleboard.getTab("Virtual Motors")
             .add("Active Hatch", false).getEntry(),
+            ramplock = Shuffleboard.getTab("Virtual Motors")
+            .add("Ramp Lock", false).getEntry(),
             gyro = Shuffleboard.getTab("Virtual Motors")
                     .add("Gyro Angle", 0)
                     .withWidget(BuiltInWidgets.kTextView)
@@ -103,6 +105,16 @@ public class SimulatedBot implements HardwareManger {
     public void retractActiveHatch() {
         hatchm.setBoolean(false);
     }
+
+    @Override
+    public void extendRampLock(){
+        ramplock.setBoolean(true);
+    };
+
+    @Override
+    public void retractRampLock(){
+        ramplock.setBoolean(false);
+    };
 
     @Override
     public void init() {

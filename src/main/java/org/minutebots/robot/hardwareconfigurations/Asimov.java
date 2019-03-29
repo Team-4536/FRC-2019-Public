@@ -24,7 +24,9 @@ public class Asimov implements HardwareManger {
     final static int PISTON_1 = 6,
             PISTON_2 = 7,
             ACTIVEH_1 = 4,
-            ACTIVEH_2 = 5;
+            ACTIVEH_2 = 5,
+            RAMPLOCK_1 = 3,
+            RAMPLOCK_2 = 2;
 
     //Talons Ports
     final static int DEPOT_ARM = 4,
@@ -46,7 +48,8 @@ public class Asimov implements HardwareManger {
             downLimit = new DigitalInput(DOWN_LIMIT_SWITCH);
 
     private DoubleSolenoid piston = new DoubleSolenoid(PISTON_1, PISTON_2),
-    activeHatch = new DoubleSolenoid(ACTIVEH_1, ACTIVEH_2);
+    activeHatch = new DoubleSolenoid(ACTIVEH_1, ACTIVEH_2),
+    rampLock = new DoubleSolenoid(RAMPLOCK_1, RAMPLOCK_2);
 
     private AHRS navX = new AHRS(SPI.Port.kMXP);
 
@@ -134,6 +137,7 @@ public class Asimov implements HardwareManger {
     public void closeSolenoids() {
         piston.set(DoubleSolenoid.Value.kOff);
         activeHatch.set(Value.kOff);
+        rampLock.set(Value.kOff);
     }
 
 
@@ -145,7 +149,6 @@ public class Asimov implements HardwareManger {
     @Override
     public void extendActiveHatch() {
         activeHatch.set(DoubleSolenoid.Value.kForward);
-        
     }
 
     @Override
@@ -153,6 +156,16 @@ public class Asimov implements HardwareManger {
         activeHatch.set(DoubleSolenoid.Value.kReverse);
         
     }
+
+    @Override
+    public void extendRampLock(){
+        rampLock.set(Value.kForward);
+    };
+
+    @Override
+    public void retractRampLock(){
+        rampLock.set(Value.kReverse);
+    };
 
 
     /**

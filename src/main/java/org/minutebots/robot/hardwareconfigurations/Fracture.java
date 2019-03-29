@@ -116,6 +116,16 @@ public class Fracture implements HardwareManger {
         hatchm.setBoolean(false);
     }
 
+    @Override
+    public void extendRampLock(){
+
+    };
+
+    @Override
+    public void retractRampLock(){
+        
+    };
+
 
     @Override
     public void init() {

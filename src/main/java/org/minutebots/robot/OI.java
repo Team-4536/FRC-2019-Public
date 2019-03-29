@@ -30,8 +30,11 @@ public class OI {
             spinArmForwards = new JoystickButton(secondaryStick, 6),
             spinArmBackwards = new JoystickButton(secondaryStick, 4),
             strafe = new JoystickButton(secondaryStick, 3),
+            closeSolenoids = new JoystickButton(secondaryStick, 8),
+            visionOveride = new JoystickButton(secondaryStick, 9),
             resetGyro = new JoystickButton(secondaryStick, 10),
-            grabHatch = new JoystickButton(secondaryStick, 11);
+            grabHatch = new JoystickButton(secondaryStick, 11),
+            unlockCargo = new JoystickButton(secondaryStick, 12);
 
 
     static {
@@ -45,18 +48,19 @@ public class OI {
         ejectSecondary.whenPressed(HatchPiston.extend());
         ejectSecondary.whenReleased(HatchPiston.retract());
         ramp.whenPressed(Ramp.spinWheel(Constants.RAMP_MAX_SPEED));
-        //ramp.whenReleased(Ramp.spinWheel(0));
         lockCargo.whenPressed(Ramp.lockCargo());
         grabHatch.whenPressed(HatchPiston.grabHatch());
         grabHatch.whenReleased(HatchPiston.retractHatchM());
         grabHatchPrimary.whenPressed(HatchPiston.grabHatch());
         grabHatchPrimary.whenReleased(HatchPiston.retractHatchM());
         ramp.whenReleased(new InstantCommand(() -> Ramp.getInstance().setWheel(0)));
-        resetGyro.whenPressed(new InstantCommand(() ->Drivetrain.getInstance().resetGyro()));
+        unlockCargo.whenReleased(Ramp.retractLock());
+        resetGyro.whenPressed(new InstantCommand(() -> Drivetrain.getInstance().resetGyro()));
         spinArmBackwards.whenPressed(DepotArm.armDown(false));
         spinArmForwards.whenPressed(DepotArm.armDown(true));
         spinArmBackwards.whenReleased(DepotArm.armUp());
         spinArmForwards.whenReleased(DepotArm.armUp());
+        closeSolenoids.whenPressed(new InstantCommand(() -> Robot.hardwareManager.closeSolenoids()));
     }
 
 }

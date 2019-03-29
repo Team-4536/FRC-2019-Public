@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import org.minutebots.robot.Robot;
 
 public class HatchPiston extends Subsystem {
-    private NetworkTableEntry dist = Shuffleboard.getTab("Debugging").add("Distance With Ultrasonic", Robot.hardwareManager.ultraSonicDist()).getEntry();
+    private NetworkTableEntry dist = Shuffleboard.getTab("Drive").add("Distance", Robot.hardwareManager.ultraSonicDist()).getEntry();
 
     HatchPiston() {
     }

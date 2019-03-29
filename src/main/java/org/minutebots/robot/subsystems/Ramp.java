@@ -19,13 +19,25 @@ public class Ramp extends Subsystem {
     }
 
     public static InstantCommand spinWheel(double speed){
-        return new InstantCommand(() -> getInstance().setWheel(speed));
+        return new InstantCommand(() -> {
+            getInstance().setWheel(speed);
+            if(speed > 0.5) Ramp.retractLock().start();
+        });
+    }
+
+    public static InstantCommand extendLock(){
+        return new InstantCommand(() -> Robot.hardwareManager.extendRampLock());
+    }
+
+    public static InstantCommand retractLock(){
+        return new InstantCommand(() -> Robot.hardwareManager.retractRampLock());
     }
 
     public static CommandGroup lockCargo(){
         return new CommandGroup(){
             {
-                addSequential(spinWheel(0.65));
+                addSequential(spinWheel(0.3));
+                addSequential(extendLock());
                 addSequential(new WaitCommand(0.1));
                 addSequential(spinWheel(0));
             }

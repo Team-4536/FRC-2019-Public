@@ -40,6 +40,10 @@ public interface HardwareManger {
 
     boolean armDown();
 
+    void extendRampLock();
+    
+    void retractRampLock();
+
     void init();
 }
 
