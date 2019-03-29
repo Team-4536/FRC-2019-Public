@@ -54,7 +54,11 @@ public class Drivetrain extends PIDSubsystem {
                     strafeThrottle=OI.primaryStick.getX();
 
             if(OI.fineTurn.get()){
-                turnThrottle = OI.secondaryStick.getX()*Constants.FINE_TURN_SPEED;
+                turnThrottle = OI.secondaryStick.getX()* Constants.FINE_TURN_SPEED;
+            }
+
+            if(OI.defenseTurn.get()){
+                turnThrottle = OI.secondaryStick.getX()*Constants.DEFENSE_TURN_SPEED; 
             }
 
             if(OI.strafe.get()) {

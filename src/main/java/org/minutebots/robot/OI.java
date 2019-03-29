@@ -25,6 +25,7 @@ public class OI {
             grabHatchPrimary = new JoystickButton(primaryStick, 6);
     public static final JoystickButton snapTo = new JoystickButton(secondaryStick, 3),
             fineTurn = new JoystickButton(secondaryStick, 1),
+            defenseTurn = new JoystickButton(secondaryStick, 7),
             visionRotate = new JoystickButton(secondaryStick, 2),
             ejectSecondary = new JoystickButton(secondaryStick, 5),
             spinArmForwards = new JoystickButton(secondaryStick, 6),
