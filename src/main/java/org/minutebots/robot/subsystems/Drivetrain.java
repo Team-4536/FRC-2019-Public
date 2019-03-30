@@ -53,14 +53,6 @@ public class Drivetrain extends PIDSubsystem {
                     forwardThrottle=-OI.primaryStick.getY(),
                     strafeThrottle=OI.primaryStick.getX();
 
-            if(OI.fineTurn.get()){
-                turnThrottle = OI.secondaryStick.getX()* Constants.FINE_TURN_SPEED;
-            }
-
-            if(OI.defenseTurn.get()){
-                turnThrottle = OI.secondaryStick.getX()*Constants.DEFENSE_TURN_SPEED; 
-            }
-
             if(OI.strafe.get()) {
                 strafeThrottle = Constants.VISION_STRAFE_P * VisionCommunication.getInstance().getAngle() + OI.secondaryStick.getX()*0.3;
                 forwardThrottle = -OI.secondaryStick.getY();
@@ -69,6 +61,14 @@ public class Drivetrain extends PIDSubsystem {
             if(OI.visionRotate.get()){
                 turnThrottle = VisionCommunication.getInstance().getAngle() * Constants.VISION_ROTATE_P + OI.secondaryStick.getX()*0.3;
                 forwardThrottle = -OI.secondaryStick.getY();
+            }
+
+            if(OI.fineTurn.get()){
+                turnThrottle = OI.secondaryStick.getX()* Constants.FINE_TURN_SPEED;
+            }
+
+            if(OI.defenseTurn.get()){
+                turnThrottle = OI.secondaryStick.getX()*Constants.DEFENSE_TURN_SPEED; 
             }
 
             if (!getPIDController().isEnabled()) { //Run this if the PID controller is disabled. This is drive code without the gyroscope.

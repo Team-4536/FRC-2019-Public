@@ -41,6 +41,7 @@ public class OI {
     static {
         snapTo.whileHeld(new InstantCommand(() -> Drivetrain.getInstance().setSetpoint(Drivetrain.getInstance().rocketMode.getBoolean(false) ? Drivetrain.getInstance().getNearestRocket() : Drivetrain.getInstance().getNearestSquare())));
         fineTurn.whenReleased(new InstantCommand(() -> Drivetrain.getInstance().setSetpoint(Drivetrain.getInstance().getYaw())));
+        defenseTurn.whenReleased(new InstantCommand(() -> Drivetrain.getInstance().setSetpoint(Drivetrain.getInstance().getYaw())));
         angleAdjustLeft.whileHeld(new InstantCommand(() -> Drivetrain.getInstance().adjustAngle(3.0)));
         angleAdjustRight.whileHeld(new InstantCommand(() -> Drivetrain.getInstance().adjustAngle(-3.0)));
         highExposure.whenPressed(VisionCommunication.getInstance().highExposure());
@@ -56,6 +57,7 @@ public class OI {
         grabHatchPrimary.whenReleased(HatchPiston.retractHatchM());
         ramp.whenReleased(new InstantCommand(() -> Ramp.getInstance().setWheel(0)));
         unlockCargo.whenReleased(Ramp.retractLock());
+        visionOveride.whenPressed(VisionCommunication.getInstance().highExposure());
         resetGyro.whenPressed(new InstantCommand(() -> Drivetrain.getInstance().resetGyro()));
         spinArmBackwards.whenPressed(DepotArm.armDown(false));
         spinArmForwards.whenPressed(DepotArm.armDown(true));

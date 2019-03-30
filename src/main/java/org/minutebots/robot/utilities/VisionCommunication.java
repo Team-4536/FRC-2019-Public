@@ -64,10 +64,7 @@ public class VisionCommunication{
     */
 
     public double getAngle() {
-        if(OI.visionOveride.get()){
-            exposure.setDouble(40);
-            return 0;
-        }
+        if(OI.visionOveride.get()) return 0;
         exposure.setDouble(0.0);
         angleOffsets = angles.getDoubleArray(new double[]{0});
         TargetSelection selection = visionMode.getSelected();
