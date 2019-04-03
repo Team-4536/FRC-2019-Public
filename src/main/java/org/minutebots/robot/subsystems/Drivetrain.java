@@ -53,6 +53,12 @@ public class Drivetrain extends PIDSubsystem {
                     forwardThrottle=-OI.primaryStick.getY(),
                     strafeThrottle=OI.primaryStick.getX();
 
+            if(OI.trigger.get()) if(OI.primaryStick.getMagnitude() > 0.3) turnThrottle = 
+            Utilities.limit(Utilities.angleDifference(getAngle(), 
+            Math.abs(getYaw() - OI.primaryStick.getDirectionDegrees()) > 90 ?
+             OI.primaryStick.getDirectionDegrees()+180 :
+             OI.primaryStick.getDirectionDegrees())*0.02, 0.5);
+
             if(OI.strafe.get()) {
                 strafeThrottle = Constants.VISION_STRAFE_P * VisionCommunication.getInstance().getAngle() + OI.secondaryStick.getX()*0.3;
                 forwardThrottle = -OI.secondaryStick.getY();
@@ -80,7 +86,7 @@ public class Drivetrain extends PIDSubsystem {
             //if(Robot.isAuto){
                 //turnThrottle = OI.trigger.get() ? OI.primaryStick.getTwist() * Constants.MANUAL_TURN_SPEED : 0;
 
-            mecanumDrive(strafeThrottle,forwardThrottle,turnThrottle,!(OI.visionRotate.get() | OI.strafe.get()));
+            mecanumDrive(strafeThrottle,forwardThrottle,turnThrottle,!(OI.visionRotate.get() | OI.strafe.get() | !getPIDController().isEnabled()));
             //mecanumDrive(OI.strafe.get() ? Constants.VISION_STRAFE_P * VisionCommunication.getInstance().getAngle() : OI.primaryStick.getX(),
                   //  OI.strafe.get() ? -OI.secondaryStick.getY() : -OI.primaryStick.getY(),
                    // OI.fineTurn.get() ? OI.secondaryStick.getX()*0.5 : turnThrottle, !(OI.strafe.get() || Robot.isAuto));
