@@ -25,6 +25,7 @@ public class OI {
             grabHatchPrimary = new JoystickButton(primaryStick, 6);
     public static final JoystickButton snapTo = new JoystickButton(secondaryStick, 3),
             fineTurn = new JoystickButton(secondaryStick, 1),
+            defenseTurn = new JoystickButton(secondaryStick, 7),
             visionRotate = new JoystickButton(secondaryStick, 2),
             ejectSecondary = new JoystickButton(secondaryStick, 5),
             spinArmForwards = new JoystickButton(secondaryStick, 6),
@@ -40,6 +41,7 @@ public class OI {
     static {
         snapTo.whileHeld(new InstantCommand(() -> Drivetrain.getInstance().setSetpoint(Drivetrain.getInstance().rocketMode.getBoolean(false) ? Drivetrain.getInstance().getNearestRocket() : Drivetrain.getInstance().getNearestSquare())));
         fineTurn.whenReleased(new InstantCommand(() -> Drivetrain.getInstance().setSetpoint(Drivetrain.getInstance().getYaw())));
+        defenseTurn.whenReleased(new InstantCommand(() -> Drivetrain.getInstance().setSetpoint(Drivetrain.getInstance().getYaw())));
         angleAdjustLeft.whileHeld(new InstantCommand(() -> Drivetrain.getInstance().adjustAngle(3.0)));
         angleAdjustRight.whileHeld(new InstantCommand(() -> Drivetrain.getInstance().adjustAngle(-3.0)));
         highExposure.whenPressed(VisionCommunication.getInstance().highExposure());
@@ -55,6 +57,7 @@ public class OI {
         grabHatchPrimary.whenReleased(HatchPiston.retractHatchM());
         ramp.whenReleased(new InstantCommand(() -> Ramp.getInstance().setWheel(0)));
         unlockCargo.whenReleased(Ramp.retractLock());
+        visionOveride.whenPressed(VisionCommunication.getInstance().highExposure());
         resetGyro.whenPressed(new InstantCommand(() -> Drivetrain.getInstance().resetGyro()));
         spinArmBackwards.whenPressed(DepotArm.armDown(false));
         spinArmForwards.whenPressed(DepotArm.armDown(true));
