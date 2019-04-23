@@ -6,6 +6,9 @@ import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import org.ghrobotics.lib.localization.TankEncoderLocalization;
+import org.ghrobotics.lib.mathematics.units.Length;
+import org.ghrobotics.lib.mathematics.units.Rotation2dKt;
 import org.minutebots.lib.Utilities;
 import org.minutebots.robot.OI;
 import org.minutebots.robot.Robot;
@@ -36,6 +39,11 @@ public class Drivetrain extends PIDSubsystem {
                 resetGyro();
             }
         }));
+
+        TankEncoderLocalization localization = new TankEncoderLocalization(
+                () -> Rotation2dKt.getDegree(getAngle()),
+                () -> new Length(0),
+                () -> new Length(0));
     }
 
     /**
