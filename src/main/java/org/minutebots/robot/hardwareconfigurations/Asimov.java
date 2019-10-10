@@ -29,9 +29,9 @@ public class Asimov implements HardwareManger {
             RAMPLOCK_2 = 2;
 
     //Talons Ports
-    final static int DEPOT_ARM = 4,
-            DEPOT_WHEEL = 5,
-            RAMP = 6;
+    final static int DEPOT_ARM = 1,
+            DEPOT_WHEEL = 0,
+            RAMP = 2;
 
     final static int UP_LIMIT_SWITCH = 0, DOWN_LIMIT_SWITCH = 1;
 
@@ -40,9 +40,10 @@ public class Asimov implements HardwareManger {
             leftBack = new WPI_VictorSPX(LEFT_BACK_MOTOR),
             rightBack = new WPI_VictorSPX(RIGHT_BACK_MOTOR);
 
-    private WPI_TalonSRX armMotor = new WPI_TalonSRX(DEPOT_ARM),
-            wheelMotor = new WPI_TalonSRX(DEPOT_WHEEL),
-            rampMotor = new WPI_TalonSRX(RAMP);
+    private Talon armMotor = new Talon(DEPOT_ARM);
+
+    private VictorSP wheelMotor = new VictorSP(DEPOT_WHEEL),
+            rampMotor = new VictorSP(RAMP);
 
     private DigitalInput upLimit = new DigitalInput(UP_LIMIT_SWITCH),
             downLimit = new DigitalInput(DOWN_LIMIT_SWITCH);
