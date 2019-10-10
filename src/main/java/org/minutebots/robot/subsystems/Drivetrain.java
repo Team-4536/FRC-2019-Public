@@ -1,6 +1,7 @@
 package org.minutebots.robot.subsystems;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
@@ -44,41 +45,47 @@ public class Drivetrain extends PIDSubsystem {
     @Override
     public void periodic() {
         if (getCurrentCommand() == null) {
-            if (OI.primaryStick.getPOV() != -1) setSetpoint(OI.primaryStick.getPOV());
-            else if (OI.secondaryStick.getPOV() != -1) setSetpoint(OI.secondaryStick.getPOV());
+            //TODO: add snap angle
             //else if(OI.primaryStick.getMagnitude() > 0.85 && !OI.trigger.get()) setSetpoint(
                     //Math.abs(getYaw() - OI.primaryStick.getDirectionDegrees()) > 110 ? OI.primaryStick.getDirectionDegrees()+180 : OI.primaryStick.getDirectionDegrees());
 
-            double turnThrottle = pidOutput,
-                    forwardThrottle=-OI.primaryStick.getY(),
-                    strafeThrottle=OI.primaryStick.getX();
+            double
+                    forwardThrottle=-OI.xController.getY(Hand.kLeft),
+                    strafeThrottle=OI.xController.getX(Hand.kLeft);
 
-            if(OI.trigger.get()) if(OI.primaryStick.getMagnitude() > 0.3) turnThrottle = 
+            double turnThrottle;
+            if(OI.xController.getPOV() != -1) setSetpoint(OI.xController.getPOV());
+            else if (OI.xController.getBumper(Hand.kRight)) setSetpoint(getAngle() + VisionCommunication.getInstance().getAngle());
+
+
+            /*if(OI.trigger.get()) if(OI.primaryStick.getMagnitude() > 0.3) turnThrottle = 
             Utilities.limit(Utilities.angleDifference(getAngle(), 
             Math.abs(getYaw() - OI.primaryStick.getDirectionDegrees()) > 90 ?
              OI.primaryStick.getDirectionDegrees()+180 :
-             OI.primaryStick.getDirectionDegrees())*0.02, 0.5);
+             OI.primaryStick.getDirectionDegrees())*0.02, 0.5);*/
 
-            if(OI.strafe.get()) {
+            /*if(OI.strafe.get()) {
                 strafeThrottle = Constants.VISION_STRAFE_P * VisionCommunication.getInstance().getAngle() + OI.secondaryStick.getX()*0.3;
-                forwardThrottle = -OI.secondaryStick.getY();
-            }
+                //forwardThrottle = -OI.secondaryStick.getY();
+            }*/
 
-            if(OI.visionRotate.get()){
+            /*if(OI.visionRotate.get()){
                 turnThrottle = VisionCommunication.getInstance().getAngle() * Constants.VISION_ROTATE_P + OI.secondaryStick.getX()*0.3;
-                forwardThrottle = -OI.secondaryStick.getY();
-            }
+                //forwardThrottle = -OI.secondaryStick.getY();
+            }*/
 
-            if(OI.fineTurn.get()){
-                turnThrottle = OI.secondaryStick.getX()* Constants.FINE_TURN_SPEED;
-            }
+            
+            
+        turnThrottle = OI.xController.getX(Hand.kRight)* Constants.FINE_TURN_SPEED;
+            
 
-            if(OI.defenseTurn.get()){
-                turnThrottle = OI.secondaryStick.getX()*Constants.DEFENSE_TURN_SPEED; 
-            }
+            /*if(OI.defenseTurn.get()){
+                //turnThrottle = OI.secondaryStick.getX()*Constants.DEFENSE_TURN_SPEED; 
+            }*/
+            
 
             if (!getPIDController().isEnabled()) { //Run this if the PID controller is disabled. This is drive code without the gyroscope.
-                if(OI.trigger.get()) turnThrottle = OI.primaryStick.getTwist()*Constants.CLOSED_LOOP_MAX_TURN;
+                turnThrottle = OI.xController.getX(Hand.kRight)*Constants.CLOSED_LOOP_MAX_TURN;
                  ////Makes sure that the gyroscope code doesn't run.
             }
             
@@ -86,12 +93,12 @@ public class Drivetrain extends PIDSubsystem {
             //if(Robot.isAuto){
                 //turnThrottle = OI.trigger.get() ? OI.primaryStick.getTwist() * Constants.MANUAL_TURN_SPEED : 0;
 
-            mecanumDrive(strafeThrottle,forwardThrottle,turnThrottle,!(OI.visionRotate.get() | OI.strafe.get() | !getPIDController().isEnabled()));
+            mecanumDrive(strafeThrottle,forwardThrottle,turnThrottle,!getPIDController().isEnabled());
             //mecanumDrive(OI.strafe.get() ? Constants.VISION_STRAFE_P * VisionCommunication.getInstance().getAngle() : OI.primaryStick.getX(),
                   //  OI.strafe.get() ? -OI.secondaryStick.getY() : -OI.primaryStick.getY(),
                    // OI.fineTurn.get() ? OI.secondaryStick.getX()*0.5 : turnThrottle, !(OI.strafe.get() || Robot.isAuto));
 
-            rocketMode.setBoolean(OI.secondaryStick.getThrottle() < 0);
+            //rocketMode.setBoolean(OI.secondaryStick.getThrottle() < 0);
             
         }
     }

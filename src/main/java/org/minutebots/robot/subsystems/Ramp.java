@@ -11,7 +11,7 @@ import org.minutebots.robot.Robot;
 public class Ramp extends Subsystem {
 
     public void periodic(){
-        setWheel(OI.fineTurn.get() ? -OI.secondaryStick.getY() : 0);
+        //setWheel(OI.fineTurn.get() ? -OI.secondaryStick.getY() : 0); //second stick
     }
 
     public void setWheel(double speed){
@@ -36,7 +36,7 @@ public class Ramp extends Subsystem {
     public static CommandGroup lockCargo(){
         return new CommandGroup(){
             {
-                addSequential(spinWheel(0.3));
+                addSequential(spinWheel(0.1));
                 addSequential(extendLock());
                 addSequential(new WaitCommand(0.1));
                 addSequential(spinWheel(0));
