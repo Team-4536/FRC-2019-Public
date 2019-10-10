@@ -11,6 +11,25 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 public class VisionCommunication{
+
+    NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+    private NetworkTableEntry angle = table.getEntry("tx");
+    
+    private VisionCommunication(){
+
+    };
+
+    private static VisionCommunication instance = new VisionCommunication();
+
+    public static VisionCommunication getInstance() {
+        return instance;
+    }
+
+    public double getAngle() {
+        return angle.getDouble(0.0);
+    }
+
+    /*
     NetworkTable table = NetworkTableInstance.getDefault().getTable("Vision");
     private NetworkTableEntry angles = table.getEntry("Target Angles"),
     exposure = table.getEntry("Exposure"),
@@ -57,14 +76,10 @@ public class VisionCommunication{
         return instance;
     }
 
-    /*
-    public InstantCommand setSelection(TargetSelection s){
-        return new InstantCommand("Target " + s.name(),() -> selection = s);
-    }
-    */
 
     public double getAngle() {
-        if(OI.visionOveride.get()) return 0;
+        //if(OI.visionOveride.get()) return 0;
+        //TODO: vision overide button
         exposure.setDouble(0.0);
         angleOffsets = angles.getDoubleArray(new double[]{0});
         TargetSelection selection = visionMode.getSelected();
@@ -85,5 +100,6 @@ public class VisionCommunication{
         MIDDLE,
         RIGHT
     }
+    */
 }
 
