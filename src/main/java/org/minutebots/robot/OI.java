@@ -116,7 +116,7 @@ public class OI {
         }else{
             DepotArm.armUp();
         }
-        if(xController.getTriggerAxis(Hand.kRight)>0.5)DepotArm.armDown(true).start();
+        if(xController.getTriggerAxis(Hand.kRight)>0.5)DepotArm.armDown(false).start();
         if(xController.getTriggerAxis(Hand.kLeft)>0.5)DepotArm.armDown(true).start();
         if((xController.getTriggerAxis(Hand.kLeft)<0.5) && (xController.getTriggerAxis(Hand.kLeft)<0.5))DepotArm.armUp().start();
         if(xController.getAButtonPressed())HatchPiston.grabHatch().start();
@@ -130,7 +130,7 @@ public class OI {
         }else{
             Ramp.spinWheel(0).start();
         }
-        if(xController.getYButtonPressed())Ramp.getInstance().setWheel(0);
+        if(xController.getYButtonReleased())Ramp.getInstance().setWheel(0);
         
 
         
