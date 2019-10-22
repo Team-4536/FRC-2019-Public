@@ -14,12 +14,20 @@ public class VisionCommunication{
 
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     private NetworkTableEntry angle = table.getEntry("tx");
+    private NetworkTableEntry light = table.getEntry("ledMode");
     
     private VisionCommunication(){
 
     };
 
     private static VisionCommunication instance = new VisionCommunication();
+
+    public void toggleLight(boolean on){
+        if (on)
+            light.setDouble(0);
+        else
+            light.setDouble(1);
+    }
 
     public static VisionCommunication getInstance() {
         return instance;

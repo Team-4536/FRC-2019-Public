@@ -1,8 +1,5 @@
 package org.minutebots.robot;
 
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.command.InstantCommand;
 import org.minutebots.robot.subsystems.DepotArm;
 import org.minutebots.robot.subsystems.Drivetrain;
 import org.minutebots.robot.subsystems.HatchPiston;
@@ -118,6 +115,10 @@ public class OI {
         }
         if(xController.getTriggerAxis(Hand.kRight)>0.5)DepotArm.armDown(false).start();
         if(xController.getTriggerAxis(Hand.kLeft)>0.5)DepotArm.armDown(true).start();
+        if (OI.xController.getBumperPressed(Hand.kRight))
+            VisionCommunication.getInstance().toggleLight(true);
+        if(OI.xController.getBumperReleased(Hand.kRight))
+            VisionCommunication.getInstance().toggleLight(false);
         if((xController.getTriggerAxis(Hand.kLeft)<0.5) && (xController.getTriggerAxis(Hand.kLeft)<0.5))DepotArm.armUp().start();
         if(xController.getAButtonPressed())HatchPiston.grabHatch().start();
         if(xController.getAButtonReleased())HatchPiston.retractHatchM().start();
