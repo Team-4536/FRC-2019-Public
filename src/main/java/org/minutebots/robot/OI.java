@@ -115,10 +115,10 @@ public class OI {
         }
         if(xController.getTriggerAxis(Hand.kRight)>0.5)DepotArm.armDown(true).start();
         if(xController.getTriggerAxis(Hand.kLeft)>0.5)DepotArm.armDown(true).start();
-        if (OI.xController.getBumperPressed(Hand.kRight))
+        /*if (OI.xController.getBumperPressed(Hand.kRight))
             VisionCommunication.getInstance().toggleLight(true);
         if(OI.xController.getBumperReleased(Hand.kRight))
-            VisionCommunication.getInstance().toggleLight(false);
+            VisionCommunication.getInstance().toggleLight(false);*/
         if((xController.getTriggerAxis(Hand.kLeft)<0.5) && (xController.getTriggerAxis(Hand.kRight)<0.5))DepotArm.armUp().start();
         if(xController.getAButtonPressed())HatchPiston.grabHatch().start();
         if(xController.getAButtonReleased())HatchPiston.retractHatchM().start();

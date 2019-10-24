@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import org.minutebots.lib.Utilities;
 import org.minutebots.robot.OI;
 import org.minutebots.robot.Robot;
+import org.minutebots.robot.hardwareconfigurations.Asimov;
 import org.minutebots.robot.utilities.Constants;
 import org.minutebots.robot.utilities.VisionCommunication;
 
@@ -59,8 +60,13 @@ public class Drivetrain extends PIDSubsystem {
                 turnThrottle = getPidOutput();
             } 
             else if (OI.xController.getBumper(Hand.kRight)){
+                setSetpoint(getNearestSquare());
+                turnThrottle = getPidOutput();
                 strafeThrottle = VisionCommunication.getInstance().getAngle() * Constants.VISION_STRAFE_P;
-            }
+
+                //turnThrottle = VisionCommunication.getInstance().getAngle() * Constants.VISION_ROTATE_P;
+                //strafeThrottle = Constants.VISION_CSTRAFE_P * (getAngle()-(getNearestSquare()));
+            }    
             else turnThrottle = speedCurve(OI.xController.getX(Hand.kRight));
             /*if(OI.trigger.get()) if(OI.primaryStick.getMagnitude() > 0.3) turnThrottle = 
             Utilities.limit(Utilities.angleDifference(getAngle(), 
