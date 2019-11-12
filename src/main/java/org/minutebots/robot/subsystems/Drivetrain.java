@@ -50,20 +50,20 @@ public class Drivetrain extends PIDSubsystem {
             //else if(OI.primaryStick.getMagnitude() > 0.85 && !OI.trigger.get()) setSetpoint(
                     //Math.abs(getYaw() - OI.primaryStick.getDirectionDegrees()) > 110 ? OI.primaryStick.getDirectionDegrees()+180 : OI.primaryStick.getDirectionDegrees());
 
-            double
-                    forwardThrottle=-OI.xController.getY(Hand.kLeft),
-                    strafeThrottle=OI.xController.getX(Hand.kLeft);
+            double forwardThrottle=-OI.xController.getY(Hand.kLeft),
+            strafeThrottle=OI.xController.getX(Hand.kLeft);
 
-            double turnThrottle=0;
+            double turnThrottle=speedCurve(OI.xController.getX(Hand.kRight));
             if(OI.xController.getPOV() != -1){
                 setSetpoint(OI.xController.getPOV());
                 turnThrottle = getPidOutput();
             } 
             else if (OI.xController.getBumper(Hand.kRight)){
-                turnThrottle = VisionCommunication.getInstance().getAngle() * Constants.VISION_ROTATE_P;
-                strafeThrottle = Constants.VISION_CSTRAFE_P * (getAngle()-(getNearestSquare()));
+                turnThrottle *= Constants.VISION_SCALAR;
+                strafeThrottle *= Constants.VISION_SCALAR;
+                turnThrottle += VisionCommunication.getInstance().getAngle() * Constants.VISION_ROTATE_P;
+                strafeThrottle += Constants.VISION_CSTRAFE_P * (getAngle()-(getNearestSquare()));
             }    
-            else turnThrottle = speedCurve(OI.xController.getX(Hand.kRight));
             /*if(OI.trigger.get()) if(OI.primaryStick.getMagnitude() > 0.3) turnThrottle = 
             Utilities.limit(Utilities.angleDifference(getAngle(), 
             Math.abs(getYaw() - OI.primaryStick.getDirectionDegrees()) > 90 ?

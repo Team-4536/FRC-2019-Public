@@ -14,6 +14,6 @@ public class Constants {
     public static final double DEFENSE_TURN_SPEED = 1; 
     public static final double VISION_ROTATE_P = 0.02;
     public static final double VISION_CSTRAFE_P = 0.01;
-
+    public static final double VISION_SCALAR = 0.5;
 
 }
