@@ -14,7 +14,7 @@ public class VisionCommunication{
 
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     private NetworkTableEntry angle = table.getEntry("tx");
-    private NetworkTableEntry light = table.getEntry("ledMode");
+    private NetworkTableEntry pipeline = table.getEntry("pipeline");
     
     private VisionCommunication(){
 
@@ -22,11 +22,11 @@ public class VisionCommunication{
 
     private static VisionCommunication instance = new VisionCommunication();
 
-    public void toggleLight(boolean on){
+    public void toggleDriverVision(boolean on){
         if (on)
-            light.setDouble(0);
+            pipeline.setDouble(1);
         else
-            light.setDouble(1);
+            pipeline.setDouble(0);
     }
 
     public static VisionCommunication getInstance() {
