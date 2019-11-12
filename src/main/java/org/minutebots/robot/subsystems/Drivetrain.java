@@ -1,6 +1,7 @@
 package org.minutebots.robot.subsystems;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
@@ -62,13 +63,19 @@ public class Drivetrain extends PIDSubsystem {
                 turnThrottle *= Constants.VISION_SCALAR;
                 strafeThrottle *= Constants.VISION_SCALAR;
                 turnThrottle += VisionCommunication.getInstance().getAngle() * Constants.VISION_ROTATE_P;
-                strafeThrottle += Constants.VISION_CSTRAFE_P * (getAngle()-(getNearestSquare()));
-            }    
-            /*if(OI.trigger.get()) if(OI.primaryStick.getMagnitude() > 0.3) turnThrottle = 
-            Utilities.limit(Utilities.angleDifference(getAngle(), 
-            Math.abs(getYaw() - OI.primaryStick.getDirectionDegrees()) > 90 ?
-             OI.primaryStick.getDirectionDegrees()+180 :
-             OI.primaryStick.getDirectionDegrees())*0.02, 0.5);*/
+               // strafeThrottle += Constants.VISION_CSTRAFE_P * (getAngle()-(getNearestSquare()));
+            }  
+
+            {
+                double dir = Math.atan2(OI.xController.getY(Hand.kLeft), OI.xController.getX(Hand.kLeft));
+                double mag = Math.hypot(OI.xController.getY(Hand.kLeft), OI.xController.getX(Hand.kLeft));
+                if(OI.xController.getStartButton()) if(mag > 0.3) turnThrottle = 
+                Utilities.limit(Utilities.angleDifference(getAngle(), 
+                Math.abs(getYaw() - dir) > 90 ?
+                dir+180 :
+                dir)*0.02, 0.5);
+            
+            }
 
             /*if(OI.strafe.get()) {
                 strafeThrottle = Constants.VISION_STRAFE_P * VisionCommunication.getInstance().getAngle() + OI.secondaryStick.getX()*0.3;
