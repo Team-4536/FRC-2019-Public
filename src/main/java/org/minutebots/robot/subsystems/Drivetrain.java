@@ -60,12 +60,8 @@ public class Drivetrain extends PIDSubsystem {
                 turnThrottle = getPidOutput();
             } 
             else if (OI.xController.getBumper(Hand.kRight)){
-                setSetpoint(getNearestSquare());
-                turnThrottle = getPidOutput();
-                strafeThrottle = VisionCommunication.getInstance().getAngle() * Constants.VISION_STRAFE_P;
-
-                //turnThrottle = VisionCommunication.getInstance().getAngle() * Constants.VISION_ROTATE_P;
-                //strafeThrottle = Constants.VISION_CSTRAFE_P * (getAngle()-(getNearestSquare()));
+                turnThrottle = VisionCommunication.getInstance().getAngle() * Constants.VISION_ROTATE_P;
+                strafeThrottle = Constants.VISION_CSTRAFE_P * (getAngle()-(getNearestSquare()));
             }    
             else turnThrottle = speedCurve(OI.xController.getX(Hand.kRight));
             /*if(OI.trigger.get()) if(OI.primaryStick.getMagnitude() > 0.3) turnThrottle = 
