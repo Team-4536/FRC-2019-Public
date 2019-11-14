@@ -62,9 +62,7 @@ public class Drivetrain extends PIDSubsystem {
                 turnThrottle += VisionCommunication.getInstance().getAngle() * Constants.VISION_ROTATE_P;
                 //KEEP JUST IN CASE strafeThrottle += Constants.VISION_CSTRAFE_P * (getAngle()-(getNearestSquare()));
             }
-            if (!getPIDController().isEnabled()) { 
-                turnThrottle = OI.xController.getX(Hand.kRight)*Constants.CLOSED_LOOP_MAX_TURN;
-            }
+
             {
                 double dir = Math.toDegrees(Math.atan2(OI.xController.getY(Hand.kLeft), OI.xController.getX(Hand.kLeft)))+90;
                 double mag = Math.hypot(OI.xController.getY(Hand.kLeft), OI.xController.getX(Hand.kLeft));
@@ -76,7 +74,10 @@ public class Drivetrain extends PIDSubsystem {
                 dir)*0.02, 0.5);
             
             }
-            
+
+            if (!getPIDController().isEnabled()) { 
+                turnThrottle = OI.xController.getX(Hand.kRight)*Constants.CLOSED_LOOP_MAX_TURN;
+            } 
             
             mecanumDrive(speedCurve(strafeThrottle),speedCurve(forwardThrottle),turnThrottle,!OI.xController.getBumper(Hand.kRight));    
         }
