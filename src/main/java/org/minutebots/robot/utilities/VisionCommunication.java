@@ -1,25 +1,28 @@
 package org.minutebots.robot.utilities;
 
-import org.minutebots.robot.OI;
-
-import edu.wpi.first.networktables.EntryListenerFlags;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.command.InstantCommand;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+
 
 public class VisionCommunication{
 
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     private NetworkTableEntry angle = table.getEntry("tx");
+    private NetworkTableEntry pipeline = table.getEntry("pipeline");
     
     private VisionCommunication(){
 
     };
 
     private static VisionCommunication instance = new VisionCommunication();
+
+    public void toggleDriverVision(boolean on){
+        if (on)
+            pipeline.setDouble(1);
+        else
+            pipeline.setDouble(0);
+    }
 
     public static VisionCommunication getInstance() {
         return instance;

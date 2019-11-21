@@ -20,19 +20,17 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
-    //VisionCommunication.getInstance().update();
+    OI.loop();
   }
 
   @Override
   public void disabledPeriodic(){
-    System.out.println(VisionCommunication.getInstance().getAngle());
   }
 
   @Override
   public void autonomousInit() {
     isAuto = true;
     Drivetrain.getInstance().resetGyro();
-    VisionCommunication.getInstance().highExposure();
     Drivetrain.getInstance().setSetpoint(Drivetrain.getInstance().getPosition());
     Drivetrain.getInstance().enable();
   }

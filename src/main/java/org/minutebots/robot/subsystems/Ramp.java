@@ -4,15 +4,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.command.WaitCommand;
-
-import org.minutebots.robot.OI;
 import org.minutebots.robot.Robot;
 
 public class Ramp extends Subsystem {
-
-    public void periodic(){
-        setWheel(OI.fineTurn.get() ? -OI.secondaryStick.getY() : 0);
-    }
 
     public void setWheel(double speed){
         Robot.hardwareManager.rampMotor().set(speed);
@@ -36,7 +30,7 @@ public class Ramp extends Subsystem {
     public static CommandGroup lockCargo(){
         return new CommandGroup(){
             {
-                addSequential(spinWheel(0.3));
+                addSequential(spinWheel(0.1));
                 addSequential(extendLock());
                 addSequential(new WaitCommand(0.1));
                 addSequential(spinWheel(0));
